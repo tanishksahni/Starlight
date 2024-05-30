@@ -7,6 +7,8 @@
 	objects = {
 
 /* Begin PBXBuildFile section */
+		CE1AA8B52C08391F00E137F9 /* AddDoctorView.swift in Sources */ = {isa = PBXBuildFile; fileRef = CE1AA8B42C08391F00E137F9 /* AddDoctorView.swift */; };
+		CE1AA8B72C0854CE00E137F9 /* HospitalDoctorsListView.swift in Sources */ = {isa = PBXBuildFile; fileRef = CE1AA8B62C0854CE00E137F9 /* HospitalDoctorsListView.swift */; };
 		CE6435752BFF18980014A536 /* StarlightApp.swift in Sources */ = {isa = PBXBuildFile; fileRef = CE6435742BFF18980014A536 /* StarlightApp.swift */; };
 		CE6435772BFF18980014A536 /* ContentView.swift in Sources */ = {isa = PBXBuildFile; fileRef = CE6435762BFF18980014A536 /* ContentView.swift */; };
 		CE6435792BFF189A0014A536 /* Assets.xcassets in Resources */ = {isa = PBXBuildFile; fileRef = CE6435782BFF189A0014A536 /* Assets.xcassets */; };
@@ -30,6 +32,8 @@
 /* End PBXBuildFile section */
 
 /* Begin PBXFileReference section */
+		CE1AA8B42C08391F00E137F9 /* AddDoctorView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AddDoctorView.swift; sourceTree = "<group>"; };
+		CE1AA8B62C0854CE00E137F9 /* HospitalDoctorsListView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = HospitalDoctorsListView.swift; sourceTree = "<group>"; };
 		CE6435712BFF18980014A536 /* Starlight.app */ = {isa = PBXFileReference; explicitFileType = wrapper.application; includeInIndex = 0; path = Starlight.app; sourceTree = BUILT_PRODUCTS_DIR; };
 		CE6435742BFF18980014A536 /* StarlightApp.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = StarlightApp.swift; sourceTree = "<group>"; };
 		CE6435762BFF18980014A536 /* ContentView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ContentView.swift; sourceTree = "<group>"; };
@@ -215,6 +219,8 @@
 			isa = PBXGroup;
 			children = (
 				CE6435A82BFF3EC60014A536 /* HospitalDoctorsView.swift */,
+				CE1AA8B42C08391F00E137F9 /* AddDoctorView.swift */,
+				CE1AA8B62C0854CE00E137F9 /* HospitalDoctorsListView.swift */,
 			);
 			path = Doctors;
 			sourceTree = "<group>";
@@ -314,8 +320,10 @@
 			buildActionMask = 2147483647;
 			files = (
 				CE6435772BFF18980014A536 /* ContentView.swift in Sources */,
+				CE1AA8B72C0854CE00E137F9 /* HospitalDoctorsListView.swift in Sources */,
 				CE6435A02BFF3C640014A536 /* DoctorPatientsView.swift in Sources */,
 				CE6435862BFF1B0D0014A536 /* MainPatientView.swift in Sources */,
+				CE1AA8B52C08391F00E137F9 /* AddDoctorView.swift in Sources */,
 				CE6435B12BFF400E0014A536 /* HospitalPaymentsView.swift in Sources */,
 				CE6435B32BFF402D0014A536 /* HospitalPatientsView.swift in Sources */,
 				CE64358C2BFF389A0014A536 /* PatientHomeView.swift in Sources */,
