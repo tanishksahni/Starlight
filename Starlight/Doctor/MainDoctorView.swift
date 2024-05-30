@@ -12,7 +12,11 @@ struct MainDoctorView: View {
         TabView {
             DoctorsHomeView()
                 .tabItem {
-                    Label("Home", systemImage: "heart.fill")
+                    Label("Home", systemImage: "house.fill")
+                }
+            DoctorPatientsView()
+                .tabItem {
+                    Label("Appointment", systemImage: "mail.stack.fill")
                 }
             DoctorPatientsView()
                 .tabItem {

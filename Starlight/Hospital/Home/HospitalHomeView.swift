@@ -9,10 +9,57 @@ import SwiftUI
 
 struct HospitalHomeView: View {
     var body: some View {
-        Text(/*@START_MENU_TOKEN@*/"Hello, World!"/*@END_MENU_TOKEN@*/)
+        NavigationStack{
+            ScrollView{
+                VStack{
+                    FeesStructure()
+                }
+            }
+            .navigationTitle("Home")
+        }
+       
+        
     }
 }
 
 #Preview {
     HospitalHomeView()
 }
+
+
+struct FeesStructure: View {
+    var body: some View {
+        VStack(spacing: 10) {
+            HStack {
+                Text("Appointment Charges")
+                    .foregroundColor(.black)
+                    .bold()
+                Spacer()
+                Image(systemName: "ellipsis")
+                    .foregroundColor(.blue)
+            }
+            Divider()
+
+            HStack {
+                Text("Standard Appointment Charges")
+                    .foregroundColor(.gray)
+                Spacer()
+                Text("Rs. 500")
+            }
+            HStack {
+                Text("Emergency Appointment Charges")
+                    .foregroundColor(.gray)
+                Spacer()
+                Text("Rs. 750")
+                
+            }
+           
+        }
+        .padding()
+                .background(Color.white)
+                .cornerRadius(10)
+                .shadow(color: Color.black.opacity(0.2), radius: 5, x: 0, y: 2)
+                .safeAreaPadding()
+    }
+}
+

@@ -9,6 +9,10 @@
 /* Begin PBXBuildFile section */
 		CE1AA8B52C08391F00E137F9 /* AddDoctorView.swift in Sources */ = {isa = PBXBuildFile; fileRef = CE1AA8B42C08391F00E137F9 /* AddDoctorView.swift */; };
 		CE1AA8B72C0854CE00E137F9 /* HospitalDoctorsListView.swift in Sources */ = {isa = PBXBuildFile; fileRef = CE1AA8B62C0854CE00E137F9 /* HospitalDoctorsListView.swift */; };
+		CE1AA8B92C0876B900E137F9 /* PatientDoctorProfileView.swift in Sources */ = {isa = PBXBuildFile; fileRef = CE1AA8B82C0876B900E137F9 /* PatientDoctorProfileView.swift */; };
+		CE1AA8BB2C0897DD00E137F9 /* PatientBookAppointmentView.swift in Sources */ = {isa = PBXBuildFile; fileRef = CE1AA8BA2C0897DD00E137F9 /* PatientBookAppointmentView.swift */; };
+		CE1AA8BE2C089EF800E137F9 /* DoctorsAppointmentView.swift in Sources */ = {isa = PBXBuildFile; fileRef = CE1AA8BD2C089EF800E137F9 /* DoctorsAppointmentView.swift */; };
+		CE1AA8C02C08A0FA00E137F9 /* DoctorEditWorkingInfoView.swift in Sources */ = {isa = PBXBuildFile; fileRef = CE1AA8BF2C08A0FA00E137F9 /* DoctorEditWorkingInfoView.swift */; };
 		CE6435752BFF18980014A536 /* StarlightApp.swift in Sources */ = {isa = PBXBuildFile; fileRef = CE6435742BFF18980014A536 /* StarlightApp.swift */; };
 		CE6435772BFF18980014A536 /* ContentView.swift in Sources */ = {isa = PBXBuildFile; fileRef = CE6435762BFF18980014A536 /* ContentView.swift */; };
 		CE6435792BFF189A0014A536 /* Assets.xcassets in Resources */ = {isa = PBXBuildFile; fileRef = CE6435782BFF189A0014A536 /* Assets.xcassets */; };
@@ -34,6 +38,10 @@
 /* Begin PBXFileReference section */
 		CE1AA8B42C08391F00E137F9 /* AddDoctorView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AddDoctorView.swift; sourceTree = "<group>"; };
 		CE1AA8B62C0854CE00E137F9 /* HospitalDoctorsListView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = HospitalDoctorsListView.swift; sourceTree = "<group>"; };
+		CE1AA8B82C0876B900E137F9 /* PatientDoctorProfileView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = PatientDoctorProfileView.swift; sourceTree = "<group>"; };
+		CE1AA8BA2C0897DD00E137F9 /* PatientBookAppointmentView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = PatientBookAppointmentView.swift; sourceTree = "<group>"; };
+		CE1AA8BD2C089EF800E137F9 /* DoctorsAppointmentView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = DoctorsAppointmentView.swift; sourceTree = "<group>"; };
+		CE1AA8BF2C08A0FA00E137F9 /* DoctorEditWorkingInfoView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = DoctorEditWorkingInfoView.swift; sourceTree = "<group>"; };
 		CE6435712BFF18980014A536 /* Starlight.app */ = {isa = PBXFileReference; explicitFileType = wrapper.application; includeInIndex = 0; path = Starlight.app; sourceTree = BUILT_PRODUCTS_DIR; };
 		CE6435742BFF18980014A536 /* StarlightApp.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = StarlightApp.swift; sourceTree = "<group>"; };
 		CE6435762BFF18980014A536 /* ContentView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ContentView.swift; sourceTree = "<group>"; };
@@ -68,6 +76,14 @@
 /* End PBXFrameworksBuildPhase section */
 
 /* Begin PBXGroup section */
+		CE1AA8BC2C089EB700E137F9 /* Appointment */ = {
+			isa = PBXGroup;
+			children = (
+				CE1AA8BD2C089EF800E137F9 /* DoctorsAppointmentView.swift */,
+			);
+			path = Appointment;
+			sourceTree = "<group>";
+		};
 		CE6435682BFF18980014A536 = {
 			isa = PBXGroup;
 			children = (
@@ -122,6 +138,7 @@
 		CE6435832BFF1A3F0014A536 /* Doctor */ = {
 			isa = PBXGroup;
 			children = (
+				CE1AA8BC2C089EB700E137F9 /* Appointment */,
 				CE64359C2BFF3C2D0014A536 /* Profile */,
 				CE64359B2BFF3C1E0014A536 /* Patients */,
 				CE64359A2BFF3C140014A536 /* Home */,
@@ -155,6 +172,8 @@
 			isa = PBXGroup;
 			children = (
 				CE64358D2BFF38CE0014A536 /* PatientsDoctorsView.swift */,
+				CE1AA8B82C0876B900E137F9 /* PatientDoctorProfileView.swift */,
+				CE1AA8BA2C0897DD00E137F9 /* PatientBookAppointmentView.swift */,
 			);
 			path = Doctors;
 			sourceTree = "<group>";
@@ -187,6 +206,7 @@
 			isa = PBXGroup;
 			children = (
 				CE6435A12BFF3C780014A536 /* DoctorsHomeView.swift */,
+				CE1AA8BF2C08A0FA00E137F9 /* DoctorEditWorkingInfoView.swift */,
 			);
 			path = Home;
 			sourceTree = "<group>";
@@ -322,19 +342,23 @@
 				CE6435772BFF18980014A536 /* ContentView.swift in Sources */,
 				CE1AA8B72C0854CE00E137F9 /* HospitalDoctorsListView.swift in Sources */,
 				CE6435A02BFF3C640014A536 /* DoctorPatientsView.swift in Sources */,
+				CE1AA8BE2C089EF800E137F9 /* DoctorsAppointmentView.swift in Sources */,
 				CE6435862BFF1B0D0014A536 /* MainPatientView.swift in Sources */,
 				CE1AA8B52C08391F00E137F9 /* AddDoctorView.swift in Sources */,
 				CE6435B12BFF400E0014A536 /* HospitalPaymentsView.swift in Sources */,
 				CE6435B32BFF402D0014A536 /* HospitalPatientsView.swift in Sources */,
+				CE1AA8B92C0876B900E137F9 /* PatientDoctorProfileView.swift in Sources */,
 				CE64358C2BFF389A0014A536 /* PatientHomeView.swift in Sources */,
 				CE64359E2BFF3C480014A536 /* DoctorProfileView.swift in Sources */,
 				CE6435882BFF1B1A0014A536 /* MainDoctorView.swift in Sources */,
 				CE6435A92BFF3EC60014A536 /* HospitalDoctorsView.swift in Sources */,
 				CE6435A22BFF3C780014A536 /* DoctorsHomeView.swift in Sources */,
 				CE6435942BFF390C0014A536 /* PatientProfileView.swift in Sources */,
+				CE1AA8BB2C0897DD00E137F9 /* PatientBookAppointmentView.swift in Sources */,
 				CE6435AB2BFF3ED70014A536 /* HospitalHomeView.swift in Sources */,
 				CE6435A72BFF3EB30014A536 /* HospitalTestsView.swift in Sources */,
 				CE6435902BFF38E40014A536 /* PatientTestsView.swift in Sources */,
+				CE1AA8C02C08A0FA00E137F9 /* DoctorEditWorkingInfoView.swift in Sources */,
 				CE64358E2BFF38CE0014A536 /* PatientsDoctorsView.swift in Sources */,
 				CE6435922BFF38F70014A536 /* PatientPharmacyView.swift in Sources */,
 				CE6435752BFF18980014A536 /* StarlightApp.swift in Sources */,
