@@ -21,35 +21,33 @@ struct Doctor: Identifiable {
 }
 
 
+let categories = [
+    DoctorCategory(name: "General Health Care", icon: "", items: [
+        Doctor(name: "General Physicians", icon: "person.2.fill", themeColor: .indigo),
+        Doctor(name: "Paediatricians", icon: "figure.and.child.holdinghands", themeColor: .seafoam)
+    ]),
+    DoctorCategory(name: "Special Medical Care", icon: "", items: [
+        Doctor(name: "Cardiologists", icon: "heart.fill", themeColor: .poppy),
+        Doctor(name: "Orthopaedic", icon: "figure.walk", themeColor: .periwinkle),
+        Doctor(name: "ENT Specialists", icon: "ear.fill", themeColor: .orange),
+        Doctor(name: "Pulmonologists", icon: "lungs.fill", themeColor: .oxblood),
+        Doctor(name: "Neurologists", icon: "brain.head.profile", themeColor: .buttercup)
+    ]),
+    DoctorCategory(name: "Dental Health", icon: "", items: [
+        Doctor(name: "Dentists", icon: "mouth", themeColor: .teal)
+    ]),
+    DoctorCategory(name: "Mental Health", icon: "", items: [
+        Doctor(name: "Psychiatrists", icon: "brain", themeColor: .lavender)
+    ]),
+    DoctorCategory(name: "Women Health", icon: "", items: [
+        Doctor(name: "Gynaecologists", icon: "leaf.fill", themeColor: .purple)
+    ])
+]
+
 struct HospitalDoctorsView: View {
     @State private var searchText = ""
-    @State private var showingAddDoctorView = false
+    @State private var showingAddDoctorView = false    
     
-    
-    let categories = [
-        DoctorCategory(name: "General Health Care", icon: "", items: [
-            Doctor(name: "General Physicians", icon: "person.2.fill", themeColor: .indigo),
-            Doctor(name: "Paediatricians", icon: "figure.and.child.holdinghands", themeColor: .seafoam)
-        ]),
-        DoctorCategory(name: "Special Medical Care", icon: "", items: [
-            Doctor(name: "Cardiologists", icon: "heart.fill", themeColor: .poppy),
-            Doctor(name: "Orthopaedic", icon: "figure.walk", themeColor: .periwinkle),
-            Doctor(name: "ENT Specialists", icon: "ear.fill", themeColor: .orange),
-            Doctor(name: "Pulmonologists", icon: "lungs.fill", themeColor: .oxblood),
-            Doctor(name: "Neurologists", icon: "brain.head.profile", themeColor: .buttercup)
-        ]),
-        DoctorCategory(name: "Dental Health", icon: "", items: [
-            Doctor(name: "Dentists", icon: "mouth", themeColor: .teal)
-        ]),
-        DoctorCategory(name: "Mental Health", icon: "", items: [
-            Doctor(name: "Psychiatrists", icon: "brain", themeColor: .lavender)
-        ]),
-        DoctorCategory(name: "Women Health", icon: "", items: [
-            Doctor(name: "Gynaecologists", icon: "leaf.fill", themeColor: .purple)
-        ])
-    ]
-    
-
     // MARK: DOCTOR CATEGORY FILTERING
     var filteredCategories: [DoctorCategory] {
         if searchText.isEmpty {
@@ -74,7 +72,7 @@ struct HospitalDoctorsView: View {
                     if !category.items.isEmpty {
                         Section(header: Text(category.name)) {
                             ForEach(category.items) { doctor in
-                                NavigationLink(destination: HospitalDoctorsListView(gradColor: doctor.themeColor.mainColor)){
+                                NavigationLink(destination: HospitalDoctorsListView(gradColor: doctor.themeColor.mainColor, category: doctor.name)){
                                     HStack {
                                         Image(systemName: doctor.icon)
                                             .foregroundColor(doctor.themeColor.mainColor)
@@ -83,8 +81,8 @@ struct HospitalDoctorsView: View {
                                         Text(doctor.name)
                                             .font(.title3)
                                             .fontWeight(.regular)
-//                                        Spacer()
-//                                            .foregroundColor(.gray)
+                                        //                                        Spacer()
+                                        //                                            .foregroundColor(.gray)
                                     }
                                     .padding(.vertical, 5)
                                 }
@@ -172,5 +170,5 @@ enum Theme: String {
     var name: String {
         rawValue.capitalized
     }
-
+    
 }

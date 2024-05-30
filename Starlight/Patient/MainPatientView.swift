@@ -10,9 +10,9 @@ import SwiftUI
 struct MainPatientView: View {
     var body: some View {
         TabView {
-            PatientHomeView()
+            PatientHomeView().environmentObject(HealthStore())
                 .tabItem {
-                    Label("Home", systemImage: "heart.fill")
+                    Label("Home", systemImage: "house.fill")
                 }
             PatientsDoctorsView()
                 .tabItem {
