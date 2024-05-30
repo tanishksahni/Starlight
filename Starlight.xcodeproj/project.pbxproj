@@ -42,6 +42,7 @@
 		CE1AA8BA2C0897DD00E137F9 /* PatientBookAppointmentView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = PatientBookAppointmentView.swift; sourceTree = "<group>"; };
 		CE1AA8BD2C089EF800E137F9 /* DoctorsAppointmentView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = DoctorsAppointmentView.swift; sourceTree = "<group>"; };
 		CE1AA8BF2C08A0FA00E137F9 /* DoctorEditWorkingInfoView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = DoctorEditWorkingInfoView.swift; sourceTree = "<group>"; };
+		CE630B8D2C08BD9200B05403 /* Starlight.entitlements */ = {isa = PBXFileReference; lastKnownFileType = text.plist.entitlements; path = Starlight.entitlements; sourceTree = "<group>"; };
 		CE6435712BFF18980014A536 /* Starlight.app */ = {isa = PBXFileReference; explicitFileType = wrapper.application; includeInIndex = 0; path = Starlight.app; sourceTree = BUILT_PRODUCTS_DIR; };
 		CE6435742BFF18980014A536 /* StarlightApp.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = StarlightApp.swift; sourceTree = "<group>"; };
 		CE6435762BFF18980014A536 /* ContentView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ContentView.swift; sourceTree = "<group>"; };
@@ -103,6 +104,7 @@
 		CE6435732BFF18980014A536 /* Starlight */ = {
 			isa = PBXGroup;
 			children = (
+				CE630B8D2C08BD9200B05403 /* Starlight.entitlements */,
 				CE6435842BFF1A480014A536 /* Patient */,
 				CE6435832BFF1A3F0014A536 /* Doctor */,
 				CE6435822BFF1A280014A536 /* Hospital */,
@@ -493,12 +495,15 @@
 			buildSettings = {
 				ASSETCATALOG_COMPILER_APPICON_NAME = AppIcon;
 				ASSETCATALOG_COMPILER_GLOBAL_ACCENT_COLOR_NAME = AccentColor;
+				CODE_SIGN_ENTITLEMENTS = Starlight/Starlight.entitlements;
 				CODE_SIGN_STYLE = Automatic;
 				CURRENT_PROJECT_VERSION = 1;
 				DEVELOPMENT_ASSET_PATHS = "\"Starlight/Preview Content\"";
 				DEVELOPMENT_TEAM = 669C25TBH6;
 				ENABLE_PREVIEWS = YES;
 				GENERATE_INFOPLIST_FILE = YES;
+				INFOPLIST_FILE = Starlight/Info.plist;
+				INFOPLIST_KEY_NSHealthShareUsageDescription = "This app wants to access your health darta";
 				INFOPLIST_KEY_UIApplicationSceneManifest_Generation = YES;
 				INFOPLIST_KEY_UIApplicationSupportsIndirectInputEvents = YES;
 				INFOPLIST_KEY_UILaunchScreen_Generation = YES;
@@ -522,12 +527,15 @@
 			buildSettings = {
 				ASSETCATALOG_COMPILER_APPICON_NAME = AppIcon;
 				ASSETCATALOG_COMPILER_GLOBAL_ACCENT_COLOR_NAME = AccentColor;
+				CODE_SIGN_ENTITLEMENTS = Starlight/Starlight.entitlements;
 				CODE_SIGN_STYLE = Automatic;
 				CURRENT_PROJECT_VERSION = 1;
 				DEVELOPMENT_ASSET_PATHS = "\"Starlight/Preview Content\"";
 				DEVELOPMENT_TEAM = 669C25TBH6;
 				ENABLE_PREVIEWS = YES;
 				GENERATE_INFOPLIST_FILE = YES;
+				INFOPLIST_FILE = Starlight/Info.plist;
+				INFOPLIST_KEY_NSHealthShareUsageDescription = "This app wants to access your health darta";
 				INFOPLIST_KEY_UIApplicationSceneManifest_Generation = YES;
 				INFOPLIST_KEY_UIApplicationSupportsIndirectInputEvents = YES;
 				INFOPLIST_KEY_UILaunchScreen_Generation = YES;
