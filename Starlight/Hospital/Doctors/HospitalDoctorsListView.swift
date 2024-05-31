@@ -8,6 +8,7 @@
 import SwiftUI
 
 struct HospitalDoctorsListView: View {
+ 
     @State private var searchText = ""
     var gradColor: Color
     var category: String
@@ -17,9 +18,9 @@ struct HospitalDoctorsListView: View {
                 LinearGradient(colors: [
                     gradColor.opacity(0.5),
                     gradColor.opacity(0.2),
-                    Color.white,
-                    Color.white,
-                    Color.white
+                    Color.clear,
+                    Color.clear,
+                    Color.clear
                 ], startPoint: .top, endPoint: .bottom)
                 .ignoresSafeArea()
                 
@@ -50,13 +51,13 @@ struct DoctorCard: View {
             HStack(alignment: .center) {
                 Image("image")
                     .resizable()
-                    .frame(width: 75, height: 75)
+                    .frame(width: 65, height: 65)
                     .clipShape(RoundedRectangle(cornerRadius: 12 ))
                 
                 Spacer().frame(width: 20)
                 VStack(alignment: .leading) {
                     Text("Dr. Rajib Ghose")
-                        .font(.title3)
+                        .font(.headline)
                         .fontWeight(.semibold)
                     Text("MBBS")
                         .font(.subheadline)
@@ -66,24 +67,24 @@ struct DoctorCard: View {
                     //                        .italic()
                 }
             }
-            .padding(.bottom, 8)
+            .padding(.bottom, 4)
             
             
             Divider()
                 .padding(.bottom, 4)
             HStack {
                 Text("Mon - Fri")
-                    .font(.callout)
+                    .font(.caption)
                 Spacer()
                 Text("9:00AM - 1:00PM")
-                    .font(.callout)
+                    .font(.caption)
             }
         }
-        .foregroundColor(.black)
-        .padding()
-        .background(Color.white)
+        .foregroundColor(Color.primary)
+        .padding(12)
+        .background(Color(UIColor.systemBackground))
         .cornerRadius(10)
         .clipShape(RoundedRectangle(cornerRadius: 12))
-        .shadow(color: Color.gray.opacity(0.2), radius: 5, x: 0, y: 5)
+        .shadow(color: Color.secondary.opacity(0.2), radius: 5, x: 0, y: 2)
     }
 }

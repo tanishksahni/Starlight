@@ -9,6 +9,7 @@ import SwiftUI
 
 struct PatientDoctorProfileView: View {
     @State private var isShowingBookAppointmentView = false
+    @State var isShowingConfirmationForAppointment = false
     let allDaySlots = [
         "26 May", "26 May", "26 May" , "26 May"
     ]
@@ -57,7 +58,7 @@ struct PatientDoctorProfileView: View {
                         .multilineTextAlignment(.leading)
                         .lineLimit(5)
                     
-                   
+                    
                 }
                 Divider()
                     .padding(.vertical)
@@ -84,39 +85,45 @@ struct PatientDoctorProfileView: View {
                 }
                 
                 
+                Divider()
+                    .padding(.vertical, 12)
+                
                 //MARK:  AVAILABLE days details
-                Text("Available Time Slots")
+                Text("Time Slots")
                     .font(.title3)
                     .fontWeight(.bold)
-                    .padding(.vertical)
-                   
+                    .padding(.bottom)
+                
                 
                 HStack {
                     TagCloudView(tags: allTimeSlots)
                 }
                 
                 .padding(.bottom)
-                
-                NavigationLink(destination: PatientBookAppointmentView()) {
-                    Button(action: {
-                        isShowingBookAppointmentView.toggle()
-                    }) {
-                        Text("Book Appointment")
-                            .padding()
-                            .font(.headline)
-                            .foregroundColor(.white)
-                            .frame(maxWidth: .infinity)
-                            .background(Color.blue)
-                            .cornerRadius(10)
-                    }
+            
+                Button(action: {
+                    isShowingBookAppointmentView.toggle()
+                }) {
+                    Text("Book Appointment")
+                        .padding()
+                        .font(.headline)
+                        .foregroundColor(.white)
+                        .frame(maxWidth: .infinity)
+                        .background(Color.blue)
+                        .cornerRadius(10)
                 }
                 .sheet(isPresented: $isShowingBookAppointmentView) {
-                    PatientBookAppointmentView()
+                    PatientBookAppointmentView(isShowingBookAppointmentView: $isShowingBookAppointmentView, isShowingConfirmationForAppointment: $isShowingConfirmationForAppointment)
                 }
-               
+                
+                
             }
             .padding()
         }
+        .sheet(isPresented: $isShowingConfirmationForAppointment, content: {
+            PatientAppointmentBookingConfirmationView(isShowingConfirmationForAppointment: $isShowingConfirmationForAppointment)
+        })
+
     }
 }
 
@@ -150,11 +157,11 @@ struct SkillBox: View {
 
 struct TagCloudView: View {
     var tags: [String]
-
+    
     @State private var totalHeight
-          = CGFloat.zero       // << variant for ScrollView/List
+    = CGFloat.zero       // << variant for ScrollView/List
     //    = CGFloat.infinity   // << variant for VStack
-
+    
     var body: some View {
         VStack {
             GeometryReader { geometry in
@@ -164,11 +171,11 @@ struct TagCloudView: View {
         .frame(height: totalHeight)// << variant for ScrollView/List
         //.frame(maxHeight: totalHeight) // << variant for VStack
     }
-
+    
     private func generateContent(in g: GeometryProxy) -> some View {
         var width = CGFloat.zero
         var height = CGFloat.zero
-
+        
         return ZStack(alignment: .topLeading) {
             ForEach(self.tags, id: \.self) { tag in
                 self.item(for: tag)
@@ -197,7 +204,7 @@ struct TagCloudView: View {
             }
         }.background(viewHeightReader($totalHeight))
     }
-
+    
     private func item(for text: String) -> some View {
         Text(text)
             .font(.body)
@@ -207,7 +214,7 @@ struct TagCloudView: View {
             .foregroundColor(Color.black)
             .cornerRadius(5)
     }
-
+    
     private func viewHeightReader(_ binding: Binding<CGFloat>) -> some View {
         return GeometryReader { geometry -> Color in
             let rect = geometry.frame(in: .local)
@@ -218,3 +225,6 @@ struct TagCloudView: View {
         }
     }
 }
+
+
+    

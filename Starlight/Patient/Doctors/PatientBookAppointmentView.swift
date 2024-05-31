@@ -8,6 +8,9 @@
 import SwiftUI
 
 struct PatientBookAppointmentView: View {
+    @Binding var isShowingBookAppointmentView: Bool
+    @Binding var isShowingConfirmationForAppointment: Bool
+    
     @State private var isSelectedDay: String = ""
     var body: some View {
         NavigationView{
@@ -99,24 +102,34 @@ struct PatientBookAppointmentView: View {
                 }
                 .padding()
             }
-            .navigationTitle("Booking Info")
+            .navigationTitle("Booking Information")
             .toolbarTitleDisplayMode(.inline)
             .toolbar{
                 ToolbarItem(placement: .topBarLeading, content: {
-                    Text("Cancel")
-                        .foregroundColor(.blue)
+                    Button(action: {
+                        isShowingBookAppointmentView = false
+                    }) {
+                        Text("Cancel")
+                            .foregroundColor(.blue)
+                    }
+                    
+                   
                 })
                 ToolbarItem(placement: .topBarTrailing, content: {
-                    Text("Done")
-                        .foregroundColor(.blue)
-                        .fontWeight(.bold)
+                    Button(action: {
+                        isShowingBookAppointmentView = false
+                        isShowingConfirmationForAppointment.toggle()
+                    }) {
+                        Text("Done")
+                            .foregroundColor(.blue)
+                            .fontWeight(.bold)
+
+                    }
                 })
             }
         }
+        .interactiveDismissDisabled()
     }
 }
 
 
-#Preview {
-    PatientBookAppointmentView()
-}

@@ -14,7 +14,7 @@ struct MainDoctorView: View {
                 .tabItem {
                     Label("Home", systemImage: "house.fill")
                 }
-            DoctorPatientsView()
+            DoctorsAppointmentView()
                 .tabItem {
                     Label("Appointment", systemImage: "mail.stack.fill")
                 }

@@ -45,6 +45,10 @@ struct PatientHomeView: View {
     var body: some View {
         NavigationStack {
             ScrollView {
+                
+                
+                
+                // MARK: HealthKit Data
                 VStack {
                     LazyVGrid(columns: Array(repeating: GridItem(spacing: 20), count: 2)){
                         HealthCardView(image: Image(systemName: "figure"), title: "BMI", subTitle: healthStore.bmi)
@@ -102,10 +106,163 @@ struct PatientHomeView: View {
     }
     
     private func readHealthData() {
-        // Queries for health data...
+        let heartRateType = HKObjectType.quantityType(forIdentifier: .heartRate)!
+        let spo2Type = HKObjectType.quantityType(forIdentifier: .oxygenSaturation)!
+        let bloodPressureType = HKObjectType.correlationType(forIdentifier: .bloodPressure)!
+        let bodyTemperatureType = HKObjectType.quantityType(forIdentifier: .bodyTemperature)!
+        let bloodGlucoseType = HKObjectType.quantityType(forIdentifier: .bloodGlucose)!
+        let bmiType = HKObjectType.quantityType(forIdentifier: .bodyMassIndex)!
+        let pulseOximetryType = HKObjectType.quantityType(forIdentifier: .oxygenSaturation)!
+        let ecgType = HKObjectType.electrocardiogramType()
+        let sortDescriptor = NSSortDescriptor(key: HKSampleSortIdentifierStartDate, ascending: false)
+        
+        let sampleQuery = HKSampleQuery(
+            sampleType: heartRateType,
+            predicate: get24hPredicate(),
+            limit: HKObjectQueryNoLimit,
+            sortDescriptors: [sortDescriptor],
+            resultsHandler: { (query, results, error) in
+                guard let samples = results as? [HKQuantitySample] else {
+                    print(error!)
+                    return
+                }
+                for sample in samples {
+                    let mSample = sample.quantity.doubleValue(for: HKUnit(from: "count/min"))
+                    let timestamp = sample.startDate
+                    print("Heart rate : \(mSample) at \(timestamp)")
+                    healthStore.heartRates.append((mSample, timestamp)) // Append heart rate and timestamp to the array
+                }
+            })
+        
+        let spo2Query = HKSampleQuery.init(sampleType: spo2Type,
+                                           predicate: get24hPredicate(),
+                                           limit: HKObjectQueryNoLimit,
+                                           sortDescriptors: [sortDescriptor],
+                                           resultsHandler: { (query, results, error) in
+            guard let samples = results as? [HKQuantitySample] else {
+                print(error!)
+                return
+            }
+            for sample in samples {
+                let mSample = sample.quantity.doubleValue(for: HKUnit.percent()) * 100
+                print("SpO2 : \(mSample)")
+                healthStore.spo2 = String(mSample)
+            }
+        })
+        
+        let bloodPressureQuery = HKSampleQuery(
+            sampleType: bloodPressureType,
+            predicate: get24hPredicate(),
+            limit: HKObjectQueryNoLimit,
+            sortDescriptors: [sortDescriptor],
+            resultsHandler: { (query, results, error) in
+                guard let correlationSamples = results as? [HKCorrelation] else {
+                    print("Failed to fetch blood pressure samples: \(error?.localizedDescription ?? "Unknown error")")
+                    return
+                }
+                
+                for correlation in correlationSamples {
+                    let systolicSamples = correlation.objects(for: HKObjectType.quantityType(forIdentifier: .bloodPressureSystolic)!)
+                    let diastolicSamples = correlation.objects(for: HKObjectType.quantityType(forIdentifier: .bloodPressureDiastolic)!)
+                    
+                    if let systolicSample = systolicSamples.first as? HKQuantitySample,
+                       let diastolicSample = diastolicSamples.first as? HKQuantitySample {
+                        let systolicValue = Int(systolicSample.quantity.doubleValue(for: HKUnit.millimeterOfMercury()))
+                        let diastolicValue = Int(diastolicSample.quantity.doubleValue(for: HKUnit.millimeterOfMercury()))
+                        print("Blood Pressure - Systolic: \(systolicValue), Diastolic: \(diastolicValue)")
+                        healthStore.bloodPressureDiastolic = "\(diastolicValue)"
+                        healthStore.bloodPressureSystolic = "\(systolicValue)"
+                        
+                    }
+                }
+            })
+        
+        
+        let bodyTemperatureQuery = HKSampleQuery.init(sampleType: bodyTemperatureType,
+                                                      predicate: get24hPredicate(),
+                                                      limit: HKObjectQueryNoLimit,
+                                                      sortDescriptors: [sortDescriptor],
+                                                      resultsHandler: { (query, results, error) in
+            guard let samples = results as? [HKQuantitySample] else {
+                print(error!)
+                return
+            }
+            for sample in samples {
+                let mSample = sample.quantity.doubleValue(for: HKUnit.degreeCelsius())
+                print("Body Temperature : \(mSample)")
+                healthStore.bodyTemp = String(mSample)
+            }
+        })
+        
+        let bloodGlucoseQuery = HKSampleQuery.init(sampleType: bloodGlucoseType,
+                                                   predicate: get24hPredicate(),
+                                                   limit: HKObjectQueryNoLimit,
+                                                   sortDescriptors: [sortDescriptor],
+                                                   resultsHandler: { (query, results, error) in
+            guard let samples = results as? [HKQuantitySample] else {
+                print(error!)
+                return
+            }
+            for sample in samples {
+                let mSample = sample.quantity.doubleValue(for: HKUnit(from: "mg/dL"))
+                print("Blood Glucose : \(mSample)")
+                healthStore.bloodGlucose = String(mSample)
+            }
+        })
+        
+        let bmiQuery = HKSampleQuery.init(sampleType: bmiType,
+                                          predicate: nil,
+                                          limit: HKObjectQueryNoLimit,
+                                          sortDescriptors: [sortDescriptor],
+                                          resultsHandler: { (query, results, error) in
+            guard let samples = results as? [HKQuantitySample] else {
+                print(error!)
+                return
+            }
+            for sample in samples {
+                let mSample = sample.quantity.doubleValue(for: HKUnit.count())
+                print("BMI : \(mSample)")
+                healthStore.bmi = String(mSample)
+            }
+        })
+        
+        let pulseOximetryQuery = HKSampleQuery.init(sampleType: pulseOximetryType,
+                                                    predicate: get24hPredicate(),
+                                                    limit: HKObjectQueryNoLimit,
+                                                    sortDescriptors: [sortDescriptor],
+                                                    resultsHandler: { (query, results, error) in
+            guard let samples = results as? [HKQuantitySample] else {
+                print(error!)
+                return
+            }
+            for sample in samples {
+                let mSample = sample.quantity.doubleValue(for: HKUnit.percent())
+                print("Pulse Oximetry : \(mSample)")
+            }
+        })
+        
+        healthStore.healthStore.execute(spo2Query)
+        healthStore.healthStore.execute(bloodPressureQuery)
+        healthStore.healthStore.execute(bodyTemperatureQuery)
+        healthStore.healthStore.execute(bloodGlucoseQuery)
+        healthStore.healthStore.execute(bmiQuery)
+        healthStore.healthStore.execute(pulseOximetryQuery)
+        healthStore.healthStore.execute(sampleQuery)
     }
+    
+    private func get24hPredicate() ->  NSPredicate{
+        let today = Date()
+        let startDate = Calendar.current.date(byAdding: .hour, value: -24, to: today)
+        let predicate = HKQuery.predicateForSamples(withStart: startDate,end: today,options: [])
+        return predicate
+    }
+    
 }
 
+
+
+
+// MARK: Healthkit data display  HealthCardView
 struct HealthCardView: View {
     var image: Image
     var title: String
@@ -115,22 +272,26 @@ struct HealthCardView: View {
         ZStack{
             Color(uiColor: .systemGray6)
                 .cornerRadius(15)
-            VStack{
+            VStack(alignment: .leading){
                 HStack(alignment: .top){
-                    VStack(alignment: .leading, spacing: 5){
-                        Text(title)
-                            .font(.system(size: 16))
-                        Text(subTitle)
-                            .font(.system(size: 16))
-                            .bold()
-                    }
+                    Text(title)
+                        .font(.subheadline)
+                    
                     Spacer()
                     
                     image
-                        .foregroundColor(.blue)
                 }
-                .padding()
+                
+                
+                Spacer()
+                
+                Text(subTitle)
+                    .font(.headline)
+                    .foregroundColor(.blue)
+                    .bold()
             }
+            .padding()
+            
         }
         .padding(.horizontal, 20)
         .padding(.bottom, 10)
