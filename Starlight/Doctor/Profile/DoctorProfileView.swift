@@ -23,7 +23,7 @@ struct DoctorProfileView: View {
                             Text("Rajit chaudhary")
                                 .font(.title2)
                                 .fontWeight(.bold)
-                            Text("Qualification: MBBS ")
+                            Text("MBBS")
                                 .font(.subheadline)
                                 .foregroundColor(.primary)
                         }
@@ -94,6 +94,7 @@ struct DoctorProfileView: View {
                     
                 }
             }
+            .scrollIndicators(.hidden)
             .navigationTitle("Profile")
         }
     }

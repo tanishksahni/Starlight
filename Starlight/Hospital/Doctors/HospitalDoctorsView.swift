@@ -65,8 +65,7 @@ struct HospitalDoctorsView: View {
     }
     
     var body: some View {
-        NavigationView {
-            
+        NavigationView {    
             List {
                 ForEach(filteredCategories) { category in
                     if !category.items.isEmpty {
@@ -81,8 +80,6 @@ struct HospitalDoctorsView: View {
                                         Text(doctor.name)
                                             .font(.title3)
                                             .fontWeight(.regular)
-                                        //                                        Spacer()
-                                        //                                            .foregroundColor(.gray)
                                     }
                                     .padding(.vertical, 5)
                                 }

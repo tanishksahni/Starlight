@@ -18,11 +18,11 @@ struct MainPatientView: View {
                 .tabItem {
                     Label("Doctors", systemImage: "stethoscope")
                 }
-//            PatientPharmacyView()
-//                .tabItem {
-//                    Label("Pharmacy", systemImage: "pill.fill")
-//                }
-            PatientTestsView()
+            PatientAppointmentView()
+                .tabItem {
+                    Label("Appointments", systemImage: "mail.stack.fill")
+                }
+            TestsView(isAdmin: false)
                 .tabItem {
                     Label("Tests", systemImage: "cross.case.fill")
                 }

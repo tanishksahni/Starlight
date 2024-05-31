@@ -22,7 +22,7 @@ struct MainHospitalView: View {
                 .tabItem {
                     Label("Patients", systemImage: "person.2.fill")
                 }
-            HospitalTestsView()
+            TestsView(isAdmin: true)
                 .tabItem {
                     Label("Tests", systemImage: "cross.case.fill")
                 }
