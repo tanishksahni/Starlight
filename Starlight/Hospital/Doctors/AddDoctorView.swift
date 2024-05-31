@@ -80,7 +80,6 @@ struct AddDoctorView: View {
             .navigationBarItems(leading: Button("Cancel") {
                 presentationMode.wrappedValue.dismiss()
             }, trailing: Button("Done") {
-                
                 presentationMode.wrappedValue.dismiss()
             })
             .sheet(isPresented: $isImagePickerPresented) {

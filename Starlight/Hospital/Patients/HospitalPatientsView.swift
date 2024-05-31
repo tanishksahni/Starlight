@@ -8,11 +8,37 @@
 import SwiftUI
 
 struct HospitalPatientsView: View {
+    @State private var searchText = ""
+    
+    var filteredCards: [Patient] {
+        if searchText.isEmpty {
+            return patients
+        } else {
+            return patients.filter { $0.name.localizedCaseInsensitiveContains(searchText) }
+        }
+    }
+    
     var body: some View {
-        Text(/*@START_MENU_TOKEN@*/"Hello, World!"/*@END_MENU_TOKEN@*/)
+        NavigationStack {
+            ScrollView {
+                VStack(spacing: 16) {
+                    ForEach(patients) { patient in
+                        PatientCardView(data: patient)
+                    }
+                }
+                .padding()
+            }
+            .navigationTitle("Patients")
+            .searchable(text: $searchText, prompt: "Search patients")
+            
+        }
     }
 }
+
 
 #Preview {
     HospitalPatientsView()
 }
+
+
+
