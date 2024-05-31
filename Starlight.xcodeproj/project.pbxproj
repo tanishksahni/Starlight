@@ -13,6 +13,7 @@
 		CE1AA8BB2C0897DD00E137F9 /* PatientBookAppointmentView.swift in Sources */ = {isa = PBXBuildFile; fileRef = CE1AA8BA2C0897DD00E137F9 /* PatientBookAppointmentView.swift */; };
 		CE1AA8BE2C089EF800E137F9 /* DoctorsAppointmentView.swift in Sources */ = {isa = PBXBuildFile; fileRef = CE1AA8BD2C089EF800E137F9 /* DoctorsAppointmentView.swift */; };
 		CE1AA8C02C08A0FA00E137F9 /* DoctorEditWorkingInfoView.swift in Sources */ = {isa = PBXBuildFile; fileRef = CE1AA8BF2C08A0FA00E137F9 /* DoctorEditWorkingInfoView.swift */; };
+		CE630B902C09813A00B05403 /* PatientAppointmentBookingConfirmationView.swift in Sources */ = {isa = PBXBuildFile; fileRef = CE630B8F2C09813A00B05403 /* PatientAppointmentBookingConfirmationView.swift */; };
 		CE6435752BFF18980014A536 /* StarlightApp.swift in Sources */ = {isa = PBXBuildFile; fileRef = CE6435742BFF18980014A536 /* StarlightApp.swift */; };
 		CE6435772BFF18980014A536 /* ContentView.swift in Sources */ = {isa = PBXBuildFile; fileRef = CE6435762BFF18980014A536 /* ContentView.swift */; };
 		CE6435792BFF189A0014A536 /* Assets.xcassets in Resources */ = {isa = PBXBuildFile; fileRef = CE6435782BFF189A0014A536 /* Assets.xcassets */; };
@@ -43,6 +44,7 @@
 		CE1AA8BD2C089EF800E137F9 /* DoctorsAppointmentView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = DoctorsAppointmentView.swift; sourceTree = "<group>"; };
 		CE1AA8BF2C08A0FA00E137F9 /* DoctorEditWorkingInfoView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = DoctorEditWorkingInfoView.swift; sourceTree = "<group>"; };
 		CE630B8D2C08BD9200B05403 /* Starlight.entitlements */ = {isa = PBXFileReference; lastKnownFileType = text.plist.entitlements; path = Starlight.entitlements; sourceTree = "<group>"; };
+		CE630B8F2C09813A00B05403 /* PatientAppointmentBookingConfirmationView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = PatientAppointmentBookingConfirmationView.swift; sourceTree = "<group>"; };
 		CE6435712BFF18980014A536 /* Starlight.app */ = {isa = PBXFileReference; explicitFileType = wrapper.application; includeInIndex = 0; path = Starlight.app; sourceTree = BUILT_PRODUCTS_DIR; };
 		CE6435742BFF18980014A536 /* StarlightApp.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = StarlightApp.swift; sourceTree = "<group>"; };
 		CE6435762BFF18980014A536 /* ContentView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ContentView.swift; sourceTree = "<group>"; };
@@ -176,6 +178,7 @@
 				CE64358D2BFF38CE0014A536 /* PatientsDoctorsView.swift */,
 				CE1AA8B82C0876B900E137F9 /* PatientDoctorProfileView.swift */,
 				CE1AA8BA2C0897DD00E137F9 /* PatientBookAppointmentView.swift */,
+				CE630B8F2C09813A00B05403 /* PatientAppointmentBookingConfirmationView.swift */,
 			);
 			path = Doctors;
 			sourceTree = "<group>";
@@ -361,6 +364,7 @@
 				CE6435A72BFF3EB30014A536 /* HospitalTestsView.swift in Sources */,
 				CE6435902BFF38E40014A536 /* PatientTestsView.swift in Sources */,
 				CE1AA8C02C08A0FA00E137F9 /* DoctorEditWorkingInfoView.swift in Sources */,
+				CE630B902C09813A00B05403 /* PatientAppointmentBookingConfirmationView.swift in Sources */,
 				CE64358E2BFF38CE0014A536 /* PatientsDoctorsView.swift in Sources */,
 				CE6435922BFF38F70014A536 /* PatientPharmacyView.swift in Sources */,
 				CE6435752BFF18980014A536 /* StarlightApp.swift in Sources */,
