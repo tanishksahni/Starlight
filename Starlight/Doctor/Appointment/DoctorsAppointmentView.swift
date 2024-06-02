@@ -10,9 +10,6 @@ import SwiftUI
 struct DoctorsAppointmentView: View {
     @State private var searchText = ""
     @State private var selectedFilter: AppointmentFilter = .all
-    
-    
-    
   
     var filteredAppointments: [Appointment] {
         switch selectedFilter {
@@ -86,14 +83,12 @@ struct AppointmentCell: View {
     
     var body: some View {
         
-        HStack {
-            Image(systemName: "person.crop.circle.fill")
+        HStack(spacing: 16) {
+            Image("image")
                 .resizable()
-                .aspectRatio(contentMode: .fill)
-                .frame(width: 45, height: 45)
-                .padding(8)
-                .foregroundColor(.secondary)
-                .clipShape(RoundedRectangle(cornerRadius: 13, style: .continuous))
+                .clipShape(Rectangle())
+                .cornerRadius(10)
+                .frame(width: 65, height: 65)
             
             VStack(alignment: .leading, spacing: 4) {
                 Text(appointment.userName)

@@ -22,6 +22,11 @@
 		CE630BA12C09E6FD00B05403 /* DoctorPatientInfoView.swift in Sources */ = {isa = PBXBuildFile; fileRef = CE630BA02C09E6FD00B05403 /* DoctorPatientInfoView.swift */; };
 		CE630BA32C09F6BB00B05403 /* MedicalTest.swift in Sources */ = {isa = PBXBuildFile; fileRef = CE630BA22C09F6BB00B05403 /* MedicalTest.swift */; };
 		CE630BA52C0A103500B05403 /* TestInCategoryView.swift in Sources */ = {isa = PBXBuildFile; fileRef = CE630BA42C0A103500B05403 /* TestInCategoryView.swift */; };
+		CE630BA72C0B5EBB00B05403 /* PatientAppointmentCompleteView.swift in Sources */ = {isa = PBXBuildFile; fileRef = CE630BA62C0B5EBB00B05403 /* PatientAppointmentCompleteView.swift */; };
+		CE630BAD2C0B94FC00B05403 /* LoginView.swift in Sources */ = {isa = PBXBuildFile; fileRef = CE630BAC2C0B94FC00B05403 /* LoginView.swift */; };
+		CE630BAF2C0B955B00B05403 /* SignUpView.swift in Sources */ = {isa = PBXBuildFile; fileRef = CE630BAE2C0B955B00B05403 /* SignUpView.swift */; };
+		CE630BB12C0C562B00B05403 /* PatientSetupView.swift in Sources */ = {isa = PBXBuildFile; fileRef = CE630BB02C0C562B00B05403 /* PatientSetupView.swift */; };
+		CE630BB32C0C83EB00B05403 /* Authentication.swift in Sources */ = {isa = PBXBuildFile; fileRef = CE630BB22C0C83EB00B05403 /* Authentication.swift */; };
 		CE6435752BFF18980014A536 /* StarlightApp.swift in Sources */ = {isa = PBXBuildFile; fileRef = CE6435742BFF18980014A536 /* StarlightApp.swift */; };
 		CE6435772BFF18980014A536 /* ContentView.swift in Sources */ = {isa = PBXBuildFile; fileRef = CE6435762BFF18980014A536 /* ContentView.swift */; };
 		CE6435792BFF189A0014A536 /* Assets.xcassets in Resources */ = {isa = PBXBuildFile; fileRef = CE6435782BFF189A0014A536 /* Assets.xcassets */; };
@@ -59,6 +64,11 @@
 		CE630BA02C09E6FD00B05403 /* DoctorPatientInfoView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = DoctorPatientInfoView.swift; sourceTree = "<group>"; };
 		CE630BA22C09F6BB00B05403 /* MedicalTest.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = MedicalTest.swift; sourceTree = "<group>"; };
 		CE630BA42C0A103500B05403 /* TestInCategoryView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = TestInCategoryView.swift; sourceTree = "<group>"; };
+		CE630BA62C0B5EBB00B05403 /* PatientAppointmentCompleteView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = PatientAppointmentCompleteView.swift; sourceTree = "<group>"; };
+		CE630BAC2C0B94FC00B05403 /* LoginView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = LoginView.swift; sourceTree = "<group>"; };
+		CE630BAE2C0B955B00B05403 /* SignUpView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SignUpView.swift; sourceTree = "<group>"; };
+		CE630BB02C0C562B00B05403 /* PatientSetupView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = PatientSetupView.swift; sourceTree = "<group>"; };
+		CE630BB22C0C83EB00B05403 /* Authentication.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Authentication.swift; sourceTree = "<group>"; };
 		CE6435712BFF18980014A536 /* Starlight.app */ = {isa = PBXFileReference; explicitFileType = wrapper.application; includeInIndex = 0; path = Starlight.app; sourceTree = BUILT_PRODUCTS_DIR; };
 		CE6435742BFF18980014A536 /* StarlightApp.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = StarlightApp.swift; sourceTree = "<group>"; };
 		CE6435762BFF18980014A536 /* ContentView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ContentView.swift; sourceTree = "<group>"; };
@@ -118,6 +128,40 @@
 			path = Resources;
 			sourceTree = "<group>";
 		};
+		CE630BA82C0B852F00B05403 /* Authentication */ = {
+			isa = PBXGroup;
+			children = (
+				CE630BAA2C0B944000B05403 /* Managers */,
+				CE630BA92C0B943600B05403 /* Views */,
+			);
+			path = Authentication;
+			sourceTree = "<group>";
+		};
+		CE630BA92C0B943600B05403 /* Views */ = {
+			isa = PBXGroup;
+			children = (
+				CE630BAC2C0B94FC00B05403 /* LoginView.swift */,
+				CE630BAE2C0B955B00B05403 /* SignUpView.swift */,
+				CE630BB02C0C562B00B05403 /* PatientSetupView.swift */,
+			);
+			path = Views;
+			sourceTree = "<group>";
+		};
+		CE630BAA2C0B944000B05403 /* Managers */ = {
+			isa = PBXGroup;
+			children = (
+			);
+			path = Managers;
+			sourceTree = "<group>";
+		};
+		CE630BAB2C0B944C00B05403 /* Managers */ = {
+			isa = PBXGroup;
+			children = (
+				CE630BB22C0C83EB00B05403 /* Authentication.swift */,
+			);
+			path = Managers;
+			sourceTree = "<group>";
+		};
 		CE6435682BFF18980014A536 = {
 			isa = PBXGroup;
 			children = (
@@ -137,6 +181,8 @@
 		CE6435732BFF18980014A536 /* Starlight */ = {
 			isa = PBXGroup;
 			children = (
+				CE630BAB2C0B944C00B05403 /* Managers */,
+				CE630BA82C0B852F00B05403 /* Authentication */,
 				CE6435982BFF3BD70014A536 /* Tests */,
 				CE630B972C099D5500B05403 /* Resources */,
 				CE630B942C09956000B05403 /* Model */,
@@ -219,6 +265,7 @@
 			isa = PBXGroup;
 			children = (
 				CE630B912C09947600B05403 /* PatientAppointmentView.swift */,
+				CE630BA62C0B5EBB00B05403 /* PatientAppointmentCompleteView.swift */,
 			);
 			path = Appointments;
 			sourceTree = "<group>";
@@ -376,11 +423,14 @@
 				CE630BA52C0A103500B05403 /* TestInCategoryView.swift in Sources */,
 				CE1AA8BE2C089EF800E137F9 /* DoctorsAppointmentView.swift in Sources */,
 				CE6435862BFF1B0D0014A536 /* MainPatientView.swift in Sources */,
+				CE630BB12C0C562B00B05403 /* PatientSetupView.swift in Sources */,
 				CE1AA8B52C08391F00E137F9 /* AddDoctorView.swift in Sources */,
+				CE630BA72C0B5EBB00B05403 /* PatientAppointmentCompleteView.swift in Sources */,
 				CE6435B12BFF400E0014A536 /* HospitalPaymentsView.swift in Sources */,
 				CE6435B32BFF402D0014A536 /* HospitalPatientsView.swift in Sources */,
 				CE1AA8B92C0876B900E137F9 /* PatientDoctorProfileView.swift in Sources */,
 				CE64358C2BFF389A0014A536 /* PatientHomeView.swift in Sources */,
+				CE630BAF2C0B955B00B05403 /* SignUpView.swift in Sources */,
 				CE64359E2BFF3C480014A536 /* DoctorProfileView.swift in Sources */,
 				CE630B9F2C09D49900B05403 /* DoctorAppointmentCompleteView.swift in Sources */,
 				CE6435882BFF1B1A0014A536 /* MainDoctorView.swift in Sources */,
@@ -399,8 +449,10 @@
 				CE630BA32C09F6BB00B05403 /* MedicalTest.swift in Sources */,
 				CE64358E2BFF38CE0014A536 /* PatientsDoctorsView.swift in Sources */,
 				CE630B9B2C099D8200B05403 /* Patient.swift in Sources */,
+				CE630BAD2C0B94FC00B05403 /* LoginView.swift in Sources */,
 				CE6435752BFF18980014A536 /* StarlightApp.swift in Sources */,
 				CE64358A2BFF1B1F0014A536 /* MainHospitalView.swift in Sources */,
+				CE630BB32C0C83EB00B05403 /* Authentication.swift in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
@@ -545,6 +597,7 @@
 				INFOPLIST_KEY_UILaunchScreen_Generation = YES;
 				INFOPLIST_KEY_UISupportedInterfaceOrientations_iPad = "UIInterfaceOrientationPortrait UIInterfaceOrientationPortraitUpsideDown UIInterfaceOrientationLandscapeLeft UIInterfaceOrientationLandscapeRight";
 				INFOPLIST_KEY_UISupportedInterfaceOrientations_iPhone = "UIInterfaceOrientationPortrait UIInterfaceOrientationLandscapeLeft UIInterfaceOrientationLandscapeRight";
+				IPHONEOS_DEPLOYMENT_TARGET = 17.4;
 				LD_RUNPATH_SEARCH_PATHS = (
 					"$(inherited)",
 					"@executable_path/Frameworks",
@@ -577,6 +630,7 @@
 				INFOPLIST_KEY_UILaunchScreen_Generation = YES;
 				INFOPLIST_KEY_UISupportedInterfaceOrientations_iPad = "UIInterfaceOrientationPortrait UIInterfaceOrientationPortraitUpsideDown UIInterfaceOrientationLandscapeLeft UIInterfaceOrientationLandscapeRight";
 				INFOPLIST_KEY_UISupportedInterfaceOrientations_iPhone = "UIInterfaceOrientationPortrait UIInterfaceOrientationLandscapeLeft UIInterfaceOrientationLandscapeRight";
+				IPHONEOS_DEPLOYMENT_TARGET = 17.4;
 				LD_RUNPATH_SEARCH_PATHS = (
 					"$(inherited)",
 					"@executable_path/Frameworks",
