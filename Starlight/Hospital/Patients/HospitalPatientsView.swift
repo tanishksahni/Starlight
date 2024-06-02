@@ -23,7 +23,11 @@ struct HospitalPatientsView: View {
             ScrollView {
                 VStack(spacing: 16) {
                     ForEach(patients) { patient in
-                        PatientCardView(data: patient)
+                        NavigationLink(destination: DoctorPatientInfoView()) {
+                            PatientCardView(data: patient)
+                        }
+                        
+                       
                     }
                 }
                 .padding()

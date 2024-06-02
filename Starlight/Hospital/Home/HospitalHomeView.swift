@@ -41,13 +41,13 @@ struct FeesStructure: View {
             Divider()
 
             HStack {
-                Text("Standard Appointment Charges")
+                Text("Standard Appointment")
                     .foregroundColor(.gray)
                 Spacer()
                 Text("Rs. 500")
             }
             HStack {
-                Text("Emergency Appointment Charges")
+                Text("Emergency Appointment")
                     .foregroundColor(.gray)
                 Spacer()
                 Text("Rs. 750")

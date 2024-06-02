@@ -7,7 +7,19 @@
 
 import SwiftUI
 
+enum ActiveSheet: Identifiable {
+    case login
+    case signup
+    
+    var id: Int {
+        hashValue
+    }
+}
+
 struct MainPatientView: View {
+    @State private var activeSheet: ActiveSheet? = .signup
+    @State private var isDoctor = false
+    
     var body: some View {
         TabView {
             PatientHomeView().environmentObject(HealthStore())
@@ -31,9 +43,13 @@ struct MainPatientView: View {
                     Label("Profile", systemImage: "person.crop.circle")
                 }
         }
+        .sheet(item: $activeSheet) { sheet in
+            switch sheet {
+            case .login:
+                LoginView(showingLoginView: $activeSheet, isDoctor: $isDoctor)
+            case .signup:
+                SignUpView(isSignup: $activeSheet)
+            }
+        }
     }
-}
-
-#Preview {
-    MainPatientView()
 }

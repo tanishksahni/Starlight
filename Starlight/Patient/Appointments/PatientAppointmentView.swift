@@ -15,7 +15,10 @@ struct PatientAppointmentView: View {
              ScrollView {
                  VStack(spacing: 10) {
                      ForEach(patientAppointments) { appointment in
-                         AppointmentCardView(appointment: appointment)
+                         NavigationLink(destination: PatientAppointmentCompleteView()) {
+                             AppointmentCardView(appointment: appointment)
+                         }
+                       
                      }
                  }
                  .padding(.horizontal)
@@ -42,6 +45,7 @@ struct PatientAppointmentView: View {
                      HStack {
                          Text(appointment.doctorName)
                              .font(.headline)
+                             .foregroundColor(.primary)
                          Spacer()
                          Text(appointment.specialty.uppercased(with: .autoupdatingCurrent))
                              .font(.caption)
@@ -60,16 +64,18 @@ struct PatientAppointmentView: View {
                  
                  Text(appointment.date)
                      .font(.caption)
+                     .foregroundColor(.primary)
                  Spacer()
                  Text(appointment.time)
                      .font(.caption)
-                 
+                     .foregroundColor(.primary)
              }
          }
          .padding(12)
-         .background(Color.white)
+         .background(Color(UIColor.systemBackground))
          .cornerRadius(10)
-         .shadow(radius: 2)
+         .shadow(radius: 1)
+
          
      }
  }
