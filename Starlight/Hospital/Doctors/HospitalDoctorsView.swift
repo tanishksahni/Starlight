@@ -40,61 +40,76 @@ import SwiftUI
 
 struct HospitalDoctorsView: View {
     @State private var searchText = ""
-    @State private var showingAddDoctorView = false   
+    @State private var showingAddDoctorView = false
+    
+    @StateObject var doctorModel = DoctorModel()
+    @StateObject var specializationModel = SpecializationModel()
     
     
     
     // MARK: DOCTOR CATEGORY FILTERING
-//    var filteredCategories: [DoctorCategory] {
-//        if searchText.isEmpty {
-//            
-//            return categories
-//        } else {
-//            
-//            return categories.map { category in
-//                let filteredItems = category.items.filter { doctor in
-//                    doctor.name.localizedCaseInsensitiveContains(searchText)
-//                }
-//                return DoctorCategory(id: category.id, name: category.name, icon: category.icon, items: filteredItems)
-//            }
-//        }
-//    }
+    //    var filteredCategories: [DoctorCategory] {
+    //        if searchText.isEmpty {
+    //
+    //            return categories
+    //        } else {
+    //
+    //            return categories.map { category in
+    //                let filteredItems = category.items.filter { doctor in
+    //                    doctor.name.localizedCaseInsensitiveContains(searchText)
+    //                }
+    //                return DoctorCategory(id: category.id, name: category.name, icon: category.icon, items: filteredItems)
+    //            }
+    //        }
+    //    }
     
     var body: some View {
-        NavigationView {    
+        NavigationView {
             List {
-//                ForEach(filteredCategories) { category in
-//                    if !category.items.isEmpty {
-//                        Section(header: Text(category.name)) {
-//                            ForEach(category.items) { doctor in
-//                                NavigationLink(destination: HospitalDoctorsListView(gradColor: doctor.themeColor.mainColor, category: doctor.name)){
-//                                    HStack {
-//                                        Image(systemName: doctor.icon)
-//                                            .foregroundColor(doctor.themeColor.mainColor)
-//                                            .font(.title3)
-//                                            .frame(width: 40, height: 40)
-//                                        Text(doctor.name)
-//                                            .font(.title3)
-//                                            .fontWeight(.regular)
-//                                    }
-//                                    .padding(.vertical, 5)
-//                                }
-//                            }
-//                        }
-//                    }
-//                }
+                ForEach(specializationModel.specializations) { specialization in
+                    Section(header: HStack {
+                        Image(systemName: specialization.icon)
+                            .foregroundColor(specialization.theme.accentColor)
+                        Text(specialization.name)
+                            .foregroundColor(specialization.theme.accentColor)
+                    }) {
+                        ForEach(specialization.items) { doctor in
+                            VStack(alignment: .leading) {
+                                Text("\(doctor.userId.uuidString)") // Change this to the doctor's name once the user model is integrated
+                                    .font(.headline)
+                                Text(doctor.specialization)
+                                    .font(.subheadline)
+                            }
+                        }
+                    }
+                }
+                //                ForEach(filteredCategories) { category in
+                //                    if !category.items.isEmpty {
+                //                        Section(header: Text(category.name)) {
+                //                            ForEach(category.items) { doctor in
+                //                                NavigationLink(destination: HospitalDoctorsListView(gradColor: doctor.themeColor.mainColor, category: doctor.name)){
+                //                                    HStack {
+                //                                        Image(systemName: doctor.icon)
+                //                                            .foregroundColor(doctor.themeColor.mainColor)
+                //                                            .font(.title3)
+                //                                            .frame(width: 40, height: 40)
+                //                                        Text(doctor.name)
+                //                                            .font(.title3)
+                //                                            .fontWeight(.regular)
+                //                                    }
+                //                                    .padding(.vertical, 5)
+                //                                }
+                //                            }
+                //                        }
+                //                    }
+                //                }
             }
             
             // MARK: Navigation Part
             .navigationTitle("Doctors")
-            
             .listStyle(InsetGroupedListStyle())
-            
             .searchable(text: $searchText)
-            
             .toolbar {
-                
-                
                 ToolbarItem(placement: .navigationBarTrailing) {
                     Button(action: {
                         showingAddDoctorView = true
@@ -107,6 +122,16 @@ struct HospitalDoctorsView: View {
             .sheet(isPresented: $showingAddDoctorView) {
                 AddDoctorView()
             }
+            .onAppear {
+                doctorModel.fetchDoctors { result in
+                    switch result {
+                    case .success(let doctors):
+                        specializationModel.categorizeDoctors(doctors: doctors)
+                    case .failure(let error):
+                        print("Failed to fetch doctors: \(error.localizedDescription)")
+                    }
+                }
+            }
         }
     }
 }
@@ -116,7 +141,7 @@ struct HospitalDoctorsView: View {
 //// MARK: DoctorDetailView
 //struct DoctorDetailView: View {
 //    var doctor: Doctor
-//    
+//
 //    var body: some View {
 //        Text("Details for \(doctor.name)")
 //            .font(.largeTitle)

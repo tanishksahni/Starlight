@@ -5,32 +5,25 @@
 //  Created by Tanishk Sahni on 03/06/24.
 //
 
-import Foundation
 import SwiftUI
 
 enum Theme: String {
-    case bubblegum
-    case buttercup
+    case red
     case indigo
-    case lavender
-    case magenta
-    case navy
-    case orange
-    case oxblood
-    case periwinkle
-    case poppy
-    case purple
-    case seafoam
-    case sky
-    case tan
-    case teal
+    case green
     case yellow
-    
+    case blue
+    case orange
+    case purple
+    case teal
+    case pink
+    case brown
+    case gray
     
     var accentColor: Color {
         switch self {
-        case .bubblegum, .buttercup, .lavender, .orange, .periwinkle, .poppy, .seafoam, .sky, .tan, .teal, .yellow: return .black
-        case .indigo, .magenta, .navy, .oxblood, .purple: return .white
+        case .red, .green, .yellow, .blue, .orange, .teal, .pink: return .black
+        case .indigo, .purple, .brown, .gray: return .white
         }
     }
     
@@ -41,5 +34,5 @@ enum Theme: String {
     var name: String {
         rawValue.capitalized
     }
-    
 }
+

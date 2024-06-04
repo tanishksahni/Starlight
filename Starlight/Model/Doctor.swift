@@ -29,7 +29,8 @@ struct WorkingHours: Codable {
     var to: String
 }
 
-struct Doctor: Codable {
+struct Doctor: Identifiable, Codable {
+    var id = UUID()
     var userId: UUID
     var hospitalId: UUID?
     var licenseNo: String
@@ -58,9 +59,10 @@ struct Doctor: Codable {
 }
 
 
-struct DoctorCategory: Identifiable {
+struct Specialization: Identifiable {
     var id = UUID()
     var name: String
     var icon: String
+    var theme: Theme
     var items: [Doctor]
 }
