@@ -11,30 +11,30 @@ struct PatientCardView: View {
     var data: Patient
     var body: some View {
         VStack {
-            HStack(spacing: 16) {
-                Image(data.imageName)
-                    .resizable()
-                    .clipShape(Rectangle())
-                    .cornerRadius(10)
-                    .frame(width: 65, height: 65)
-                
-                VStack(alignment: .leading) {
-                    HStack(alignment: .lastTextBaseline) {
-                        Text(data.name)
-                            .font(.headline)
-                            .bold()
-                            .foregroundColor(.primary)
-                        Spacer()
-                        Text(data.identifier)
-                            .font(.subheadline)
-                            .foregroundColor(.primary)
-                    }
-                    
-                    Text("\(data.age) \(data.gender)")
-                        .font(.subheadline)
-                        .foregroundColor(.secondary)
-                }
-            }
+//            HStack(spacing: 16) {
+//                Image(data.imageName)
+//                    .resizable()
+//                    .clipShape(Rectangle())
+//                    .cornerRadius(10)
+//                    .frame(width: 65, height: 65)
+//                
+//                VStack(alignment: .leading) {
+//                    HStack(alignment: .lastTextBaseline) {
+//                        Text(data.name)
+//                            .font(.headline)
+//                            .bold()
+//                            .foregroundColor(.primary)
+//                        Spacer()
+//                        Text(data.identifier)
+//                            .font(.subheadline)
+//                            .foregroundColor(.primary)
+//                    }
+//                    
+//                    Text("\(data.age) \(data.gender)")
+//                        .font(.subheadline)
+//                        .foregroundColor(.secondary)
+//                }
+//            }
         }
         .padding(12)
         .background(Color(UIColor.systemBackground))

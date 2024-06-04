@@ -6,3 +6,8 @@
 //
 
 import Foundation
+
+
+class APICore {
+    @Published var BASEURL = "https://starlight-server-8nit.onrender.com"
+}

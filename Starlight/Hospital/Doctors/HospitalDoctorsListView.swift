@@ -12,6 +12,8 @@ struct HospitalDoctorsListView: View {
     @State private var searchText = ""
     var gradColor: Color
     var category: String
+    var data: [Doctor]
+    
     var body: some View {
         NavigationLink(destination: PatientDoctorProfileView()) {
             ZStack{
@@ -27,8 +29,9 @@ struct HospitalDoctorsListView: View {
                 
                 ScrollView {
                     VStack{
-                        DoctorCard()
-                        DoctorCard()
+                        ForEach(data) { doctor in
+                            DoctorCard(data: doctor)
+                        }
                     }
                     .padding()
                 }
@@ -46,6 +49,7 @@ struct HospitalDoctorsListView: View {
 
 
 struct DoctorCard: View {
+    var data: Doctor
     var body: some View {
         VStack(alignment: .leading) {
             HStack(alignment: .center) {
@@ -56,15 +60,12 @@ struct DoctorCard: View {
                 
                 Spacer().frame(width: 20)
                 VStack(alignment: .leading) {
-                    Text("Dr. Rajib Ghose")
+                    Text("\(data.userId.firstName) \(data.userId.lastName)")
                         .font(.headline)
                         .fontWeight(.semibold)
-                    Text("MBBS")
+                    Text(data.qualification)
                         .font(.subheadline)
                         .foregroundColor(.gray)
-                    //                    Text("25+ yrs ")
-                    //                        .foregroundColor(.gray)
-                    //                        .italic()
                 }
             }
             .padding(.bottom, 4)
@@ -73,10 +74,10 @@ struct DoctorCard: View {
             Divider()
                 .padding(.bottom, 4)
             HStack {
-                Text("Mon - Fri")
+                Text("\(data.schedule)")
                     .font(.caption)
                 Spacer()
-                Text("9:00AM - 1:00PM")
+                Text("\(data.workingHours?.first)-\(data.workingHours?.last)")
                     .font(.caption)
             }
         }

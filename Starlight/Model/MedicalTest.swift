@@ -49,7 +49,7 @@ let testCategories = [
         MedicalTestCategory(
             category: "CT-Scan",
             icon: "wave.3.forward.circle",
-            color: .poppy,
+            color: .orange,
             tests: [
                 MedicalTest(name: "Head CT Scan", ageRange: "All ages", price: "₹2000"),
                 MedicalTest(name: "Abdominal CT Scan", ageRange: "All ages", price: "₹2500"),
@@ -60,7 +60,7 @@ let testCategories = [
         MedicalTestCategory(
             category: "MRI",
             icon: "waveform.path.ecg",
-            color: .magenta,
+            color: .blue,
             tests: [
                 MedicalTest(name: "Brain MRI", ageRange: "All ages", price: "₹2500"),
                 MedicalTest(name: "Spine MRI", ageRange: "All ages", price: "₹3000"),
@@ -75,7 +75,7 @@ let testCategories = [
         MedicalTestCategory(
             category: "Neurological Tests",
             icon: "brain.head.profile",
-            color: .sky,
+            color: .purple,
             tests: [
                 MedicalTest(name: "Electroencephalogram (EEG)", ageRange: "All ages", price: "₹2000"),
                 MedicalTest(name: "Nerve Conduction Study (NCS)", ageRange: "All ages", price: "₹2500"),
@@ -86,7 +86,7 @@ let testCategories = [
         MedicalTestCategory(
             category: "Endoscopic Procedures",
             icon: "scope",
-            color: .tan,
+            color: .pink,
             tests: [
                 MedicalTest(name: "Endoscopy", ageRange: "All ages", price: "₹2000"),
                 MedicalTest(name: "Colonoscopy", ageRange: "All ages", price: "₹2500"),
@@ -98,7 +98,7 @@ let testCategories = [
         MedicalTestCategory(
             category: "Cardiac-Tests",
             icon: "heart.circle",
-            color: .poppy,
+            color: .blue,
             tests: [
                 MedicalTest(name: "Electrocardiogram (ECG or EKG)", ageRange: "All ages", price: "₹500"),
                 MedicalTest(name: "Echocardiogram", ageRange: "All ages", price: "₹1000"),
@@ -124,7 +124,7 @@ let testCategories = [
         MedicalTestCategory(
             category: "Blood-Test",
             icon: "drop.fill",
-            color: .poppy,
+            color: .red,
             tests: [
                 MedicalTest(name: "Blood Glucose Test", ageRange: "All ages", price: "₹200"),
                 MedicalTest(name: "Complete Blood Count (CBC)", ageRange: "All ages", price: "₹300"),
@@ -145,7 +145,7 @@ let testCategories = [
         MedicalTestCategory(
             category: "Pregnancy Tests",
             icon: "checkmark.shield",
-            color: .magenta,
+            color: .purple,
             tests: [
                 MedicalTest(name: "Ultrasound", ageRange: "All ages", price: "₹500" ),
                 MedicalTest(name: "Obstetric Ultrasound", ageRange: "All ages", price: "₹1000"),
