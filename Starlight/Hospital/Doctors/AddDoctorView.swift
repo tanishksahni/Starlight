@@ -8,12 +8,14 @@ import SwiftUI
 import UIKit
 
 struct AddDoctorView: View {
+    
+    var doctors = DoctorModel()
     @State private var firstName: String = ""
     @State private var lastName: String = ""
     @State private var email: String = ""
-    @State private var phoneNumber: String = ""
+    //    @State private var phoneNumber: String = ""
     @State private var gender: String = ""
-    @State private var dob: String = ""
+    //    @State private var dob: Date = Date()
     @State private var licenseNumber: String = ""
     @State private var specialisation: String = ""
     @State private var qualification: String = ""
@@ -21,6 +23,8 @@ struct AddDoctorView: View {
     @State private var image: UIImage? = nil
     @State private var isImagePickerPresented = false
     @Environment(\.presentationMode) var presentationMode
+    
+    let genders = ["Male", "Female", "Other"]
     
     var body: some View {
         NavigationView {
@@ -53,12 +57,19 @@ struct AddDoctorView: View {
                     TextField("First Name", text: $firstName)
                     TextField("Last Name", text: $lastName)
                     TextField("Email", text: $email)
-                    TextField("Phone number", text: $phoneNumber)
+                    //                    TextField("Phone number", text: $phoneNumber)
                 }
                 
                 Section {
-                    TextField("Gender", text: $gender)
-                    TextField("DOB", text: $dob)
+                    //                    TextField("Gender", text: $gender)
+                    //                    TextField("DOB", text: $dob)
+                    
+                    Picker("Gender", selection: $gender) {
+                        ForEach(genders, id: \.self) {
+                            Text($0)
+                        }
+                    }
+                    //                    DatePicker("DOB", selection: $dob, displayedComponents: .date)
                 }
                 
                 Section {
@@ -80,10 +91,42 @@ struct AddDoctorView: View {
             .navigationBarItems(leading: Button("Cancel") {
                 presentationMode.wrappedValue.dismiss()
             }, trailing: Button("Done") {
+                saveDoctor()
                 presentationMode.wrappedValue.dismiss()
             })
             .sheet(isPresented: $isImagePickerPresented) {
                 ImagePicker(image: $image)
+            }
+        }
+    }
+    private func saveDoctor() {
+        guard let experienceYears = Int(experience) else {
+            print("Invalid experience value")
+            return
+        }
+        
+        let userId = UUID()
+        let doctor = Doctor(
+            userId: userId,
+            licenseNo: licenseNumber,
+            specialization: specialisation,
+            experienceYears: experienceYears,
+            qualification: qualification
+        )
+        
+        let user = User(
+            firstName: firstName,
+            lastName: lastName,
+            email: email,
+            gender: Gender(rawValue: gender.lowercased()) ?? .other
+        )
+        doctors.registerDoctor(user: user, doctor: doctor) { result in
+            switch result {
+            case .success:
+                print("Doctor added successfully")
+                presentationMode.wrappedValue.dismiss()
+            case .failure(let error):
+                print("Failed to add doctor: \(error.localizedDescription)")
             }
         }
     }
