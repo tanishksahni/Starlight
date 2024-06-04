@@ -105,21 +105,24 @@ struct AddDoctorView: View {
             return
         }
         
-        let userId = UUID()
+        
+        let user = User(
+            id: "",
+            firstName: firstName,
+            lastName: lastName,
+            email: email,
+            gender: Gender(rawValue: gender.lowercased()) ?? .other
+        )
         let doctor = Doctor(
-            userId: userId,
+            id: "",
+            userId: user,
             licenseNo: licenseNumber,
             specialization: specialisation,
             experienceYears: experienceYears,
             qualification: qualification
         )
         
-        let user = User(
-            firstName: firstName,
-            lastName: lastName,
-            email: email,
-            gender: Gender(rawValue: gender.lowercased()) ?? .other
-        )
+       
         doctors.registerDoctor(user: user, doctor: doctor) { result in
             switch result {
             case .success:

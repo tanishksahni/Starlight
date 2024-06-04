@@ -23,7 +23,6 @@ class DoctorModel: ObservableObject {
         var request = URLRequest(url: url)
         request.httpMethod = "POST"
         request.setValue("application/json", forHTTPHeaderField: "Content-Type")
-        request.timeoutInterval = 120 // Set timeout interval to 120 seconds
         
         let requestBody: [String: Any] = [
             "firstName": user.firstName,
@@ -69,7 +68,7 @@ class DoctorModel: ObservableObject {
     
     //MARK: Get all doctors
     func fetchDoctors(completion: @escaping (Result<[Doctor], Error>) -> Void) {
-        guard let url = URL(string: "https://your-api-url.com/doctor/all") else {
+        guard let url = URL(string: "\(APICore().BASEURL)/doctor") else {
             print("Invalid URL")
             return
         }
@@ -146,6 +145,7 @@ class SpecializationModel: ObservableObject {
             // Add more specializations and corresponding icons here
         default: return "star"
         }
+        print("hEY hEY")
     }
     
     private func getTheme(for specialization: String) -> Theme {

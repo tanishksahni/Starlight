@@ -67,21 +67,20 @@ struct HospitalDoctorsView: View {
         NavigationView {
             List {
                 ForEach(specializationModel.specializations) { specialization in
-                    Section(header: HStack {
-                        Image(systemName: specialization.icon)
-                            .foregroundColor(specialization.theme.accentColor)
-                        Text(specialization.name)
-                            .foregroundColor(specialization.theme.accentColor)
-                    }) {
-                        ForEach(specialization.items) { doctor in
-                            VStack(alignment: .leading) {
-                                Text("\(doctor.userId.uuidString)") // Change this to the doctor's name once the user model is integrated
-                                    .font(.headline)
-                                Text(doctor.specialization)
-                                    .font(.subheadline)
-                            }
+                    
+                    NavigationLink(destination: HospitalDoctorsListView(gradColor: specialization.theme.mainColor, category: specialization.name, data: specialization.items)){
+                        HStack {
+                            Image(systemName: specialization.icon)
+                                .foregroundColor(specialization.theme.mainColor)
+                                .font(.title3)
+                                .frame(width: 40, height: 40)
+                            Text(specialization.name)
+                                .font(.title3)
+                                .fontWeight(.regular)
                         }
+                        .padding(.vertical, 5)
                     }
+                    
                 }
                 //                ForEach(filteredCategories) { category in
                 //                    if !category.items.isEmpty {
