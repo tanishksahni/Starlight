@@ -26,7 +26,7 @@ class Authentication: ObservableObject {
     static let shared = Authentication()
     
     @Published private(set) var accessToken: String?
-    @Published private(set) var userType: UserType?
+    @Published private(set) var userType: UserType? = .patient
     
     enum UserType {
         case patient 
