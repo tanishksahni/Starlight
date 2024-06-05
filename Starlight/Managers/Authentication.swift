@@ -26,10 +26,10 @@ class Authentication: ObservableObject {
     static let shared = Authentication()
     
     @Published private(set) var accessToken: String?
-    @Published private(set) var userType: UserType? = .patient
+    @Published private(set) var userType: UserType = .user
     
     enum UserType {
-        case patient 
+        case patient
         case doctor
         case user
     }
@@ -63,22 +63,38 @@ class Authentication: ObservableObject {
                 let decoder = JSONDecoder()
                 decoder.keyDecodingStrategy = .convertFromSnakeCase
                 let loginResponse = try decoder.decode(LoginResponse.self, from: data)
-                print("hey i am being called")
-                
+                print(loginResponse)
                 // Determine user type based on the response
-                if let patient = loginResponse.patient {
-                    self.userType = .patient
-                } else if let doctor = loginResponse.doctor {
-                    self.userType = .doctor
-                } else if let user = loginResponse.user {
-                    self.userType = .user
-                }
+                //                if loginResponse.patient != nil {
+                //                    self.userType = .patient
+                //                } else if loginResponse.doctor != nil {
+                //                    self.userType = .doctor
+                //                } else if loginResponse.user != nil {
+                //                    self.userType = .user
+                //                }
+                //                print(self.userType)
+                
+                //                DispatchQueue.main.async {
+                //                    self.accessToken = loginResponse.accessToken
+                //                    completion(.success(loginResponse))
+                //                }
                 
                 DispatchQueue.main.async {
+                    if loginResponse.patient != nil {
+                        self.userType = .patient
+                        print("Patient")
+                    } else if loginResponse.doctor != nil {
+                        self.userType = .doctor
+                        print("Doctor")
+                    } else {
+                        self.userType = .user
+                        print("Admin")
+                    }
+                    print(self.userType)
                     self.accessToken = loginResponse.accessToken
+                    APICore.shared.accessToken = loginResponse.accessToken
                     completion(.success(loginResponse))
                 }
-                
             } catch {
                 completion(.failure(error))
             }

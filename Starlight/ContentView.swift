@@ -18,34 +18,23 @@ enum ActiveSheet: Identifiable {
 
 struct ContentView: View {
     @State private var activeSheet: ActiveSheet? = .login
-    @State private var showingLoginView: Bool
-    private var authentication: Authentication
+    @State private var showingLoginView: Bool = true
     
-    init() {
-        authentication = Authentication()
-        showingLoginView = authentication.accessToken == nil
-    }
+    @ObservedObject var authentication = Authentication.shared
     
     var body: some View {
         Group {
-            if let userType = authentication.userType {
-                switch userType {
-                case .patient:
-                    MainPatientView()
-                case .doctor:
-                    MainDoctorView()
-                case .user:
-                    MainHospitalView()
-                }
+            if authentication.userType == .patient {
+                MainPatientView()
+            } else if authentication.userType == .doctor {
+                MainDoctorView()
+            } else if authentication.userType == .user {
+                MainHospitalView()
             } else {
-                // Show a loading view or some other default view until user type is determined
                 ProgressView()
                     .progressViewStyle(CircularProgressViewStyle())
             }
         }
-        //        .sheet(isPresented: $showingLoginView) {
-        //            LoginView(showingView: $activeSheet)
-        //        }
         .sheet(item: $activeSheet) { sheet in
             switch sheet {
             case .login:
@@ -62,11 +51,7 @@ struct ContentView: View {
                 showingLoginView = false
             }
         }
-        
-        
     }
-    
-    
 }
 
 struct ContentView_Previews: PreviewProvider {
@@ -74,13 +59,3 @@ struct ContentView_Previews: PreviewProvider {
         ContentView()
     }
 }
-
-
-
-//@State private var showingLoginView: Bool
-//
-//   init() {
-//       // Initialize showingLoginView based on accessToken status
-//       let authentication = Authentication()
-//       showingLoginView = authentication.accessToken == nil
-//   }
