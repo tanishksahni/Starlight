@@ -15,7 +15,8 @@ struct RegisterPatientResponse: Codable {
 
 
 class PatientModel: ObservableObject {
-    @AppStorage("accessToken") var accessToken: String?
+    
+    @Published var accessToken: String? = APICore().accessToken
     
     // Function to register a patient
     func registerPatient(patient: Patient, completion: @escaping (Result<Void, Error>) -> Void) {

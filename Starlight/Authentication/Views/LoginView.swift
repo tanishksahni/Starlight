@@ -14,6 +14,9 @@ struct LoginView: View {
     @Binding var showingLoginView: ActiveSheet?
     @Binding var isDoctor: Bool
     
+    @StateObject private var authentication = Authentication()
+    @State private var loginError: String?
+    
     var body: some View {
         NavigationView {
             ZStack(alignment: .bottom) {
@@ -69,7 +72,8 @@ struct LoginView: View {
                 .listRowBackground(Color.clear)
                 
                 Button(action: {
-                    showingLoginView = nil
+                    
+                    performLogin()
                 }) {
                     Text("Continue")
                         .foregroundColor(.white)
@@ -84,4 +88,23 @@ struct LoginView: View {
         }
         .interactiveDismissDisabled()
     }
+    private func performLogin() {
+           authentication.login(withEmail: email, password: password) { result in
+               switch result {
+               case .success(let response):
+                   DispatchQueue.main.async {
+                       showingLoginView = nil
+                       if response.doctor != nil {
+                           isDoctor = true
+                       } else {
+                           isDoctor = false
+                       }
+                   }
+               case .failure(let error):
+                   DispatchQueue.main.async {
+                       loginError = error.localizedDescription
+                   }
+               }
+           }
+       }
 }
