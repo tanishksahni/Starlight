@@ -10,7 +10,7 @@ import Foundation
 class DoctorModel: ObservableObject {
     
     @Published var doctors: [Doctor] = []
-
+    
     
     //MARK: Register a doctor
     
@@ -52,7 +52,7 @@ class DoctorModel: ObservableObject {
                 return
             }
             
-            guard let data = data, let response = response as? HTTPURLResponse, response.statusCode == 201 else {
+            guard let data = data, let response = response as? HTTPURLResponse, response.statusCode == 200 else {
                 print("Invalid response")
                 completion(.failure(NSError(domain: "", code: -1, userInfo: nil)))
                 return
@@ -68,7 +68,7 @@ class DoctorModel: ObservableObject {
     
     //MARK: Get all doctors
     func fetchDoctors(completion: @escaping (Result<[Doctor], Error>) -> Void) {
-        guard let url = URL(string: "\(APICore().BASEURL)/doctor") else {
+        guard let url = URL(string: "\(APICore().BASEURL)/doctor/") else {
             print("Invalid URL")
             return
         }

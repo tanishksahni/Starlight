@@ -36,7 +36,9 @@ struct User: Codable, Identifiable {
     var gender: Gender
 //    var profileImage: String?
     var bloodGroup: BloodGroup?
-    var role: Role = .patient
+    var role: Role? = .patient
+    var createdAt: String = ""
+       var updatedAt: String = ""
     
     private enum CodingKeys: String, CodingKey {
         case id = "_id"
@@ -49,5 +51,7 @@ struct User: Codable, Identifiable {
 //        case profileImage
         case bloodGroup
         case role
+        case createdAt
+        case updatedAt
     }
 }
