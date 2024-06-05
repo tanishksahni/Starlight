@@ -36,19 +36,10 @@ struct User: Codable, Identifiable {
     var gender: Gender
 //    var profileImage: String?
     var bloodGroup: BloodGroup?
-    var role: Role = .patient
+    var role: Role? = .patient
+    var createdAt: String = ""
+       var updatedAt: String = ""
     
-//    init(firstName: String, lastName: String = "", email: String, password: String? = nil, phone: String? = nil, gender: Gender, profileImage: String? = nil, bloodGroup: BloodGroup? = nil, role: Role = .patient) {
-//        self.firstName = firstName
-//        self.lastName = lastName
-//        self.email = email
-//        self.password = password
-//        self.phone = phone
-//        self.gender = gender
-//        self.profileImage = profileImage
-//        self.bloodGroup = bloodGroup
-//        self.role = role
-//    }
     private enum CodingKeys: String, CodingKey {
         case id = "_id"
         case firstName
@@ -60,5 +51,7 @@ struct User: Codable, Identifiable {
 //        case profileImage
         case bloodGroup
         case role
+        case createdAt
+        case updatedAt
     }
 }

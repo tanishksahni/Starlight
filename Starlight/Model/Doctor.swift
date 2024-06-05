@@ -25,8 +25,22 @@ enum Day: String, Codable {
 
 struct WorkingHours: Codable {
     var day: Day
+    var workingHours: WorkingHoursTime
+    
+    private enum CodingKeys: String, CodingKey {
+        case day
+        case workingHours
+    }
+}
+
+struct WorkingHoursTime: Codable {
     var from: String
     var to: String
+    
+    private enum CodingKeys: String, CodingKey {
+        case from
+        case to
+    }
 }
 
 struct Doctor: Codable, Identifiable {
@@ -36,26 +50,13 @@ struct Doctor: Codable, Identifiable {
     var licenseNo: String
     var isVerified: Bool = false
     var specialization: String
-    var experienceYears: Int? // Using Double for numerical fields to allow for decimal values
+    var experienceYears: Int? 
     var qualification: String
     var isAvailable: Bool = true
     var schedule: Schedule? 
     var workingHours: [WorkingHours]?
     var duration: Double = 30
-    
-//    init(userId: UUID, hospitalId: UUID? = nil, licenseNo: String, isVerified: Bool = false, specialization: String, experienceYears: Int? = nil, qualification: String, isAvailable: Bool = true, schedule: Schedule? = nil, workingHours: [WorkingHours] = [], duration: Double = 30) {
-//        self.userId = userId
-//        self.hospitalId = hospitalId
-//        self.licenseNo = licenseNo.trimmingCharacters(in: .whitespacesAndNewlines)
-//        self.isVerified = isVerified
-//        self.specialization = specialization.trimmingCharacters(in: .whitespacesAndNewlines)
-//        self.experienceYears = experienceYears
-//        self.qualification = qualification.trimmingCharacters(in: .whitespacesAndNewlines)
-//        self.isAvailable = isAvailable
-//        self.schedule = schedule
-//        self.workingHours = workingHours
-//        self.duration = duration
-//    }
+
     private enum CodingKeys: String, CodingKey {
         case id = "_id"
         case userId

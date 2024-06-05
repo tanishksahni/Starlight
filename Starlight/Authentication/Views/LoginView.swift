@@ -46,6 +46,7 @@ struct LoginView: View {
                     
                     Section {
                         TextField("Email", text: $email)
+                            .keyboardType(.emailAddress)
                         SecureField("Password", text: $password)
                     }
                     

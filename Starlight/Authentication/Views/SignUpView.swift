@@ -46,6 +46,7 @@ struct SignUpView: View {
                         TextField("First Name", text: $firstName)
                         TextField("Last Name", text: $lastName)
                         TextField("Email", text: $email)
+                            .keyboardType(.emailAddress)
                         SecureField("Create Password", text: $password)
                     }
                     .padding(.top, 5)
