@@ -13,7 +13,7 @@ struct SignUpView: View {
     @State var lastName = ""
     @State var email = ""
     @State var password = ""
-    @Binding var isSignup: ActiveSheet?
+    @Binding var showingView: ActiveSheet?
     
     var body: some View {
         NavigationView {
@@ -52,7 +52,7 @@ struct SignUpView: View {
                     
                     Section {
                         Button(action: {
-                            isSignup = .login
+                            showingView = .login
                         }) {
                             Text("Already have a Account? Log In")
                                 .foregroundColor(.accentColor)
@@ -62,7 +62,7 @@ struct SignUpView: View {
                     .listSectionSpacing(0)
                     .frame(maxWidth: .infinity)
                 }
-                NavigationLink(destination: PatientSetupView(isSignup: $isSignup, firstName: firstName, lastName: lastName, email: email, password: password)) {
+                NavigationLink(destination: PatientSetupView(isSignup: $showingView, firstName: firstName, lastName: lastName, email: email, password: password)) {
                     Text("Continue")
                         .foregroundColor(.white)
                         .padding()

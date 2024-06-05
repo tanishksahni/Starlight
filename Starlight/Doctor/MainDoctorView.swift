@@ -8,9 +8,6 @@
 import SwiftUI
 
 struct MainDoctorView: View {
-    @State private var showingLoginView = true
-    @State private var isDoctor = true
-    @State var isSignUp = false
     
     var body: some View {
         TabView {
@@ -31,9 +28,7 @@ struct MainDoctorView: View {
                     Label("Profile", systemImage: "person.crop.circle")
                 }
         }
-        .sheet(isPresented: $showingLoginView) {
-            LoginView(showingLoginView: Binding(get: { showingLoginView ? .login : nil }, set: { showingLoginView = $0 != nil }), isDoctor: $isDoctor)
-        }
+        
     }
 }
 

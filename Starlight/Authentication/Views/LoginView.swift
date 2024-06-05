@@ -11,8 +11,7 @@ import SwiftUI
 struct LoginView: View {
     @State private var email = ""
     @State private var password = ""
-    @Binding var showingLoginView: ActiveSheet?
-    @Binding var isDoctor: Bool
+    @Binding var showingView: ActiveSheet?
     
     @StateObject private var authentication = Authentication()
     @State private var loginError: String?
@@ -52,17 +51,17 @@ struct LoginView: View {
                     
                     Section {
                         VStack(alignment: .center) {
-                            Text("Forgot password?")
-                                .foregroundColor(.accentColor)
+//                            Text("Forgot password?")
+//                                .foregroundColor(.accentColor)
+//                            
                             
-                            if !isDoctor {
-                                Button(action: {
-                                    showingLoginView = .signup
-                                }) {
-                                    Text("Don't have an account? Sign Up")
-                                        .foregroundColor(.accentColor)
-                                }
+                            Button(action: {
+                                showingView = .signup
+                            }) {
+                                Text("Don't have an account? Sign Up")
+                                    .foregroundColor(.accentColor)
                             }
+                            
                         }
                     }
                     .listRowBackground(Color.clear)
@@ -72,7 +71,6 @@ struct LoginView: View {
                 .listRowBackground(Color.clear)
                 
                 Button(action: {
-                    
                     performLogin()
                 }) {
                     Text("Continue")
@@ -89,22 +87,17 @@ struct LoginView: View {
         .interactiveDismissDisabled()
     }
     private func performLogin() {
-           authentication.login(withEmail: email, password: password) { result in
-               switch result {
-               case .success(let response):
-                   DispatchQueue.main.async {
-                       showingLoginView = nil
-                       if response.doctor != nil {
-                           isDoctor = true
-                       } else {
-                           isDoctor = false
-                       }
-                   }
-               case .failure(let error):
-                   DispatchQueue.main.async {
-                       loginError = error.localizedDescription
-                   }
-               }
-           }
-       }
+        authentication.login(withEmail: email, password: password) { result in
+            switch result {
+            case .success(let response):
+                DispatchQueue.main.async{
+                    showingView = nil
+                }
+            case .failure(let error):
+                DispatchQueue.main.async {
+                    loginError = error.localizedDescription
+                }
+            }
+        }
+    }
 }

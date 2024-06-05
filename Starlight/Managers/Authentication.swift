@@ -9,6 +9,7 @@ import Foundation
 import SwiftUI
 
 class APICore: ObservableObject {
+    static let shared = APICore()
     @Published var BASEURL = "https://starlight-server-8nit.onrender.com"
     @AppStorage("accessToken") var accessToken: String?
 }
@@ -22,11 +23,22 @@ struct LoginResponse: Codable {
 }
 
 class Authentication: ObservableObject {
+    static let shared = Authentication()
     
-    @Published var accessToken: String? = APICore().accessToken
+    @Published private(set) var accessToken: String?
+    @Published private(set) var userType: UserType?
+    
+    enum UserType {
+        case patient 
+        case doctor
+        case user
+    }
+    
     
     func login(withEmail email: String, password: String, completion: @escaping (Result<LoginResponse, Error>) -> Void) {
         guard let url = URL(string: "\(APICore().BASEURL)/auth/login") else { return }
+        
+        print("hey i am being called")
         
         var request = URLRequest(url: url)
         request.httpMethod = "POST"
@@ -35,6 +47,7 @@ class Authentication: ObservableObject {
         let loginDetails = ["email": email, "password": password]
         guard let httpBody = try? JSONSerialization.data(withJSONObject: loginDetails, options: []) else { return }
         request.httpBody = httpBody
+        print("hey i am being called")
         
         let session = URLSession.shared
         session.dataTask(with: request) { data, response, error in
@@ -42,6 +55,7 @@ class Authentication: ObservableObject {
                 completion(.failure(error))
                 return
             }
+            print("hey i am being called")
             
             guard let data = data else { return }
             
@@ -49,11 +63,21 @@ class Authentication: ObservableObject {
                 let decoder = JSONDecoder()
                 decoder.keyDecodingStrategy = .convertFromSnakeCase
                 let loginResponse = try decoder.decode(LoginResponse.self, from: data)
+                print("hey i am being called")
+                
+                // Determine user type based on the response
+                if let patient = loginResponse.patient {
+                    self.userType = .patient
+                } else if let doctor = loginResponse.doctor {
+                    self.userType = .doctor
+                } else if let user = loginResponse.user {
+                    self.userType = .user
+                }
+                
                 DispatchQueue.main.async {
                     self.accessToken = loginResponse.accessToken
                     completion(.success(loginResponse))
                 }
-                print("Hey U have logined")
                 
             } catch {
                 completion(.failure(error))
