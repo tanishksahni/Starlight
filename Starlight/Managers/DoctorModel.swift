@@ -164,4 +164,11 @@ class SpecializationModel: ObservableObject {
         default: return .gray
         }
     }
+    
+    
+    
+    
+    
+    
+    
 }

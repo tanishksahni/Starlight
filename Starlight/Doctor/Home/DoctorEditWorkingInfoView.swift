@@ -21,86 +21,83 @@ struct DoctorEditWorkingInfoView: View {
     
     var body: some View {
         NavigationView{
-            VStack(alignment: .center, spacing: 50) {
-                VStack {
-                    Image(systemName: "calendar")
-                        .resizable()
-                        .aspectRatio(contentMode: .fit)
-                        .frame(width: 80, height: 80)
-                        .fontWeight(.light)
+            ScrollView {
+                VStack(alignment: .center, spacing: 50) {
                     
-                    Text("Please select your working days")
-                        .frame(width: 280)
-                        .fontWeight(.semibold)
-                        .font(.title2)
-                        .multilineTextAlignment(.center)
-                        .lineLimit(3)
+                    VStack {
+                        HStack {
+                            Text("Days")
+                            Spacer()
+                            
+                            Picker("Days", selection: $selectedDay) {
+                                ForEach(days, id: \.self) { day in
+                                    Text(day).tag(day)
+                                }
+                            }
+                            .pickerStyle(MenuPickerStyle())
+                            .accentColor(.gray)
+                            .menuIndicator(.hidden)
+                        }
+                        Divider()
+                        HStack {
+                            Text("Slots")
+                            Spacer()
+                            Picker("Slots", selection: $selectedSlot) {
+                                ForEach(slots, id: \.self) { slot in
+                                    Text(slot).tag(slot)
+                                        .foregroundColor(Color(UIColor.gray))
+                                }
+                            }
+                            .pickerStyle(MenuPickerStyle())
+                            .accentColor(.gray)
+                            .menuIndicator(.hidden)
+//                            .foregroundColor(Color.gray)
+                        }
+                        Divider()
+                        HStack {
+                            Text("Start Time")
+                            Spacer()
+                            Picker("Times", selection: $selectedstart) {
+                                ForEach(start_times, id: \.self) { time in
+                                    Text(time).tag(time)
+                                }
+                            }
+                            .pickerStyle(MenuPickerStyle())
+                            .accentColor(.gray)
+                            .menuIndicator(.hidden)
+                            
+                        }
+                        Divider()
+                        HStack {
+                            Text("End Time")
+                            Spacer()
+                            Picker("Times", selection: $selectedend) {
+                                ForEach(end_times, id: \.self) { time in
+                                    Text(time).tag(time)
+                                }
+                            }
+                            .pickerStyle(MenuPickerStyle())
+                            .accentColor(.gray)
+                            .menuIndicator(.hidden)
+                            
+                        }
+                    }
+                    .padding(.horizontal, 20)
+                    
                 }
-                .padding(.bottom, 20)
-                
-                VStack {
-                    HStack {
-                        Text("Days")
-                        Spacer()
-                        
-                        Picker("Days", selection: $selectedDay) {
-                            ForEach(days, id: \.self) { day in
-                                Text(day).tag(day)
-                            }
-                        }
-                        .pickerStyle(MenuPickerStyle())
-                    }
-                    Divider()
-                    HStack {
-                        Text("Slots")
-                        Spacer()
-                        Picker("Slots", selection: $selectedSlot) {
-                            ForEach(slots, id: \.self) { slot in
-                                Text(slot).tag(slot)
-                            }
-                        }
-                        .pickerStyle(MenuPickerStyle())
-                    }
-                    Divider()
-                    HStack {
-                        Text("Start Time")
-                        Spacer()
-                        Picker("Times", selection: $selectedstart) {
-                            ForEach(start_times, id: \.self) { time in
-                                Text(time).tag(time)
-                            }
-                        }
-                        .pickerStyle(MenuPickerStyle())
-                        
-                    }
-                    Divider()
-                    HStack {
-                        Text("End Time")
-                        Spacer()
-                        Picker("Times", selection: $selectedend) {
-                            ForEach(end_times, id: \.self) { time in
-                                Text(time).tag(time)
-                            }
-                        }
-                        .pickerStyle(MenuPickerStyle())
-                        
-                    }
-                }
-                .padding(.horizontal, 20)
-                
+                .navigationTitle("Update info")
+                .toolbarTitleDisplayMode(.inline)
+                .toolbar{
+                    ToolbarItem(placement: .topBarLeading, content: {
+                        Text("Cancel")
+                            .foregroundColor(.blue)
+                    })
+                    ToolbarItem(placement: .topBarTrailing, content: {
+                        Text("Done")
+                            .foregroundColor(.blue)
+                            .fontWeight(.bold)
+                    })
             }
-            .navigationTitle("Update info")
-            .toolbarTitleDisplayMode(.inline)
-            .toolbar{
-                ToolbarItem(placement: .topBarLeading, content: {
-                    Text("Cancel")
-                        .foregroundColor(.blue)
-                })
-                ToolbarItem(placement: .topBarTrailing, content: {
-                    Text("Done")
-                        .foregroundColor(.blue)
-                        .fontWeight(.bold)
-                })
             }
         }
     }
