@@ -10,11 +10,16 @@ import Foundation
 
 struct PatientSetupView: View {
     @Binding var isSignup: ActiveSheet?
-    
-    @State private var bloodGroup = ""
+    @State var firstName: String
+    @State var lastName: String
+    @State var email: String
+    @State var password: String
     @State private var address = ""
     @State private var dob = Date()
     @State private var selectedGender = ""
+    
+//    @AppStorage("accessToken") private var accessToken: String?
+    
     
     let genders = ["Male", "Female", "Other"]
     
@@ -42,7 +47,8 @@ struct PatientSetupView: View {
             
             Button(action: {
                 // Handle the action when the button is pressed
-                isSignup = .none
+//                isSignup = .none
+                savePatient()
             }) {
                 Text("Done")
                     .foregroundColor(.white)
@@ -59,4 +65,44 @@ struct PatientSetupView: View {
         .navigationBarTitleDisplayMode(.inline)
         
     }
+    private func savePatient() {
+        let user = User(
+            id: "",
+            firstName: firstName,
+            lastName: lastName,
+            email: email,
+            password: password,
+            gender: Gender(rawValue: selectedGender.lowercased()) ?? .other
+        )
+        
+        // Convert dob string to Date
+        let dateFormatter = DateFormatter()
+        dateFormatter.dateFormat = "yyyy-MM-dd"
+        let dobString = dateFormatter.string(from: dob)
+        
+        
+        // Create a Patient object
+        let patient = Patient(
+            id: "",
+            userId: user,
+            hospitalId: "",
+            dob: dobString,
+            address: address,
+            patientID: ""
+        )
+        
+        // Register the patient using the API
+        
+        
+        PatientModel().registerPatient(patient: patient) { result in
+            switch result {
+            case .success:
+                print("Patient added successfully")
+                isSignup = .none
+            case .failure(let error):
+                print("Failed to add patient: \(error.localizedDescription)")
+            }
+        }
+    }
+    
 }

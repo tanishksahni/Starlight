@@ -7,6 +7,7 @@
 	objects = {
 
 /* Begin PBXBuildFile section */
+		CE026A112C0F815E0006C2D1 /* PatientModel.swift in Sources */ = {isa = PBXBuildFile; fileRef = CE026A102C0F815E0006C2D1 /* PatientModel.swift */; };
 		CE1AA8B52C08391F00E137F9 /* AddDoctorView.swift in Sources */ = {isa = PBXBuildFile; fileRef = CE1AA8B42C08391F00E137F9 /* AddDoctorView.swift */; };
 		CE1AA8B72C0854CE00E137F9 /* HospitalDoctorsListView.swift in Sources */ = {isa = PBXBuildFile; fileRef = CE1AA8B62C0854CE00E137F9 /* HospitalDoctorsListView.swift */; };
 		CE1AA8B92C0876B900E137F9 /* PatientDoctorProfileView.swift in Sources */ = {isa = PBXBuildFile; fileRef = CE1AA8B82C0876B900E137F9 /* PatientDoctorProfileView.swift */; };
@@ -52,6 +53,7 @@
 /* End PBXBuildFile section */
 
 /* Begin PBXFileReference section */
+		CE026A102C0F815E0006C2D1 /* PatientModel.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = PatientModel.swift; sourceTree = "<group>"; };
 		CE1AA8B42C08391F00E137F9 /* AddDoctorView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AddDoctorView.swift; sourceTree = "<group>"; };
 		CE1AA8B62C0854CE00E137F9 /* HospitalDoctorsListView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = HospitalDoctorsListView.swift; sourceTree = "<group>"; };
 		CE1AA8B82C0876B900E137F9 /* PatientDoctorProfileView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = PatientDoctorProfileView.swift; sourceTree = "<group>"; };
@@ -142,7 +144,6 @@
 		CE630BA82C0B852F00B05403 /* Authentication */ = {
 			isa = PBXGroup;
 			children = (
-				CE630BAA2C0B944000B05403 /* Managers */,
 				CE630BA92C0B943600B05403 /* Views */,
 			);
 			path = Authentication;
@@ -158,18 +159,12 @@
 			path = Views;
 			sourceTree = "<group>";
 		};
-		CE630BAA2C0B944000B05403 /* Managers */ = {
-			isa = PBXGroup;
-			children = (
-			);
-			path = Managers;
-			sourceTree = "<group>";
-		};
 		CE630BAB2C0B944C00B05403 /* Managers */ = {
 			isa = PBXGroup;
 			children = (
 				CE630BB22C0C83EB00B05403 /* Authentication.swift */,
 				CE294A9A2C0DFAA600458CD1 /* DoctorModel.swift */,
+				CE026A102C0F815E0006C2D1 /* PatientModel.swift */,
 			);
 			path = Managers;
 			sourceTree = "<group>";
@@ -449,6 +444,7 @@
 				CE294A9E2C0DFE1700458CD1 /* Theme.swift in Sources */,
 				CE6435882BFF1B1A0014A536 /* MainDoctorView.swift in Sources */,
 				CE6435A92BFF3EC60014A536 /* HospitalDoctorsView.swift in Sources */,
+				CE026A112C0F815E0006C2D1 /* PatientModel.swift in Sources */,
 				CE6435A22BFF3C780014A536 /* DoctorsHomeView.swift in Sources */,
 				CE6435942BFF390C0014A536 /* PatientProfileView.swift in Sources */,
 				CE1AA8BB2C0897DD00E137F9 /* PatientBookAppointmentView.swift in Sources */,

@@ -9,13 +9,14 @@ import SwiftUI
 import Foundation
 
 struct SignUpView: View {
-    @State private var name = ""
-    @State private var email = ""
-    @State private var password = ""
+    @State var firstName = ""
+    @State var lastName = ""
+    @State var email = ""
+    @State var password = ""
     @Binding var isSignup: ActiveSheet?
     
     var body: some View {
-       NavigationView {
+        NavigationView {
             ZStack(alignment: .bottom) {
                 List {
                     Section {
@@ -42,7 +43,8 @@ struct SignUpView: View {
                     .listRowBackground(Color.clear)
                     
                     Section {
-                        TextField("Full Name", text: $name)
+                        TextField("First Name", text: $firstName)
+                        TextField("Last Name", text: $lastName)
                         TextField("Email", text: $email)
                         SecureField("Create Password", text: $password)
                     }
@@ -60,7 +62,7 @@ struct SignUpView: View {
                     .listSectionSpacing(0)
                     .frame(maxWidth: .infinity)
                 }
-                NavigationLink(destination: PatientSetupView(isSignup: $isSignup)) {
+                NavigationLink(destination: PatientSetupView(isSignup: $isSignup, firstName: firstName, lastName: lastName, email: email, password: password)) {
                     Text("Continue")
                         .foregroundColor(.white)
                         .padding()
@@ -70,6 +72,7 @@ struct SignUpView: View {
                 }
                 .padding(.horizontal)
                 .padding(.bottom, 16)
+                
             }
         }
         .interactiveDismissDisabled()

@@ -47,9 +47,7 @@ struct WorkingInfoCard: View {
                 Button(action: {
                     isPresentingEditingInfoCard.toggle()
                 }) {
-                    Image(systemName: "ellipsis")
-                        .foregroundColor(.blue)
-                        .bold()
+                   Text("Edit")
                 }
                 
                 
