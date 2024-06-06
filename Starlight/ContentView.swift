@@ -17,41 +17,39 @@ enum ActiveSheet: Identifiable {
 }
 
 struct ContentView: View {
-    @State private var activeSheet: ActiveSheet? = .login
-    @State private var showingLoginView: Bool = true
-    
+    @State private var activeSheet: ActiveSheet?
     @ObservedObject var authentication = Authentication.shared
-    
     var body: some View {
-        Group {
-            if authentication.userType == .patient {
-                MainPatientView()
-            } else if authentication.userType == .doctor {
-                MainDoctorView()
-            } else if authentication.userType == .user {
-                MainHospitalView()
+        Group{
+            if let token = APICore.shared.accessToken {
+                if authentication.userType == .patient {
+                    MainPatientView()
+                } else if authentication.userType == .doctor {
+                    MainDoctorView()
+                } else if authentication.userType == .user{
+                    MainHospitalView()
+                } else {
+                    
+                }
             } else {
-                ProgressView()
-                    .progressViewStyle(CircularProgressViewStyle())
-            }
-        }
-        .sheet(item: $activeSheet) { sheet in
-            switch sheet {
-            case .login:
                 LoginView(showingView: $activeSheet)
-            case .signup:
-                SignUpView(showingView: $activeSheet)
             }
         }
-        .onAppear {
-            // Check if user is logged in on appear
-            if authentication.accessToken == nil {
-                activeSheet = .login
-            } else {
-                showingLoginView = false
+            .onAppear {
+                if APICore.shared.accessToken == nil {
+                    activeSheet = .login
+                }
             }
-        }
+            .sheet(item: $activeSheet) { sheet in
+                switch sheet {
+                case .login:
+                    LoginView(showingView: $activeSheet)
+                case .signup:
+                    SignUpView(showingView: $activeSheet)
+                }
+            }
     }
+    
 }
 
 struct ContentView_Previews: PreviewProvider {
@@ -59,3 +57,5 @@ struct ContentView_Previews: PreviewProvider {
         ContentView()
     }
 }
+
+

@@ -7,10 +7,7 @@
 
 import SwiftUI
 
-
-
 struct MainPatientView: View {
-    
     var body: some View {
         TabView {
             PatientHomeView().environmentObject(HealthStore())
