@@ -11,6 +11,7 @@ class DoctorModel: ObservableObject {
     
     @Published var doctors: [Doctor] = []
     
+  
     
     //MARK: Register a doctor
     

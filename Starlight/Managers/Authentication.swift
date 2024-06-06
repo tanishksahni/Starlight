@@ -11,7 +11,30 @@ import SwiftUI
 class APICore: ObservableObject {
     static let shared = APICore()
     @Published var BASEURL = "https://starlight-server-8nit.onrender.com"
-    @AppStorage("accessToken") var accessToken: String?
+    //    @AppStorage("accessToken") var accessToken: String?
+    
+    
+    //    private let accessTokenKey = "accessToken"
+    private let accessTokenKey = "accessToken"
+    private let userTypeKey = "userType"
+    
+    var accessToken: String? {
+        get {
+            if let data = KeychainHelper.shared.read(forKey: accessTokenKey) {
+                return String(data: data, encoding: .utf8)
+            }
+            return nil
+        }
+        set {
+            if let token = newValue {
+                let data = Data(token.utf8)
+                KeychainHelper.shared.save(data, forKey: accessTokenKey)
+            } else {
+                KeychainHelper.shared.delete(forKey: accessTokenKey)
+            }
+        }
+    }
+
 }
 
 
@@ -25,16 +48,38 @@ struct LoginResponse: Codable {
 class Authentication: ObservableObject {
     static let shared = Authentication()
     
-    @Published private(set) var accessToken: String?
-    @Published private(set) var userType: UserType = .user
+    //@Published private(set) var accessToken: String?
+    @Published private(set) var accessToken: String? {
+        didSet {
+            APICore.shared.accessToken = accessToken
+        }
+    }
     
-    enum UserType {
+    private let userTypeKey = "userType"
+    
+    @Published private(set) var userType: UserType {
+        didSet {
+            UserDefaults.standard.set(userType.rawValue, forKey: userTypeKey)
+        }
+    }
+    
+    init() {
+        self.userType = UserType(rawValue: UserDefaults.standard.string(forKey: userTypeKey) ?? "") ?? .user
+    }
+    
+    enum UserType: String {
         case patient
         case doctor
         case user
     }
     
+    func setAccessToken(_ token: String?) {
+        self.accessToken = token
+    }
     
+    func setUserType(_ type: UserType) {
+        self.userType = type
+    }
     func login(withEmail email: String, password: String, completion: @escaping (Result<LoginResponse, Error>) -> Void) {
         guard let url = URL(string: "\(APICore().BASEURL)/auth/login") else { return }
         
@@ -64,20 +109,6 @@ class Authentication: ObservableObject {
                 decoder.keyDecodingStrategy = .convertFromSnakeCase
                 let loginResponse = try decoder.decode(LoginResponse.self, from: data)
                 print(loginResponse)
-                // Determine user type based on the response
-                //                if loginResponse.patient != nil {
-                //                    self.userType = .patient
-                //                } else if loginResponse.doctor != nil {
-                //                    self.userType = .doctor
-                //                } else if loginResponse.user != nil {
-                //                    self.userType = .user
-                //                }
-                //                print(self.userType)
-                
-                //                DispatchQueue.main.async {
-                //                    self.accessToken = loginResponse.accessToken
-                //                    completion(.success(loginResponse))
-                //                }
                 
                 DispatchQueue.main.async {
                     if loginResponse.patient != nil {
@@ -92,7 +123,6 @@ class Authentication: ObservableObject {
                     }
                     print(self.userType)
                     self.accessToken = loginResponse.accessToken
-                    APICore.shared.accessToken = loginResponse.accessToken
                     completion(.success(loginResponse))
                 }
             } catch {
