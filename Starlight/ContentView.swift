@@ -31,23 +31,21 @@ struct ContentView: View {
                 } else {
                     
                 }
-            } else {
-                LoginView(showingView: $activeSheet)
             }
         }
-            .onAppear {
+        .onAppear {
                 if APICore.shared.accessToken == nil {
                     activeSheet = .login
                 }
-            }
-            .sheet(item: $activeSheet) { sheet in
+        }
+        .sheet(item: $activeSheet) { sheet in
                 switch sheet {
                 case .login:
                     LoginView(showingView: $activeSheet)
                 case .signup:
                     SignUpView(showingView: $activeSheet)
                 }
-            }
+        }
     }
     
 }
