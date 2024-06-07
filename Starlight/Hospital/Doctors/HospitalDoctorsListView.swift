@@ -15,7 +15,7 @@ struct HospitalDoctorsListView: View {
     var data: [Doctor]
     
     var body: some View {
-        NavigationLink(destination: PatientDoctorProfileView()) {
+      
             ZStack{
                 LinearGradient(colors: [
                     gradColor.opacity(0.5),
@@ -30,7 +30,9 @@ struct HospitalDoctorsListView: View {
                 ScrollView {
                     VStack{
                         ForEach(data) { doctor in
-                            DoctorCard(data: doctor)
+                            NavigationLink(destination: PatientDoctorProfileView(data: doctor)) {
+                                DoctorCard(data: doctor)
+                            }
                         }
                     }
                     .padding()
@@ -41,7 +43,7 @@ struct HospitalDoctorsListView: View {
             .navigationBarTitleDisplayMode(.inline)
             .searchable(text: $searchText)
             
-        }
+        
         
     }
 }

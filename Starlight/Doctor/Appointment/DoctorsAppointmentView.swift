@@ -11,58 +11,58 @@ struct DoctorsAppointmentView: View {
     @State private var searchText = ""
     @State private var selectedFilter: AppointmentFilter = .all
   
-    var filteredAppointments: [Appointment] {
-        switch selectedFilter {
-        case .all:
-            return appointments
-        case .general:
-            return appointments.filter { !$0.isEmergency }
-        case .emergency:
-            return appointments.filter { $0.isEmergency }
-        }
-    }
-    var generalAppointments: [Appointment] {
-        return appointments.filter { !$0.isEmergency }
-    }
-    
-    var emergencyAppointments: [Appointment] {
-        return appointments.filter { $0.isEmergency }
-    }
-    
+//    var filteredAppointments: [Appointment] {
+//        switch selectedFilter {
+//        case .all:
+//            return appointments
+//        case .general:
+//            return appointments.filter { !$0.isEmergency }
+//        case .emergency:
+//            return appointments.filter { $0.isEmergency }
+//        }
+//    }
+//    var generalAppointments: [Appointment] {
+//        return appointments.filter { !$0.isEmergency }
+//    }
+//    
+//    var emergencyAppointments: [Appointment] {
+//        return appointments.filter { $0.isEmergency }
+//    }
+//    
     
     
     var body: some View {
         NavigationStack {
             ScrollView {
                 VStack {
-                    Picker("Filter", selection: $selectedFilter) {
-                        ForEach(AppointmentFilter.allCases, id: \.self) { filter in
-                            Text(filter.rawValue).tag(filter)
-                        }
-                    }
-                    .pickerStyle(SegmentedPickerStyle())
-                    
-                    Spacer().frame(height: 16)
-                    if selectedFilter == .all || selectedFilter == .emergency {
-                        ForEach(appointments.filter { $0.isEmergency }) { appointment in
-                            NavigationLink(destination: DoctorAppointmentCompleteView()) {
-                                AppointmentCell(appointment: appointment)
-                                    .padding(.bottom, 12)
-                            }
-                            
-                        }
-                        
-                    }
-                    
-                    if selectedFilter == .all || selectedFilter == .general {
-                        
-                        ForEach(appointments.filter { !$0.isEmergency }) { appointment in
-                            NavigationLink(destination: DoctorAppointmentCompleteView()) {
-                                AppointmentCell(appointment: appointment)
-                                    .padding(.bottom, 12)
-                            }
-                        }
-                    }
+//                    Picker("Filter", selection: $selectedFilter) {
+//                        ForEach(AppointmentFilter.allCases, id: \.self) { filter in
+//                            Text(filter.rawValue).tag(filter)
+//                        }
+//                    }
+//                    .pickerStyle(SegmentedPickerStyle())
+//                    
+//                    Spacer().frame(height: 16)
+//                    if selectedFilter == .all || selectedFilter == .emergency {
+//                        ForEach(appointments.filter { $0.isEmergency }) { appointment in
+//                            NavigationLink(destination: DoctorAppointmentCompleteView()) {
+//                                AppointmentCell(appointment: appointment)
+//                                    .padding(.bottom, 12)
+//                            }
+//                            
+//                        }
+//                        
+//                    }
+//                    
+//                    if selectedFilter == .all || selectedFilter == .general {
+//                        
+//                        ForEach(appointments.filter { !$0.isEmergency }) { appointment in
+//                            NavigationLink(destination: DoctorAppointmentCompleteView()) {
+//                                AppointmentCell(appointment: appointment)
+//                                    .padding(.bottom, 12)
+//                            }
+//                        }
+//                    }
                     
                 }
                 
@@ -79,40 +79,40 @@ struct DoctorsAppointmentView: View {
 
 
 struct AppointmentCell: View {
-    var appointment: Appointment
+    //var appointment: Appointment
     
     var body: some View {
         
         HStack(spacing: 16) {
-            Image("image")
-                .resizable()
-                .clipShape(Rectangle())
-                .cornerRadius(10)
-                .frame(width: 65, height: 65)
-            
-            VStack(alignment: .leading, spacing: 4) {
-                Text(appointment.userName)
-                    .font(.headline)
-                    .fontWeight(/*@START_MENU_TOKEN@*/.bold/*@END_MENU_TOKEN@*/)
-                    .foregroundColor(.primary)
-                
-                Text("\(appointment.date, formatter: itemFormatter) \(appointment.time)")
-                    .font(.caption)
-                    .foregroundColor(.secondary)
-                
-                
-                Text(appointment.isEmergency ? "Emergency" : "General")
-                    .font(.subheadline)
-                    .foregroundColor(appointment.isEmergency ? .red : .green)
-            }
-            Spacer()
-            Button(action: {
-                // Handle tapping the "i" button
-            }) {
-                Image(systemName: "info.circle")
-                    .font(.title2)
-                    .foregroundColor(.blue)
-            }
+//            Image("image")
+//                .resizable()
+//                .clipShape(Rectangle())
+//                .cornerRadius(10)
+//                .frame(width: 65, height: 65)
+//            
+//            VStack(alignment: .leading, spacing: 4) {
+//                Text(appointment.userName)
+//                    .font(.headline)
+//                    .fontWeight(/*@START_MENU_TOKEN@*/.bold/*@END_MENU_TOKEN@*/)
+//                    .foregroundColor(.primary)
+//                
+//                Text("\(appointment.date, formatter: itemFormatter) \(appointment.time)")
+//                    .font(.caption)
+//                    .foregroundColor(.secondary)
+//                
+//                
+//                Text(appointment.isEmergency ? "Emergency" : "General")
+//                    .font(.subheadline)
+//                    .foregroundColor(appointment.isEmergency ? .red : .green)
+//            }
+//            Spacer()
+//            Button(action: {
+//                // Handle tapping the "i" button
+//            }) {
+//                Image(systemName: "info.circle")
+//                    .font(.title2)
+//                    .foregroundColor(.blue)
+//            }
         }
         .padding()
         .overlay(

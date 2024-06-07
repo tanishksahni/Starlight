@@ -8,6 +8,11 @@
 import SwiftUI
 
 struct PatientDoctorProfileView: View {
+    
+    @ObservedObject var authentication = Authentication.shared
+    
+    
+    
     @State private var isShowingBookAppointmentView = false
     @State var isShowingConfirmationForAppointment = false
     let allDaySlots = [
@@ -16,6 +21,8 @@ struct PatientDoctorProfileView: View {
     let allTimeSlots = [
         "9:00AM", "10:00AM", "11:00AM", "12:00PM",  "13:00PM"
     ]
+    
+    var data: Doctor
     
     var timeSlots: [[String]] {
         stride(from: 0, to: allTimeSlots.count, by: 4).map {
@@ -33,13 +40,13 @@ struct PatientDoctorProfileView: View {
                         .frame(width: 100, height: 100)
                         .clipShape(RoundedRectangle(cornerRadius: 12))
                     VStack(alignment: .leading) {
-                        Text("Dr. Rajesh Tiwari")
+                        Text("\(data.userId.firstName) \(data.userId.lastName)")
                             .font(.title3)
                             .fontWeight(.bold)
-                        Text("MBBS")
+                        Text(data.qualification)
                             .font(.callout)
                             .foregroundColor(.secondary)
-                        Text("17+ years")
+                        Text("\(String(describing: data.experienceYears ?? 0)) years")
                             .font(.callout)
                             .foregroundColor(.secondary)
                     }
@@ -101,19 +108,21 @@ struct PatientDoctorProfileView: View {
                 
                 .padding(.bottom)
             
-                Button(action: {
-                    isShowingBookAppointmentView.toggle()
-                }) {
-                    Text("Book Appointment")
-                        .padding()
-                        .font(.headline)
-                        .foregroundColor(.white)
-                        .frame(maxWidth: .infinity)
-                        .background(Color.blue)
-                        .cornerRadius(10)
-                }
-                .sheet(isPresented: $isShowingBookAppointmentView) {
-                    PatientBookAppointmentView(isShowingBookAppointmentView: $isShowingBookAppointmentView, isShowingConfirmationForAppointment: $isShowingConfirmationForAppointment)
+                if authentication.userType == .patient{
+                    Button(action: {
+                        isShowingBookAppointmentView.toggle()
+                    }) {
+                        Text("Book Appointment")
+                            .padding()
+                            .font(.headline)
+                            .foregroundColor(.white)
+                            .frame(maxWidth: .infinity)
+                            .background(Color.blue)
+                            .cornerRadius(10)
+                    }
+                    .sheet(isPresented: $isShowingBookAppointmentView) {
+                        PatientBookAppointmentView(doctor: self.data, isShowingBookAppointmentView: $isShowingBookAppointmentView, isShowingConfirmationForAppointment: $isShowingConfirmationForAppointment)
+                    }
                 }
                 
                 

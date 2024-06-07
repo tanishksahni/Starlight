@@ -17,7 +17,7 @@ enum ActiveSheet: Identifiable {
 }
 
 struct ContentView: View {
-    @State private var activeSheet: ActiveSheet?
+    @State private var activeSheet: ActiveSheet? = .login
     @ObservedObject var authentication = Authentication.shared
     var body: some View {
         Group{
@@ -32,11 +32,19 @@ struct ContentView: View {
                     
                 }
             }
+            else {
+                ProgressView()
+                    .progressViewStyle(CircularProgressViewStyle())
+            }
         }
         .onAppear {
-                if APICore.shared.accessToken == nil {
-                    activeSheet = .login
-                }
+            if APICore.shared.accessToken == nil {
+                activeSheet = .login
+                print("is it me")
+            }
+            else {
+                activeSheet = .none
+            }
         }
         .sheet(item: $activeSheet) { sheet in
                 switch sheet {

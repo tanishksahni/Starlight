@@ -155,3 +155,145 @@ struct CurrentAppointmentCard: View {
         return formatter.string(from: date)
     }
 }
+
+
+
+//
+//  ContentView.swift
+//  BannerDesign
+//
+//  Created by Akshat Gulati on 04/06/24.
+//
+
+import SwiftUI
+
+struct ContentView1: View {
+    var body: some View {
+        VStack{
+                ZStack {
+                    LinearGradient(colors: [
+                        Color.green.opacity(0.7),
+                        Color.green.opacity(0.6),
+                        Color.green.opacity(0.65)
+                    ],
+                                   startPoint: .top, endPoint: .bottom)
+                    VStack(alignment: .leading) {
+                        HStack {
+                            VStack(alignment: .leading) {
+                                Text("Total Patients Served")
+                                    .font(.title3)
+                                    .foregroundColor(.white)
+                                
+                                
+                            }
+                            Spacer()
+                            Image(systemName: "arrow.up.right")
+                                .foregroundColor(.white)
+                                .font(.system(size: 30))
+                            
+                        }
+                        
+                       Spacer()
+                        
+                        Text("100")
+                            .foregroundColor(.white)
+                            .font(.title)
+                            .fontWeight(/*@START_MENU_TOKEN@*/.bold/*@END_MENU_TOKEN@*/)
+                        
+                            
+                        
+                    }
+                    .padding()
+                }
+                
+                .frame(width: .infinity, height: 150)
+                .clipShape(RoundedRectangle(cornerRadius: 12))
+
+            //2nd Row Code starts
+            HStack{
+                
+            //1st Horizontal Cell
+                ZStack {
+                    LinearGradient(colors: [
+                        Color.blue.opacity(0.7),
+                        Color.blue.opacity(0.6),
+                        Color.blue.opacity(0.65)
+                    ],
+                                   startPoint: .top, endPoint: .bottom)
+                    VStack(alignment: .leading) {
+                        HStack {
+                                Text("10")
+                                    .font(.title3)
+                                    .foregroundColor(.white)
+                            Spacer()
+
+                                Text("4 June")
+                                    .font(.subheadline)
+                                    .foregroundColor(.white)
+                        }
+                       Spacer()
+                        Text("Today")
+                            .foregroundColor(.white)
+                            .font(.title3)
+                            .fontWeight(/*@START_MENU_TOKEN@*/.bold/*@END_MENU_TOKEN@*/)
+                        
+                    }
+                    .padding()
+                }
+                
+                .frame(width: .infinity, height: 150)
+                .clipShape(RoundedRectangle(cornerRadius: 12))
+                //1st Horizontal Cell ends here
+                
+                //2nd Horizontal Cell
+                ZStack {
+                    LinearGradient(colors: [
+                        Color.orange.opacity(0.7),
+                        Color.orange.opacity(0.6),
+                        Color.orange.opacity(0.65)
+                    ],
+                                   startPoint: .top, endPoint: .bottom)
+                    VStack(alignment: .leading) {
+                        HStack {
+                            VStack(alignment: .leading) {
+                                Text("10")
+                                    .font(.title3)
+                                    .foregroundColor(.white)
+                                
+                            }
+                            Spacer()
+                            
+                        }
+                        
+                       Spacer()
+                        
+                        Text("Pending")
+                            .foregroundColor(.white)
+                            .font(.title3)
+                            .fontWeight(/*@START_MENU_TOKEN@*/.bold/*@END_MENU_TOKEN@*/)
+                    }
+                    .padding()
+                }
+                .frame(width: .infinity, height: 150)
+                .clipShape(RoundedRectangle(cornerRadius: 12))
+                //2nd Horizontal Cell ends here
+            }
+            //2nd row end
+            
+            //Current Appointment Starts Here
+            Spacer().frame(height: 16)
+                Text("Current Appointment")
+                .font(.title2)
+                .fontWeight(/*@START_MENU_TOKEN@*/.bold/*@END_MENU_TOKEN@*/)
+                .frame(maxWidth: .infinity, alignment: .leading)
+            }
+        
+        .padding()
+        }
+}
+
+struct ContentView1_Previews: PreviewProvider {
+    static var previews: some View {
+        ContentView1()
+    }
+}

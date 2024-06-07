@@ -15,7 +15,9 @@ struct SignUpView: View {
     @State var password = ""
     @Binding var showingView: ActiveSheet?
     
+    
     var body: some View {
+        
         NavigationView {
             ZStack(alignment: .bottom) {
                 List {

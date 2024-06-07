@@ -8,7 +8,8 @@
 import SwiftUI
 
 struct DoctorPatientInfoView: View {
-
+    var data: Patient
+    
     var body: some View {
         ScrollView {
             VStack(alignment: .leading) {
@@ -26,24 +27,20 @@ struct DoctorPatientInfoView: View {
                     Spacer().frame(width: 20)
                     
                     VStack(alignment: .leading, spacing: 5) {
-                        Text("Naman Sharma")
+                        Text("\(data.userId.firstName) \(data.userId.lastName)")
                             .font(.title2)
                             .fontWeight(.medium)
-                        Text("#sbhb12hb31")
+                        Text(data.patientID)
                             .font(.subheadline)
                     }
                 }
-                
-                
-                
-                
                 VStack(spacing: 10) {
                     HStack {
                         Text("Age")
                             .font(.subheadline)
                             .foregroundColor(.secondary)
                         Spacer()
-                        Text("21 yrs")
+                        Text("\(Authentication().calculateAge(from: data.dob))")
                             .font(.subheadline)
                             .foregroundColor(.primary)
                     }
@@ -54,7 +51,8 @@ struct DoctorPatientInfoView: View {
                             .font(.subheadline)
                             .foregroundColor(.secondary)
                         Spacer()
-                        Text("Male")
+                
+                        Text("\(data.userId.gender)")
                             .font(.subheadline)
                             .foregroundColor(.primary)
                     }
@@ -65,7 +63,7 @@ struct DoctorPatientInfoView: View {
                             .font(.subheadline)
                             .foregroundColor(.secondary)
                         Spacer()
-                        Text("27/10/2002")
+                        Text("\(Authentication().formatDOB(dobString: data.dob))")
                             .font(.subheadline)
                             .foregroundColor(.primary)
                     }
@@ -95,26 +93,24 @@ struct DoctorPatientInfoView: View {
                         NavigationLink(destination: AppointmentInfo()) {
                             AppointmentForPatientCard()
                         }
-                       
+                        
                     }
                 }
                 
-              
+                
                 
             }
-            .navigationTitle("Appointment Information")
-            .navigationBarTitleDisplayMode(.inline)
-           
+//            .navigationTitle("Patient Information")
+//            .navigationBarTitleDisplayMode(.inline)
+            
         }
         .padding()
         .scrollIndicators(.hidden)
         
     }
-   
+    
 }
-#Preview {
-    DoctorPatientInfoView()
-}
+
 
 struct AppointmentInfo: View {
     var body: some View {
