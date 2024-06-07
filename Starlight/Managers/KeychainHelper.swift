@@ -20,7 +20,12 @@ class KeychainHelper {
         ]
 
         SecItemDelete(query as CFDictionary)
-        SecItemAdd(query as CFDictionary, nil)
+        let status = SecItemAdd(query as CFDictionary, nil)
+        if status == errSecSuccess {
+            print("Successfully saved data to keychain for key: \(key)")
+        } else {
+            print("Failed to save data to keychain for key: \(key)")
+        }
     }
 
     func read(forKey key: String) -> Data? {
@@ -32,7 +37,12 @@ class KeychainHelper {
         ]
 
         var item: CFTypeRef?
-        SecItemCopyMatching(query as CFDictionary, &item)
+        let status = SecItemCopyMatching(query as CFDictionary, &item)
+        if status == errSecSuccess {
+            print("Successfully read data from keychain for key: \(key)")
+        } else {
+            print("Failed to read data from keychain for key: \(key)")
+        }
         return item as? Data
     }
 
@@ -42,6 +52,11 @@ class KeychainHelper {
             kSecAttrAccount as String: key
         ]
 
-        SecItemDelete(query as CFDictionary)
+        let status = SecItemDelete(query as CFDictionary)
+        if status == errSecSuccess {
+            print("Successfully deleted data from keychain for key: \(key)")
+        } else {
+            print("Failed to delete data from keychain for key: \(key)")
+        }
     }
 }

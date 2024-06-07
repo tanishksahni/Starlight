@@ -14,39 +14,71 @@ enum AppointmentFilter: String, CaseIterable {
     case emergency = "Emergency"
 }
 
-
-var appointments: [Appointment] = [
-    Appointment(userName: "John Doe", userImage: UIImage(systemName: "person.fill")!, date: Date(), time: "9:00 AM", isEmergency: false),
-    Appointment(userName: "Emma Stone", userImage: UIImage(systemName: "person.fill")!, date: Date(), time: "10:30 AM", isEmergency: true),
-    Appointment(userName: "Michael Bay", userImage: UIImage(systemName: "person.fill")!, date: Date(), time: "1:45 PM", isEmergency: false),Appointment(userName: "John Doe", userImage: UIImage(systemName: "person.fill")!, date: Date(), time: "9:00 AM", isEmergency: false),
-    Appointment(userName: "Emma Stone", userImage: UIImage(systemName: "person.fill")!, date: Date(), time: "10:30 AM", isEmergency: true),
-    Appointment(userName: "Michael Bay", userImage: UIImage(systemName: "person.fill")!, date: Date(), time: "1:45 PM", isEmergency: false)
-]
-
-
-struct Appointment: Identifiable {
-    let id = UUID()
-    let userName: String
-    let userImage: UIImage
+struct Appointment: Identifiable, Codable {
+    let id: String
+    let feesType: String
+    let doctorId: Doctor?
+    let patientId: Patient?
+    let desc: String
+    let dateAndTime: Date
+    let status: String
+    
+    enum CodingKeys: String, CodingKey{
+        case id = "_id"
+        case feesType
+        case doctorId
+        case patientId
+        case desc
+        case dateAndTime
+        case status
+    }
+    
+    init(id: String? = nil, feesType: String, doctorId: Doctor, patientId: Patient, desc: String, dateAndTime: Date, status: String) {
+        self.id = id ?? UUID().uuidString
+        self.feesType = feesType
+        self.doctorId = doctorId
+        self.patientId = patientId
+        self.desc = desc
+        self.dateAndTime = dateAndTime
+        self.status = status
+    }
+    
+    init(from decoder: any Decoder) throws {
+        let container = try decoder.container(keyedBy: CodingKeys.self)
+        self.id = try container.decode(String.self, forKey: .id)
+        self.feesType = try container.decode(String.self, forKey: .feesType)
+        self.doctorId = try container.decode(Doctor.self, forKey: .doctorId)
+        self.patientId = try container.decode(Patient.self, forKey: .patientId)
+        self.desc = try container.decode(String.self, forKey: .desc)
+        self.status = try container.decode(String.self, forKey: .status)
+        
+        let dateFormatter = ISO8601DateFormatter()
+        dateFormatter.formatOptions = [.withInternetDateTime, .withFractionalSeconds]
+        
+        if let dateString = try? container.decode(String.self, forKey: .dateAndTime),
+           let date = dateFormatter.date(from: dateString) {
+            self.dateAndTime = date
+        } else {
+            throw DecodingError.dataCorruptedError(forKey: .dateAndTime, in: container, debugDescription: "Expected date string to be ISO8601-formatted.")
+        }
+    }
+}
+struct TimeSlot: Codable, Identifiable {
+    let id: String
+    let from: Date
+    let to: Date
     let date: Date
-    let time: String
-    let isEmergency: Bool
+    let isBooked: Bool
+
+    enum CodingKeys: String, CodingKey {
+        case id = "_id"
+        case from
+        case to
+        case date
+        case isBooked
+    }
 }
 
-struct PatientAppointment: Identifiable {
-    let id = UUID()
-    let doctorName: String
-    let degree: String
-    let specialty: String
-    let date: String
-    let time: String
-    let imageName: String
-    var themeColor: Color
+struct TimeSlotResponse: Codable {
+    let timeSlots: [TimeSlot]
 }
-
-let patientAppointments = [
-    PatientAppointment(doctorName: "Arvind Kumar", degree: "MBBS", specialty: "Neurology", date: "23/3/2024", time: "12:00PM", imageName: "image", themeColor: .yellow),
-    PatientAppointment(doctorName: "Priya Sharma", degree: "MD", specialty: "Cardiology", date: "25/3/2024", time: "2:00PM", imageName: "image",themeColor: .orange),
-    PatientAppointment(doctorName: "Ravi ", degree: "MD", specialty: "Orthopedics", date: "27/3/2024", time: "10:00AM", imageName: "image", themeColor: .red),
-    PatientAppointment(doctorName: "Naman Sharma ", degree: "MBBS", specialty: "Orthopedics", date: "27/3/2024", time: "10:00AM", imageName: "image", themeColor: .blue)
-]

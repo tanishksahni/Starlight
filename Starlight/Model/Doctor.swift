@@ -56,6 +56,7 @@ struct Doctor: Codable, Identifiable {
     var schedule: Schedule? 
     var workingHours: [WorkingHours]?
     var duration: Double = 30
+    var about: String?
 
     private enum CodingKeys: String, CodingKey {
         case id = "_id"
@@ -70,6 +71,7 @@ struct Doctor: Codable, Identifiable {
         case schedule
         case workingHours
         case duration
+        case about
     }
 }
 
@@ -80,4 +82,75 @@ struct Specialization: Identifiable, Codable {
     var icon: String
     var theme: Theme
     var items: [Doctor]
+}
+
+//struct WorkingHours: Codable {
+//    let from: String
+//    let to: String
+//}
+
+//enum Schedule: String, Codable, Identifiable, CaseIterable {
+//    case everyDay = "EVERY_DAY"
+//    case monSat = "MON_SAT"
+//    case custom = "CUSTOM"
+//    
+//    var id: String { self.rawValue }
+//}
+
+
+struct Slot: Codable, Identifiable {
+    let id: String
+    let from: String
+    let to: String
+    let dateAndTime: Date
+    let isBooked: Bool
+    init(id: String? = nil, from: String, to: String, dateAndTime: Date, isBooked: Bool) {
+        self.id = id ?? UUID().uuidString
+        self.from = from
+        self.to = to
+        self.dateAndTime = dateAndTime
+        self.isBooked = isBooked
+    }
+    
+    enum CodingKeys: String, CodingKey {
+        case id
+        case from
+        case to
+        case dateAndTime
+        case isBooked
+    }
+    
+    init(from decoder: Decoder) throws {
+        let container = try decoder.container(keyedBy: CodingKeys.self)
+        id = try container.decodeIfPresent(String.self, forKey: .id) ?? UUID().uuidString
+        from = try container.decode(String.self, forKey: .from)
+        to = try container.decode(String.self, forKey: .to)
+        isBooked = try container.decode(Bool.self, forKey: .isBooked)
+        
+        
+        let dateFormatter = ISO8601DateFormatter()
+        dateFormatter.formatOptions = [.withInternetDateTime, .withFractionalSeconds]
+        
+        if let dateString = try? container.decode(String.self, forKey: .dateAndTime),
+           let date = dateFormatter.date(from: dateString) {
+            self.dateAndTime = date
+        } else {
+            throw DecodingError.dataCorruptedError(forKey: .dateAndTime, in: container, debugDescription: "Expected date string to be ISO8601-formatted.")
+        }
+    }
+    
+}
+
+struct FeesType: Identifiable, Codable, Hashable {
+    let id : String
+    let type : String
+    let name : String
+    let amount : Int
+    
+    enum CodingKeys: String, CodingKey{
+        case id = "_id"
+        case type
+        case name
+        case amount
+    }
 }

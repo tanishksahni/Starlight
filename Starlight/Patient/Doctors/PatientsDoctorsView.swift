@@ -81,6 +81,16 @@ struct PatientsDoctorsView: View {
             .searchable(text: $searchText)
             
         }
+        .onAppear{
+            doctorModel.fetchDoctors { result in
+                switch result {
+                case .success(let doctors):
+                    specializationModel.categorizeDoctors(doctors: doctors)
+                case .failure(let error):
+                    print("Failed to fetch doctors: \(error.localizedDescription)")
+                }
+            }
+        }
     }
 }
 
