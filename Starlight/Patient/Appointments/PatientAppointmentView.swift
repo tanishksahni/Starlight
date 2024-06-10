@@ -11,11 +11,13 @@ struct PatientAppointmentView: View {
     
     @State private var searchText = ""
     
+    @StateObject var patientModel = PatientModel()
+    
     var body: some View {
         NavigationStack {
             ScrollView {
                 VStack(spacing: 10) {
-                    ForEach(PatientModel.shared.appointments) { appointment in
+                    ForEach(patientModel.appointments) { appointment in
                         NavigationLink(destination: PatientAppointmentCompleteView()) {
                             AppointmentCardView(appointment:appointment)
                         }
@@ -24,7 +26,7 @@ struct PatientAppointmentView: View {
                 .padding(.horizontal)
             }
             .onAppear {
-                PatientModel().fetchAppointments(){ result in
+                patientModel.fetchAppointments { result in
                     switch result {
                     case .success:
                         print("Patients appointments fetched successfully")
@@ -32,6 +34,7 @@ struct PatientAppointmentView: View {
                         print("Failed to fetch appointments for patient: \(error.localizedDescription)")
                     }
                 }
+                print(patientModel.fetchAppointments)
             }
             .navigationTitle("Appointments")
             .searchable(text: $searchText, prompt: "Search Appointments")
@@ -53,11 +56,11 @@ struct AppointmentCardView: View {
                 Spacer().frame(width: 20)
                 VStack(alignment: .leading) {
                     HStack {
-                        Text("\(String(describing: appointment.doctorId?.userId.firstName)) \(String(describing: appointment.doctorId?.userId.lastName))")
+                        Text("\(appointment.doctorId?.userId.firstName ?? "") \( appointment.doctorId?.userId.lastName ?? "")")
                             .font(.headline)
                             .foregroundColor(.primary)
                         Spacer()
-                        Text("\(String(describing: appointment.doctorId?.specialization))".uppercased(with: .autoupdatingCurrent))
+                        Text("\( appointment.doctorId?.specialization ?? "")".uppercased(with: .autoupdatingCurrent))
                             .font(.caption)
                             .fontWeight(.semibold)
                             .foregroundColor(SpecializationModel.shared.getTheme(for: appointment.doctorId?.specialization ?? "").mainColor)
