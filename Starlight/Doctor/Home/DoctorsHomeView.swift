@@ -2,7 +2,7 @@
 //  DoctorsHomeView.swift
 //  Starlight
 //
-//  Created by Tanishk Sahni on 23/05/24.
+//  Created by Akshat Gulati on 04/06/24.
 //
 
 import SwiftUI
@@ -26,7 +26,6 @@ struct DoctorsHomeView: View {
                         CurrentAppointmentCard(appointment: currentAppointment)
                     }
                     WorkingInfoCard()
-                    Spacer()
                     
                 }
             }
@@ -174,14 +173,6 @@ struct CurrentAppointmentCard: View {
 }
 
 
-
-//
-//  ContentView.swift
-//  BannerDesign
-//
-//  Created by Akshat Gulati on 04/06/24.
-//
-
 import SwiftUI
 
 struct DoctorBanner: View {
@@ -204,9 +195,6 @@ struct DoctorBanner: View {
                                 
                             }
                             Spacer()
-//                            Image(systemName: "arrow.up.right")
-//                                .foregroundColor(.white)
-//                                .font(.system(size: 30))
                             
                         }
                         
@@ -302,9 +290,3 @@ struct DoctorBanner: View {
         .padding(.horizontal, 16)
         }
 }
-
-//struct ContentView1_Previews: PreviewProvider {
-//    static var previews: some View {
-//        ContentView1()
-//    }
-//}
