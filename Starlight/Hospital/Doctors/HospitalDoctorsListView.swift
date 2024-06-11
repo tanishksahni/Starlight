@@ -76,10 +76,10 @@ struct DoctorCard: View {
             Divider()
                 .padding(.bottom, 4)
             HStack {
-                Text("\(data.schedule)")
+                Text("\(data.schedule?.rawValue ?? "" )")
                     .font(.caption)
                 Spacer()
-                Text("\(data.workingHours?.first)-\(data.workingHours?.last)")
+                Text("\(data.workingHours?.first?.workingHours.from ?? "")-\(data.workingHours?.last?.workingHours.to ?? "")")
                     .font(.caption)
             }
         }

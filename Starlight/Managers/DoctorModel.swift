@@ -97,7 +97,7 @@ class DoctorModel: ObservableObject {
         request.setValue("application/json", forHTTPHeaderField: "Content-Type");
         print("token ", APICore.shared.accessToken)
         
-//        request.setValue("Bearer \(APICore.shared.accessToken)", forHTTPHeaderField: "Authorization")
+        //        request.setValue("Bearer \(APICore.shared.accessToken)", forHTTPHeaderField: "Authorization")
         request.setValue("Bearer \(token)", forHTTPHeaderField: "Authorization")
         let task = URLSession.shared.dataTask(with: request) { data, response, error in
             if let error = error {
@@ -112,9 +112,9 @@ class DoctorModel: ObservableObject {
                 return
             }
             
-//            print("\(response)")
-//            print("\(String(data: data  , encoding: .utf8))")
-//            
+            //            print("\(response)")
+            //            print("\(String(data: data  , encoding: .utf8))")
+            //
             do {
                 let doctors = try JSONDecoder().decode([Doctor].self, from: data)
                 DispatchQueue.main.async {
@@ -171,6 +171,57 @@ class DoctorModel: ObservableObject {
                     let slotsResponse = try decoder.decode(SlotsResponse.self, from: data)
                     print(slotsResponse)
                     completion(slotsResponse.timeSlots)
+                } catch {
+                    print("Error decoding JSON: \(error)")
+                    completion(nil)
+                }
+            } else {
+                completion(nil)
+            }
+        }
+        
+        // Start URLSessionDataTask
+        task.resume()
+    }
+    func fetchAppointments(completion: @escaping ([Appointment]?) -> Void){
+//        print(Authentication.shared.currentDoctor)
+        guard let currentPatient = Authentication.shared.currentDoctor else {completion(nil)
+            return}
+        guard let url = URL(string: "\(APICore.shared.BASEURL)/appointment/doctor/\(currentPatient.id)") else {
+            completion(nil)
+            return
+        }
+        print("\(APICore.shared.BASEURL)/appointment/doctor/\(currentPatient.id)")
+        // Create URLRequest
+        var request = URLRequest(url: url)
+        request.httpMethod = "GET"
+        
+        // Add Authorization header with bearer token
+        request.addValue("Bearer \(APICore().accessToken ?? "")", forHTTPHeaderField: "Authorization")
+        
+        // Create URLSessionDataTask
+        let task = URLSession.shared.dataTask(with: request) { data, response, error in
+            // Check for errors
+            guard error == nil else {
+                completion(nil)
+                return
+            }
+            
+            // Check for response status code
+            guard let httpResponse = response as? HTTPURLResponse, (200...299).contains(httpResponse.statusCode) else {
+                completion(nil)
+                return
+            }
+            
+            // Parse JSON data into [Doctor] array
+            if let data = data {
+                do {
+                    // Decode the JSON data into an array of Doctor objects
+                    let decoder = JSONDecoder()
+                    decoder.dateDecodingStrategy = .iso8601 // Assuming dates are in ISO8601 format
+                    let slotsResponse = try decoder.decode(FetchAppointmentsResponse.self, from: data)
+                    print(slotsResponse)
+                    completion(slotsResponse.appointments)
                 } catch {
                     print("Error decoding JSON: \(error)")
                     completion(nil)
@@ -245,41 +296,41 @@ class SpecializationModel: ObservableObject {
     
     
     //MARK:  Working Info - Get Method
-
-//    func getDocWorkinfo(doctorID: String, accessToken: String, completion: @escaping (Result<[Doctor], Error>) -> Void) {
-//        
-//    }
-
+    
+    //    func getDocWorkinfo(doctorID: String, accessToken: String, completion: @escaping (Result<[Doctor], Error>) -> Void) {
+    //
+    //    }
+    
     
     //MARK:  Working Info - Put Method
     
-//    func updateDoctorSlots(doctorID: String, accessToken: String, slotInfo: [String: Any], completion: @escaping (Result<Data?, Error>) -> Void) {
-//        guard let url = URL(string: "\(APICore().BASEURL)/doctor/\(doctorID)/slots") else {
-//            print("Invalid URL")
-//            return
-//        }
-//        
-//        var request = URLRequest(url: url)
-//        request.httpMethod = "PUT"
-//        request.setValue("application/json", forHTTPHeaderField: "Content-Type")
-//        request.setValue("Bearer \(accessToken)", forHTTPHeaderField: "Authorization")
-//        
-//        do {
-//            request.httpBody = try JSONSerialization.data(withJSONObject: slotInfo, options: [])
-//        } catch {
-//            completion(.failure(error))
-//            return
-//        }
-//        
-//        URLSession.shared.dataTask(with: request) { data, response, error in
-//            if let error = error {
-//                completion(.failure(error))
-//                return
-//            }
-//            
-//            completion(.success(data))
-//        }.resume()
-//    }
+    //    func updateDoctorSlots(doctorID: String, accessToken: String, slotInfo: [String: Any], completion: @escaping (Result<Data?, Error>) -> Void) {
+    //        guard let url = URL(string: "\(APICore().BASEURL)/doctor/\(doctorID)/slots") else {
+    //            print("Invalid URL")
+    //            return
+    //        }
+    //
+    //        var request = URLRequest(url: url)
+    //        request.httpMethod = "PUT"
+    //        request.setValue("application/json", forHTTPHeaderField: "Content-Type")
+    //        request.setValue("Bearer \(accessToken)", forHTTPHeaderField: "Authorization")
+    //
+    //        do {
+    //            request.httpBody = try JSONSerialization.data(withJSONObject: slotInfo, options: [])
+    //        } catch {
+    //            completion(.failure(error))
+    //            return
+    //        }
+    //
+    //        URLSession.shared.dataTask(with: request) { data, response, error in
+    //            if let error = error {
+    //                completion(.failure(error))
+    //                return
+    //            }
+    //
+    //            completion(.success(data))
+    //        }.resume()
+    //    }
 }
 
 

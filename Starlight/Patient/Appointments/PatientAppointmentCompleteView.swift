@@ -1,13 +1,17 @@
-//
-//  PatientAppointmentCompleteView.swift
-//  Starlight
-//
-//  Created by Tanishk Sahni on 01/06/24.
+////
+////  PatientAppointmentCompleteView.swift
+////  Starlight
+////
+////  Created by Tanishk Sahni on 01/06/24.
+////
 //
 
 import SwiftUI
 
 struct PatientAppointmentCompleteView: View {
+    
+    var appointment: Appointment
+    
     var body: some View {
         ScrollView {
             VStack(alignment: .leading) {
@@ -20,10 +24,10 @@ struct PatientAppointmentCompleteView: View {
                     Spacer().frame(width: 20)
                     
                     VStack(alignment: .leading, spacing: 5) {
-                        Text("Naman Sharma")
+                        Text("\(appointment.doctorId?.userId.firstName ?? "") \(appointment.doctorId?.userId.lastName ?? "")")
                             .font(.title2)
                             .fontWeight(.medium)
-                        Text("MBBS/MD")
+                        Text(appointment.doctorId?.qualification ?? "")
                             .font(.subheadline)
                     }
                 }
@@ -33,55 +37,57 @@ struct PatientAppointmentCompleteView: View {
                             .font(.subheadline)
                             .foregroundColor(.secondary)
                         Spacer()
-                        Text("231412")
+                        Text(appointment.doctorId?.licenseNo ?? "")
                             .font(.subheadline)
                             .foregroundColor(.primary)
                     }
-                    .padding(.vertical ,8)
+                    .padding(.vertical, 8)
                     Divider()
                     HStack {
                         Text("Specialization")
                             .font(.subheadline)
                             .foregroundColor(.secondary)
                         Spacer()
-                        Text("Cardiologist")
+                        Text(appointment.doctorId?.specialization ?? "")
                             .font(.subheadline)
                             .foregroundColor(.primary)
                     }
-                    .padding(.vertical ,8)
+                    .padding(.vertical, 8)
                     Divider()
                     HStack {
                         Text("Experience")
                             .font(.subheadline)
                             .foregroundColor(.secondary)
                         Spacer()
-                        Text("20+ yrs")
+                        Text("\(appointment.doctorId?.experienceYears.map(String.init) ?? "0")")
                             .font(.subheadline)
                             .foregroundColor(.primary)
                     }
-                    .padding(.vertical ,8)
+                    .padding(.vertical, 8)
                     Divider()
                     HStack {
                         Text("Date of Appointment")
                             .font(.subheadline)
                             .foregroundColor(.secondary)
                         Spacer()
-                        Text("24 May 2024")
+                        let dateTime = separateDateAndTime(from: appointment.dateAndTime)
+                        Text("\(dateTime.date, formatter: dateFormatter)")
                             .font(.subheadline)
                             .foregroundColor(.primary)
                     }
-                    .padding(.vertical ,8)
+                    .padding(.vertical, 8)
                     Divider()
                     HStack {
                         Text("Time of Appointment")
                             .font(.subheadline)
                             .foregroundColor(.secondary)
                         Spacer()
-                        Text("9:00 AM - 10:00 AM")
+                        let dateTime = separateDateAndTime(from: appointment.dateAndTime)
+                        Text(dateTime.time)
                             .font(.subheadline)
                             .foregroundColor(.primary)
                     }
-                    .padding(.vertical ,8)
+                    .padding(.vertical, 8)
                     Divider()
                 }
                 
@@ -91,34 +97,54 @@ struct PatientAppointmentCompleteView: View {
                         .font(.headline)
                         .fontWeight(.semibold)
                     Text("Alzheimer disease is the most common form of dementia that can severely impair day-to-day function. Symptoms of Alzheimer include")
-                        .multilineTextAlignment(/*@START_MENU_TOKEN@*/.leading/*@END_MENU_TOKEN@*/)
+                        .multilineTextAlignment(.leading)
                         .padding(.vertical, 8)
                     
                     Divider()
-                        .padding(.vertical ,8)
+                        .padding(.vertical, 8)
                     
                     Text("Prescription")
                         .font(.headline)
                         .fontWeight(.semibold)
                     
                     Text("Alzheimer’s disease is the most common form of dementia that can severely impair day-to-day function. Symptoms of Alzheimer’s include:")
-                        .multilineTextAlignment(/*@START_MENU_TOKEN@*/.leading/*@END_MENU_TOKEN@*/)
+                        .multilineTextAlignment(.leading)
                         .padding(.vertical, 12)
                     
                 }
             }
             .navigationTitle("Appointment Information")
             .navigationBarTitleDisplayMode(.inline)
-            
         }
         .padding()
         .scrollIndicators(.hidden)
-        
     }
 }
 
+// Function to separate date and time
+func separateDateAndTime(from date: Date) -> (date: Date, time: String) {
+    let outputTimeFormat = "HH:mm"
+    
+    // Create DateFormatter instance for time
+    let timeOutputFormatter = DateFormatter()
+    timeOutputFormatter.dateFormat = outputTimeFormat
+    timeOutputFormatter.timeZone = TimeZone.current
 
-#Preview {
-    PatientAppointmentCompleteView()
+    // Get the time string
+    let timeString = timeOutputFormatter.string(from: date)
+    
+    // Extract date components
+    let calendar = Calendar.current
+    let components = calendar.dateComponents([.year, .month, .day], from: date)
+    let dateOnly = calendar.date(from: components)!
+    
+    return (date: dateOnly, time: timeString)
 }
+
+// DateFormatter for displaying date
+let dateFormatter: DateFormatter = {
+    let formatter = DateFormatter()
+    formatter.dateFormat = "dd-MM-yyyy"
+    return formatter
+}()
 

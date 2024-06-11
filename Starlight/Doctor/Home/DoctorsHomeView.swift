@@ -8,23 +8,30 @@
 import SwiftUI
 
 struct DoctorsHomeView: View {
+    @State private var currentAppointment: Appointment? = nil
     var body: some View {
         NavigationStack{
             ScrollView{
                 VStack{
                     WorkingInfoCard()
                     
-                    NavigationLink(destination: DoctorAppointmentCompleteView()) {
-                        CurrentAppointmentCard()
+                    NavigationLink(destination: DoctorAppointmentCompleteView(appointment: currentAppointment)) {
+                        CurrentAppointmentCard(appointment: currentAppointment)
                     }
-                   
-                        
-                    
                     Spacer()
                     
                 }
             }
             .navigationTitle("Home")
+        }
+        .onAppear{
+            DoctorModel.shared.fetchAppointments(){appointments in
+                if let appointments = appointments{
+                    self.currentAppointment = appointments.first
+                    print(appointments)
+                    print("appointments fetched")
+                }
+            }
         }
     }
 }
@@ -90,6 +97,7 @@ struct WorkingInfoCard: View {
 
 
 struct CurrentAppointmentCard: View {
+    var appointment: Appointment? = nil
     var body: some View {
         VStack(alignment: .leading){
             HStack(alignment: .lastTextBaseline) {
@@ -105,7 +113,7 @@ struct CurrentAppointmentCard: View {
                     .foregroundColor(.primary)
             }
             HStack(spacing: 16) {
-                Image("image")
+                Image("Image")
                     .resizable()
                     .clipShape(Rectangle())
                     .cornerRadius(10)
@@ -113,17 +121,17 @@ struct CurrentAppointmentCard: View {
                 
                 VStack(alignment: .leading) {
                     HStack(alignment: .lastTextBaseline) {
-                        Text("Harsh Goyal")
+                        Text("\(appointment?.patientId?.userId.firstName ?? "") \(appointment?.patientId?.userId.lastName ?? "")")
                             .font(.headline)
                             .bold()
                             .foregroundColor(.primary)
                         Spacer()
-                        Text("#23242")
+                        Text("\(appointment?.patientId?.patientID ?? "")")
                             .font(.subheadline)
                             .foregroundColor(.primary)
                     }
                     
-                    Text("20 MALE")
+                    Text("\(appointment?.patientId?.userId.gender.rawValue ?? "")")
                         .font(.subheadline)
                         .foregroundColor(.primary)
                 }
@@ -134,7 +142,7 @@ struct CurrentAppointmentCard: View {
                 Text("Description")
                     .font(.subheadline)
                     .foregroundColor(.secondary)
-                Text("The most common health issues are physical inactivity and food, obesity, tobacco, substance abuse,")
+                Text("\(appointment?.desc ?? "")")
                     .font(.caption)
                     .foregroundColor(.primary)
                     .multilineTextAlignment(/*@START_MENU_TOKEN@*/.leading/*@END_MENU_TOKEN@*/)

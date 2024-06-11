@@ -18,8 +18,8 @@ struct PatientAppointmentView: View {
             ScrollView {
                 VStack(spacing: 10) {
                     ForEach(patientModel.appointments) { appointment in
-                        NavigationLink(destination: PatientAppointmentCompleteView()) {
-                            AppointmentCardView(appointment:appointment)
+                        NavigationLink(destination: PatientAppointmentCompleteView(appointment: appointment)) {
+                            AppointmentCardView(appointment: appointment)
                         }
                     }
                 }

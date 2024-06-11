@@ -93,11 +93,24 @@ struct DoctorProfileView: View {
                     }
                     
                 }
-            }
-            .scrollIndicators(.hidden)
-            .navigationTitle("Profile")
+                Button(action: {
+                    // Handle logout action here
+                    Authentication.shared.currentDoctor = nil
+                }) {
+                    HStack {
+                        Spacer()
+                        Text("Logout")
+                            .font(.subheadline)
+                            .foregroundColor(.red)
+                        Spacer()
+                    }
+                }
+            
         }
+        .scrollIndicators(.hidden)
+        .navigationTitle("Profile")
     }
+}
 }
 
 #Preview {

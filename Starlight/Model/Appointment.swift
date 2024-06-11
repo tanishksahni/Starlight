@@ -16,7 +16,7 @@ enum AppointmentFilter: String, CaseIterable {
 
 struct Appointment: Identifiable, Codable {
     let id: String
-    let feesType: String
+    let feesType: FeesType?
     let doctorId: Doctor?
     let patientId: Patient?
     let desc: String
@@ -33,7 +33,7 @@ struct Appointment: Identifiable, Codable {
         case status
     }
     
-    init(id: String? = nil, feesType: String, doctorId: Doctor, patientId: Patient, desc: String, dateAndTime: Date, status: String) {
+    init(id: String? = nil, feesType: FeesType, doctorId: Doctor? = nil, patientId: Patient? = nil, desc: String, dateAndTime: Date, status: String) {
         self.id = id ?? UUID().uuidString
         self.feesType = feesType
         self.doctorId = doctorId
@@ -46,9 +46,9 @@ struct Appointment: Identifiable, Codable {
     init(from decoder: any Decoder) throws {
         let container = try decoder.container(keyedBy: CodingKeys.self)
         self.id = try container.decode(String.self, forKey: .id)
-        self.feesType = try container.decode(String.self, forKey: .feesType)
-        self.doctorId = try container.decode(Doctor.self, forKey: .doctorId)
-        self.patientId = try container.decode(Patient.self, forKey: .patientId)
+        self.feesType = try? container.decode(FeesType.self, forKey: .feesType)
+        self.doctorId = try? container.decode(Doctor.self, forKey: .doctorId)
+        self.patientId = try? container.decode(Patient.self, forKey: .patientId)
         self.desc = try container.decode(String.self, forKey: .desc)
         self.status = try container.decode(String.self, forKey: .status)
         
@@ -81,4 +81,9 @@ struct TimeSlot: Codable, Identifiable {
 
 struct TimeSlotResponse: Codable {
     let timeSlots: [TimeSlot]
+}
+
+struct FetchAppointmentsResponse: Codable{
+    let message: String
+    let appointments: [Appointment]
 }
