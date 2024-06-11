@@ -11,6 +11,9 @@ import SwiftUI
 struct SlotsResponse: Codable{
     let timeSlots:[Slot]
 }
+struct SuccessResponse: Codable {
+    let message: String
+}
 
 class DoctorModel: ObservableObject {
     
@@ -184,7 +187,7 @@ class DoctorModel: ObservableObject {
         task.resume()
     }
     func fetchAppointments(completion: @escaping ([Appointment]?) -> Void){
-//        print(Authentication.shared.currentDoctor)
+        //        print(Authentication.shared.currentDoctor)
         guard let currentPatient = Authentication.shared.currentDoctor else {completion(nil)
             return}
         guard let url = URL(string: "\(APICore.shared.BASEURL)/appointment/doctor/\(currentPatient.id)") else {
@@ -235,6 +238,121 @@ class DoctorModel: ObservableObject {
         task.resume()
     }
     
+    //    func updateWorkInfo(doctorId: String, from: String, to: String, duration: Int, schedule: String, completion: @escaping (Result<Void,Error>) -> Void){
+    //        guard let url = URL(string: "\(APICore.shared.BASEURL)/doctor/\(doctorId)/slots") else {
+    //            print("Invalid URL")
+    //            return
+    //        }
+    //
+    //        guard let accessToken = APICore.shared.accessToken else {
+    //            print("No access token found")
+    //            completion(.failure(NSError(domain: "", code: -1, userInfo: [NSLocalizedDescriptionKey: "No access token found"])))
+    //            return
+    //        }
+    //        print(doctorId)
+    //        var request = URLRequest(url: url)
+    //        request.httpMethod = "PATCH"
+    //        request.addValue("Bearer \(accessToken)", forHTTPHeaderField: "Authorization")
+    //        request.addValue("application/json", forHTTPHeaderField: "Content-Type")
+    //
+    //        let requestBody: [String: Any] = [
+    //            "from": from,
+    //            "to": to,
+    //            "duration": duration,
+    //            "schedule": schedule // Corrected the typo here
+    //        ]
+    //
+    //        do {
+    //            request.httpBody = try JSONSerialization.data(withJSONObject: requestBody, options: [])
+    //        } catch {
+    //            print("Failed to serialize request body: \(error.localizedDescription)")
+    //            completion(.failure(error))
+    //            return
+    //        }
+    //
+    //        let task = URLSession.shared.dataTask(with: request) { data, response, error in
+    //            if let error = error {
+    //                print("Failed to add slots: \(error.localizedDescription)")
+    //                completion(.failure(error))
+    //                return
+    //            }
+    //
+    //            guard let data = data, let response = response as? HTTPURLResponse, response.statusCode == 200 else {
+    //                print("Invalid response")
+    //                completion(.failure(NSError(domain: "", code: -1, userInfo: nil)))
+    //                return
+    //            }
+    //
+    //            completion(.success(()))
+    //            print("Slots updated successfully")
+    //        }
+    //        task.resume()
+    //    }
+    func updateWorkInfo(doctorId: String, from: String, to: String, duration: Int, schedule: String, completion: @escaping (Result<Void, Error>) -> Void) {
+        guard let url = URL(string: "\(APICore.shared.BASEURL)/doctor/\(doctorId)/slots") else {
+            print("Invalid URL")
+            return
+        }
+        
+        var request = URLRequest(url: url)
+        request.httpMethod = "PUT"
+        request.addValue("Bearer \(APICore.shared.accessToken ?? "")", forHTTPHeaderField: "Authorization")
+        request.addValue("application/json", forHTTPHeaderField: "Content-Type")
+        
+        let requestBody: [String: Any] = [
+            "from": from,
+            "to": to,
+            "duration": duration,
+            "schedule": schedule
+        ]
+        print(requestBody)
+        do {
+            request.httpBody = try JSONSerialization.data(withJSONObject: requestBody, options: [])
+        } catch {
+            print("Failed to serialize request body: \(error.localizedDescription)")
+            completion(.failure(error))
+            return
+        }
+        
+        let task = URLSession.shared.dataTask(with: request) { data, response, error in
+            if let error = error {
+                print("Failed to add slots: \(error.localizedDescription)")
+                completion(.failure(error))
+                return
+            }
+            
+            guard let data = data, let response = response as? HTTPURLResponse else {
+                print("Invalid response")
+                completion(.failure(NSError(domain: "", code: -1, userInfo: [NSLocalizedDescriptionKey: "Invalid response"])))
+                return
+            }
+            
+            print("Raw response data: \(String(data: data, encoding: .utf8) ?? "Unable to convert data to string")")
+            
+            do {
+                if response.statusCode == 200 {
+                    let decoder = JSONDecoder()
+                    let responseObject = try decoder.decode(SuccessResponse.self, from: data)
+                    if responseObject.message == "Slots added successfully" {
+                        print("Slots updated successfully")
+                        completion(.success(()))
+                    } else {
+                        print("Unexpected response message: \(responseObject.message)")
+                        completion(.failure(NSError(domain: "", code: -1, userInfo: [NSLocalizedDescriptionKey: responseObject.message])))
+                    }
+                } else {
+                    let errorResponse = try JSONSerialization.jsonObject(with: data, options: []) as? [String: Any]
+                    let errorMessage = errorResponse?["message"] as? String ?? "Unknown error"
+                    print("Server error: \(errorMessage)")
+                    completion(.failure(NSError(domain: "", code: response.statusCode, userInfo: [NSLocalizedDescriptionKey: errorMessage])))
+                }
+            } catch {
+                print("Failed to decode response: \(error.localizedDescription)")
+                completion(.failure(error))
+            }
+        }
+        task.resume()
+    }
 }
 
 
