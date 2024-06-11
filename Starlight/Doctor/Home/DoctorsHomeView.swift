@@ -13,7 +13,7 @@ struct DoctorsHomeView: View {
         NavigationStack{
             ScrollView{
                 VStack{
-                    ContentView1()
+                    DoctorBanner()
                     
                     //Current Appointment Starts Here
                     Spacer().frame(height: 16)
@@ -184,7 +184,7 @@ struct CurrentAppointmentCard: View {
 
 import SwiftUI
 
-struct ContentView1: View {
+struct DoctorBanner: View {
     var body: some View {
         VStack{
                 ZStack {
