@@ -41,15 +41,32 @@ class HealthStore: ObservableObject {
 struct PatientHomeView: View {
     @EnvironmentObject var healthStore: HealthStore
     @State private var heartRateSamples: [Double] = []
+    @StateObject var patientModel = PatientModel()
     
     var body: some View {
         NavigationStack {
             ScrollView {
-                
-                
-                
-                // MARK: HealthKit Data
-                VStack {
+                VStack(alignment: .leading) {
+                    
+                    PatientHomeBanner()
+                    Spacer().frame(height: 16)
+                    VStack(alignment: .leading) {
+                        
+                        if let appointment = patientModel.appointments.first {
+                            Text("Upcoming Appointments")
+                                .fontWeight(/*@START_MENU_TOKEN@*/.bold/*@END_MENU_TOKEN@*/)
+                                .font(.title2)
+                            AppointmentCardView(appointment: appointment)
+                        }
+                       
+                    }
+                    Spacer().frame(height: 16)
+                    Text("Your Health")
+                        .fontWeight(/*@START_MENU_TOKEN@*/.bold/*@END_MENU_TOKEN@*/)
+                        .font(.title2)
+                    
+                    
+                    // MARK: HealthKit Data
                     LazyVGrid(columns: Array(repeating: GridItem(spacing: 20), count: 2)){
                         HealthCardView(image: Image(systemName: "figure"), title: "BMI", subTitle: healthStore.bmi)
                             .frame(width: 210, height: 120)
@@ -296,5 +313,52 @@ struct HealthCardView: View {
         .padding(.horizontal, 20)
         .padding(.bottom, 10)
         .cornerRadius(15)
+    }
+}
+struct PatientHomeBanner: View {
+    var body: some View {
+        
+        ZStack {
+        
+            LinearGradient(colors: [
+                Color.red.opacity(0.75),
+                Color.red.opacity(0.7),
+                Color.red.opacity(0.6)
+            ],
+                           startPoint: .top, endPoint: .bottomTrailing)
+            VStack(alignment: .leading) {
+                HStack {
+                    VStack(alignment: .leading) {
+                        Text("Systolic:  150 mmHG")
+                            .font(.subheadline)
+                            .foregroundColor(.white)
+                        
+                        Text("Diastolic:  90 mmHG")
+                            .font(.subheadline)
+                            .foregroundColor(.white)
+                        
+                    }
+                    Spacer()
+                    //                        Image(systemName: "arrow.up.right")
+                    //                            .foregroundColor(.white)
+                    //                            .font(.system(size: 30))
+                    
+                }
+                
+                Spacer()
+                
+                Text("Abnormal Blood Pressure Detected")
+                    .foregroundColor(.white)
+                    .font(.headline)
+                    .fontWeight(/*@START_MENU_TOKEN@*/.bold/*@END_MENU_TOKEN@*/)
+            }
+            .padding()
+            
+            
+        }
+        .frame(width: .infinity, height: 150)
+        .clipShape(RoundedRectangle(cornerRadius: 12))
+        //            .padding()
+        
     }
 }

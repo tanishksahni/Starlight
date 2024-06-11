@@ -22,10 +22,10 @@ struct MainPatientView: View {
                 .tabItem {
                     Label("Appointments", systemImage: "mail.stack.fill")
                 }
-            TestsView(isAdmin: false)
-                .tabItem {
-                    Label("Tests", systemImage: "cross.case.fill")
-                }
+//            TestsView(isAdmin: false)
+//                .tabItem {
+//                    Label("Tests", systemImage: "cross.case.fill")
+//                }
             PatientProfileView()
                 .tabItem {
                     Label("Profile", systemImage: "person.crop.circle")
