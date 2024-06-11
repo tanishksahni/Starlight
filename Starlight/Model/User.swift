@@ -34,11 +34,9 @@ struct User: Codable, Identifiable {
     var password: String?
     var phone: String?
     var gender: Gender
-//    var profileImage: String?
+    var image: String?
     var bloodGroup: BloodGroup?
     var role: Role? = .patient
-//    var createdAt: String = ""
-//       var updatedAt: String = ""
     
     private enum CodingKeys: String, CodingKey {
         case id = "_id"
@@ -48,10 +46,10 @@ struct User: Codable, Identifiable {
         case password
         case phone
         case gender
-//        case profileImage
+        case image
         case bloodGroup
         case role
-//        case createdAt
-//        case updatedAt
     }
 }
+
+
