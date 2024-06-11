@@ -59,7 +59,7 @@ struct WorkingInfoCard: View {
                 
                 
                 .sheet(isPresented: $isPresentingEditingInfoCard) {
-                    DoctorEditWorkingInfoView()
+                    DoctorEditWorkingInfoView(isPresentingEditingInfoCard: $isPresentingEditingInfoCard)
                 }
                 
             }

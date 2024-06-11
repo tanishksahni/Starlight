@@ -8,27 +8,33 @@
 import SwiftUI
 
 struct DoctorEditWorkingInfoView: View {
-    @State private var selectedDay = "Everyday"
-    @State private var selectedSlot = "15 min"
-    @State private var selectedstart = "9:00 AM"
-    @State private var selectedend = "9:00 AM"
+    @State private var selectedDay = "EVERY_DAY"
+    @State private var selectedSlot = 15
+    @State private var selectedStart = "9:00 AM"
+    @State private var selectedEnd = "9:00 AM"
     @State private var isTimeSlotPickerVisible = false
     
-    let days = ["Everyday", "Mon-Fri"]
-    let slots = ["45 min", "30 min", "15 min"]
-    let start_times = ["9:00 AM" , "10:00 AM", "11:00 AM" , "12:00 PM", "1:00 PM" , "2:00 PM" , "3:00 PM" , "4:00 PM" , "5:00 PM" , "6:00 PM" , "7:00 PM"]
-    let end_times = ["9:00 AM" , "10:00 AM", "11:00 AM" , "12:00 PM", "1:00 PM" , "2:00 PM" , "3:00 PM" , "4:00 PM" , "5:00 PM" , "6:00 PM" , "7:00 PM"]
+    @Binding var isPresentingEditingInfoCard: Bool
     
+    var doctor = Authentication.shared.currentDoctor!
+    
+    let days = ["EVERY_DAY", "MON_SAT"]
+    let slots = [15, 30, 45]
+    let startTimes = ["9:00 AM", "10:00 AM", "11:00 AM", "12:00 PM", "1:00 PM", "2:00 PM", "3:00 PM", "4:00 PM", "5:00 PM", "6:00 PM", "7:00 PM"]
+    let endTimes = ["9:00 AM", "10:00 AM", "11:00 AM", "12:00 PM", "1:00 PM", "2:00 PM", "3:00 PM", "4:00 PM", "5:00 PM", "6:00 PM", "7:00 PM"]
+
+    var formattedSlots: [String] {
+        return slots.map { "\($0) min" }
+    }
+
     var body: some View {
-        NavigationView{
+        NavigationView {
             ScrollView {
                 VStack(alignment: .center, spacing: 50) {
-                    
                     VStack {
                         HStack {
                             Text("Days")
                             Spacer()
-                            
                             Picker("Days", selection: $selectedDay) {
                                 ForEach(days, id: \.self) { day in
                                     Text(day).tag(day)
@@ -36,7 +42,6 @@ struct DoctorEditWorkingInfoView: View {
                             }
                             .pickerStyle(MenuPickerStyle())
                             .accentColor(.gray)
-                            .menuIndicator(.hidden)
                         }
                         Divider()
                         HStack {
@@ -44,66 +49,69 @@ struct DoctorEditWorkingInfoView: View {
                             Spacer()
                             Picker("Slots", selection: $selectedSlot) {
                                 ForEach(slots, id: \.self) { slot in
-                                    Text(slot).tag(slot)
-                                        .foregroundColor(Color(UIColor.gray))
+                                    Text("\(slot) min").tag(slot)
                                 }
                             }
                             .pickerStyle(MenuPickerStyle())
                             .accentColor(.gray)
-                            .menuIndicator(.hidden)
-//                            .foregroundColor(Color.gray)
                         }
                         Divider()
                         HStack {
                             Text("Start Time")
                             Spacer()
-                            Picker("Times", selection: $selectedstart) {
-                                ForEach(start_times, id: \.self) { time in
+                            Picker("Times", selection: $selectedStart) {
+                                ForEach(startTimes, id: \.self) { time in
                                     Text(time).tag(time)
                                 }
                             }
                             .pickerStyle(MenuPickerStyle())
                             .accentColor(.gray)
-                            .menuIndicator(.hidden)
-                            
                         }
                         Divider()
                         HStack {
                             Text("End Time")
                             Spacer()
-                            Picker("Times", selection: $selectedend) {
-                                ForEach(end_times, id: \.self) { time in
+                            Picker("Times", selection: $selectedEnd) {
+                                ForEach(endTimes, id: \.self) { time in
                                     Text(time).tag(time)
                                 }
                             }
                             .pickerStyle(MenuPickerStyle())
                             .accentColor(.gray)
-                            .menuIndicator(.hidden)
-                            
                         }
                     }
                     .padding(.horizontal, 20)
-                    
                 }
                 .navigationTitle("Update info")
                 .toolbarTitleDisplayMode(.inline)
-                .toolbar{
-                    ToolbarItem(placement: .topBarLeading, content: {
-                        Text("Cancel")
-                            .foregroundColor(.blue)
-                    })
-                    ToolbarItem(placement: .topBarTrailing, content: {
-                        Text("Done")
-                            .foregroundColor(.blue)
-                            .fontWeight(.bold)
-                    })
-            }
+                .toolbar {
+                    ToolbarItem(placement: .navigationBarLeading) {
+                        Button(action: {
+                            isPresentingEditingInfoCard.toggle()
+                        }) {
+                            Text("Cancel")
+                                .foregroundColor(.blue)
+                        }
+                    }
+                    ToolbarItem(placement: .navigationBarTrailing) {
+                        Button(action: {
+                            DoctorModel().updateWorkInfo(doctorId: doctor.id, from: selectedStart, to: selectedEnd, duration: selectedSlot, schedule: selectedDay) { result in
+                                switch result {
+                                case .success(let doctors):
+                                    print("Hey, I got your response")
+                                case .failure(let error):
+                                    print("Failed to update information: \(error.localizedDescription)")
+                                }
+                            }
+                            isPresentingEditingInfoCard.toggle()
+                        }) {
+                            Text("Done")
+                                .foregroundColor(.blue)
+                                .fontWeight(.bold)
+                        }
+                    }
+                }
             }
         }
     }
-}
-
-
-#Preview {
-    DoctorEditWorkingInfoView()
 }
