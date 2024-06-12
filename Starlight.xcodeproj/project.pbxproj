@@ -7,6 +7,7 @@
 	objects = {
 
 /* Begin PBXBuildFile section */
+		18BDB4812C16DF29003C702F /* HospitalModel.swift in Sources */ = {isa = PBXBuildFile; fileRef = 18BDB4802C16DF29003C702F /* HospitalModel.swift */; };
 		CE026A112C0F815E0006C2D1 /* PatientModel.swift in Sources */ = {isa = PBXBuildFile; fileRef = CE026A102C0F815E0006C2D1 /* PatientModel.swift */; };
 		CE026A132C1161820006C2D1 /* KeychainHelper.swift in Sources */ = {isa = PBXBuildFile; fileRef = CE026A122C1161820006C2D1 /* KeychainHelper.swift */; };
 		CE026A172C12ACB70006C2D1 /* TimeSlotViewModel.swift in Sources */ = {isa = PBXBuildFile; fileRef = CE026A162C12ACB70006C2D1 /* TimeSlotViewModel.swift */; };
@@ -55,6 +56,7 @@
 /* End PBXBuildFile section */
 
 /* Begin PBXFileReference section */
+		18BDB4802C16DF29003C702F /* HospitalModel.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = HospitalModel.swift; sourceTree = "<group>"; };
 		CE026A102C0F815E0006C2D1 /* PatientModel.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = PatientModel.swift; sourceTree = "<group>"; };
 		CE026A122C1161820006C2D1 /* KeychainHelper.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = KeychainHelper.swift; sourceTree = "<group>"; };
 		CE026A162C12ACB70006C2D1 /* TimeSlotViewModel.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = TimeSlotViewModel.swift; sourceTree = "<group>"; };
@@ -171,6 +173,7 @@
 				CE026A102C0F815E0006C2D1 /* PatientModel.swift */,
 				CE026A122C1161820006C2D1 /* KeychainHelper.swift */,
 				CE026A162C12ACB70006C2D1 /* TimeSlotViewModel.swift */,
+				18BDB4802C16DF29003C702F /* HospitalModel.swift */,
 			);
 			path = Managers;
 			sourceTree = "<group>";
@@ -465,6 +468,7 @@
 				CE630B9D2C099F4D00B05403 /* Appointment.swift in Sources */,
 				CE630B902C09813A00B05403 /* PatientAppointmentBookingConfirmationView.swift in Sources */,
 				CE630B992C099D6400B05403 /* PatientCardView.swift in Sources */,
+				18BDB4812C16DF29003C702F /* HospitalModel.swift in Sources */,
 				CE630BA32C09F6BB00B05403 /* MedicalTest.swift in Sources */,
 				CE64358E2BFF38CE0014A536 /* PatientsDoctorsView.swift in Sources */,
 				CE630B9B2C099D8200B05403 /* Patient.swift in Sources */,

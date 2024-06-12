@@ -46,3 +46,7 @@ struct PatientCardView: View {
         )
     }
 }
+
+#Preview{
+    PatientCardView(data: Patient(id: "dasdf", userId: User(id: "sdf", firstName: "Aman", lastName: "aman", email: "sfd", password: "sdf", phone: "sdf", gender: .female, bloodGroup: .ABMinus, role: .doctor), hospitalId: "sdf", dob: "sdfs", height: 34, weight: 43, address: "sdfs", patientID: "sdfsdf"))
+}

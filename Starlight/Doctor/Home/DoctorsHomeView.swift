@@ -2,29 +2,43 @@
 //  DoctorsHomeView.swift
 //  Starlight
 //
-//  Created by Tanishk Sahni on 23/05/24.
+//  Created by Akshat Gulati on 04/06/24.
 //
 
 import SwiftUI
 
 struct DoctorsHomeView: View {
+    @State private var currentAppointment: Appointment? = nil
     var body: some View {
         NavigationStack{
             ScrollView{
                 VStack{
-                    WorkingInfoCard()
+                    DoctorBanner()
                     
-                    NavigationLink(destination: DoctorAppointmentCompleteView()) {
-                        CurrentAppointmentCard()
+                    //Current Appointment Starts Here
+                    Spacer().frame(height: 16)
+                    Text("Current Appointment")
+                        .font(.title2)
+                        .fontWeight(/*@START_MENU_TOKEN@*/.bold/*@END_MENU_TOKEN@*/)
+                        .frame(maxWidth: .infinity, alignment: .leading)
+                        .padding(.horizontal, 16)
+                    NavigationLink(destination: DoctorAppointmentCompleteView(appointment: currentAppointment)) {
+                        CurrentAppointmentCard(appointment: currentAppointment)
                     }
-                   
-                        
-                    
-                    Spacer()
+                    WorkingInfoCard()
                     
                 }
             }
             .navigationTitle("Home")
+        }
+        .onAppear{
+            DoctorModel.shared.fetchAppointments(){appointments in
+                if let appointments = appointments{
+                    self.currentAppointment = appointments.first
+                    print(appointments)
+                    print("appointments fetched")
+                }
+            }
         }
     }
 }
@@ -47,12 +61,12 @@ struct WorkingInfoCard: View {
                 Button(action: {
                     isPresentingEditingInfoCard.toggle()
                 }) {
-                   Text("Edit")
+                    Text("Edit")
                 }
                 
                 
                 .sheet(isPresented: $isPresentingEditingInfoCard) {
-                    DoctorEditWorkingInfoView()
+                    DoctorEditWorkingInfoView(isPresentingEditingInfoCard: $isPresentingEditingInfoCard)
                 }
                 
             }
@@ -90,6 +104,7 @@ struct WorkingInfoCard: View {
 
 
 struct CurrentAppointmentCard: View {
+    var appointment: Appointment? = nil
     var body: some View {
         VStack(alignment: .leading){
             HStack(alignment: .lastTextBaseline) {
@@ -105,7 +120,7 @@ struct CurrentAppointmentCard: View {
                     .foregroundColor(.primary)
             }
             HStack(spacing: 16) {
-                Image("image")
+                Image("Image")
                     .resizable()
                     .clipShape(Rectangle())
                     .cornerRadius(10)
@@ -113,17 +128,17 @@ struct CurrentAppointmentCard: View {
                 
                 VStack(alignment: .leading) {
                     HStack(alignment: .lastTextBaseline) {
-                        Text("Harsh Goyal")
+                        Text("\(appointment?.patientId?.userId.firstName ?? "") \(appointment?.patientId?.userId.lastName ?? "")")
                             .font(.headline)
                             .bold()
                             .foregroundColor(.primary)
                         Spacer()
-                        Text("#23242")
+                        Text("\(appointment?.patientId?.patientID ?? "")")
                             .font(.subheadline)
                             .foregroundColor(.primary)
                     }
                     
-                    Text("20 MALE")
+                    Text("\(appointment?.patientId?.userId.gender.rawValue ?? "")")
                         .font(.subheadline)
                         .foregroundColor(.primary)
                 }
@@ -134,7 +149,7 @@ struct CurrentAppointmentCard: View {
                 Text("Description")
                     .font(.subheadline)
                     .foregroundColor(.secondary)
-                Text("The most common health issues are physical inactivity and food, obesity, tobacco, substance abuse,")
+                Text("\(appointment?.desc ?? "")")
                     .font(.caption)
                     .foregroundColor(.primary)
                     .multilineTextAlignment(/*@START_MENU_TOKEN@*/.leading/*@END_MENU_TOKEN@*/)
@@ -145,7 +160,8 @@ struct CurrentAppointmentCard: View {
         .background(Color.white)
         .cornerRadius(10)
         .shadow(color: Color.black.opacity(0.2), radius: 5, x: 0, y: 2)
-        .safeAreaPadding()
+        .safeAreaPadding(.horizontal, 16)
+        //        .safeAreaPadding()
         
     }
     func formattedDate() -> String {
@@ -158,142 +174,99 @@ struct CurrentAppointmentCard: View {
 
 
 
-//
-//  ContentView.swift
-//  BannerDesign
-//
-//  Created by Akshat Gulati on 04/06/24.
-//
-
-import SwiftUI
-
-struct ContentView1: View {
+struct DoctorBanner: View {
     var body: some View {
-        VStack{
-                ZStack {
-                    LinearGradient(colors: [
-                        Color.green.opacity(0.7),
-                        Color.green.opacity(0.6),
-                        Color.green.opacity(0.65)
-                    ],
-                                   startPoint: .top, endPoint: .bottom)
+        VStack {
+            VStack(alignment: .leading) {
+                HStack {
                     VStack(alignment: .leading) {
-                        HStack {
-                            VStack(alignment: .leading) {
-                                Text("Total Patients Served")
-                                    .font(.title3)
-                                    .foregroundColor(.white)
-                                
-                                
-                            }
-                            Spacer()
-                            Image(systemName: "arrow.up.right")
-                                .foregroundColor(.white)
-                                .font(.system(size: 30))
-                            
-                        }
-                        
-                       Spacer()
-                        
-                        Text("100")
+                        Text("Total Patients Served")
+                            .font(.title3)
                             .foregroundColor(.white)
-                            .font(.title)
-                            .fontWeight(/*@START_MENU_TOKEN@*/.bold/*@END_MENU_TOKEN@*/)
-                        
-                            
-                        
                     }
-                    .padding()
+                    Spacer()
                 }
-                
-                .frame(width: .infinity, height: 150)
-                .clipShape(RoundedRectangle(cornerRadius: 12))
-
-            //2nd Row Code starts
-            HStack{
-                
-            //1st Horizontal Cell
-                ZStack {
-                    LinearGradient(colors: [
-                        Color.blue.opacity(0.7),
-                        Color.blue.opacity(0.6),
-                        Color.blue.opacity(0.65)
-                    ],
-                                   startPoint: .top, endPoint: .bottom)
-                    VStack(alignment: .leading) {
-                        HStack {
-                                Text("10")
-                                    .font(.title3)
-                                    .foregroundColor(.white)
-                            Spacer()
-
-                                Text("4 June")
-                                    .font(.subheadline)
-                                    .foregroundColor(.white)
-                        }
-                       Spacer()
+                Spacer()
+                Text("100")
+                    .foregroundColor(.white)
+                    .font(.largeTitle)
+                    .fontWeight(.bold)
+            }
+            .padding()
+            .frame(maxWidth: .infinity )
+            .background(
+                LinearGradient(colors: [
+                    Color.green.opacity(0.75),
+                    Color.green.opacity(0.6),
+                ], startPoint: .top, endPoint: .bottomTrailing)
+            )
+            .clipShape(RoundedRectangle(cornerRadius: 12))
+            .frame(height: 130)
+            
+            // 2nd Row
+            HStack {
+                // 1st Horizontal Cell
+                VStack(alignment: .leading) {
+                    HStack {
                         Text("Today")
                             .foregroundColor(.white)
                             .font(.title3)
-                            .fontWeight(/*@START_MENU_TOKEN@*/.bold/*@END_MENU_TOKEN@*/)
+//                            .fontWeight(.bold)
                         
+                        Spacer()
+                        Text("4 June")
+                            .font(.subheadline)
+                            .foregroundColor(.white)
                     }
-                    .padding()
+                    Spacer()
+                    Text("10")
+                        .font(.title)
+                        .foregroundColor(.white)
+                        .fontWeight(.bold)
                 }
-                
-                .frame(width: .infinity, height: 150)
-                .clipShape(RoundedRectangle(cornerRadius: 12))
-                //1st Horizontal Cell ends here
-                
-                //2nd Horizontal Cell
-                ZStack {
+                .padding()
+                .frame(maxWidth: .infinity)
+                .background(
                     LinearGradient(colors: [
-                        Color.orange.opacity(0.7),
-                        Color.orange.opacity(0.6),
-                        Color.orange.opacity(0.65)
-                    ],
-                                   startPoint: .top, endPoint: .bottom)
+                        Color.blue.opacity(0.75),
+                        Color.blue.opacity(0.6),
+                    ], startPoint: .top, endPoint: .bottomTrailing)
+                )
+                .clipShape(RoundedRectangle(cornerRadius: 12))
+                .frame(height: 120)
+                
+                
+                // 2nd Horizontal Cell
+                HStack{
                     VStack(alignment: .leading) {
-                        HStack {
-                            VStack(alignment: .leading) {
-                                Text("10")
-                                    .font(.title3)
-                                    .foregroundColor(.white)
-                                
-                            }
-                            Spacer()
-                            
-                        }
-                        
-                       Spacer()
-                        
                         Text("Pending")
                             .foregroundColor(.white)
                             .font(.title3)
-                            .fontWeight(/*@START_MENU_TOKEN@*/.bold/*@END_MENU_TOKEN@*/)
+                            
+                        Spacer()
+                        Text("10")
+                            .font(.title)
+                            .foregroundColor(.white)
+                            .fontWeight(.bold)
                     }
-                    .padding()
+                    Spacer()
                 }
-                .frame(width: .infinity, height: 150)
+                
+                .padding()
+                .frame(maxWidth: .infinity)
+               
+                .background(
+                    LinearGradient(colors: [
+                        Color.orange.opacity(0.75),
+                        Color.orange.opacity(0.6),
+                    ], startPoint: .top, endPoint: .bottomTrailing)
+                )
                 .clipShape(RoundedRectangle(cornerRadius: 12))
-                //2nd Horizontal Cell ends here
+                .frame(height: 120)
+                
+                
             }
-            //2nd row end
-            
-            //Current Appointment Starts Here
-            Spacer().frame(height: 16)
-                Text("Current Appointment")
-                .font(.title2)
-                .fontWeight(/*@START_MENU_TOKEN@*/.bold/*@END_MENU_TOKEN@*/)
-                .frame(maxWidth: .infinity, alignment: .leading)
-            }
-        
-        .padding()
         }
-}
-
-struct ContentView1_Previews: PreviewProvider {
-    static var previews: some View {
-        ContentView1()
+        .padding(.horizontal, 16)
     }
 }

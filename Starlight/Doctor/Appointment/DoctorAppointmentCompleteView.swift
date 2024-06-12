@@ -12,6 +12,8 @@ struct DoctorAppointmentCompleteView: View {
     @State private var prescription = ""
     @State private var tests = [String]()
     @State private var isTestSelectionPresented = false
+    @State var appointment: Appointment? = nil
+    @State private var patient: Patient? = nil
     
     var body: some View {
         ScrollView {
@@ -30,7 +32,7 @@ struct DoctorAppointmentCompleteView: View {
                     Spacer().frame(width: 20)
                     
                     VStack(alignment: .leading, spacing: 5) {
-                        Text("Naman Sharma")
+                        Text(patient?.userId.firstName ?? "Naman Sharma")
                             .font(.title2)
                             .fontWeight(.medium)
                         Text("#sbhb12hb31")
@@ -58,7 +60,7 @@ struct DoctorAppointmentCompleteView: View {
                             .font(.subheadline)
                             .foregroundColor(.secondary)
                         Spacer()
-                        Text("Male")
+                        Text(patient?.userId.gender.rawValue ?? "Male")
                             .font(.subheadline)
                             .foregroundColor(.primary)
                     }
@@ -80,7 +82,7 @@ struct DoctorAppointmentCompleteView: View {
                             .font(.subheadline)
                             .foregroundColor(.secondary)
                         Spacer()
-                        Text("24 May 2024")
+                        Text(dateFormatter.string(from:appointment!.dateAndTime) ?? "24 May 2024")
                             .font(.subheadline)
                             .foregroundColor(.primary)
                     }
@@ -206,11 +208,20 @@ struct DoctorAppointmentCompleteView: View {
             .sheet(isPresented: $isTestSelectionPresented) {
                 TestSelectionView(selectedTests: $tests)
             }
+            .onAppear{
+                self.patient = appointment?.patientId
+            }
         }
         .padding()
         .scrollIndicators(.hidden)
         
     }
+    
+    let dateFormatter: DateFormatter = {
+        let formatter = DateFormatter()
+        formatter.dateFormat = "dd-MM-yyyy"
+        return formatter
+    }()
 }
 
 struct TestSelectionView: View {
