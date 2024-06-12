@@ -2,7 +2,7 @@
 //  DoctorsHomeView.swift
 //  Starlight
 //
-//  Created by Tanishk Sahni on 23/05/24.
+//  Created by Akshat Gulati on 04/06/24.
 //
 
 import SwiftUI
@@ -13,12 +13,19 @@ struct DoctorsHomeView: View {
         NavigationStack{
             ScrollView{
                 VStack{
-                    WorkingInfoCard()
+                    DoctorBanner()
                     
+                    //Current Appointment Starts Here
+                    Spacer().frame(height: 16)
+                        Text("Current Appointment")
+                        .font(.title2)
+                        .fontWeight(/*@START_MENU_TOKEN@*/.bold/*@END_MENU_TOKEN@*/)
+                        .frame(maxWidth: .infinity, alignment: .leading)
+                        .padding(.horizontal, 16)
                     NavigationLink(destination: DoctorAppointmentCompleteView(appointment: currentAppointment)) {
                         CurrentAppointmentCard(appointment: currentAppointment)
                     }
-                    Spacer()
+                    WorkingInfoCard()
                     
                 }
             }
@@ -153,7 +160,8 @@ struct CurrentAppointmentCard: View {
         .background(Color.white)
         .cornerRadius(10)
         .shadow(color: Color.black.opacity(0.2), radius: 5, x: 0, y: 2)
-        .safeAreaPadding()
+        .safeAreaPadding(.horizontal, 16)
+//        .safeAreaPadding()
         
     }
     func formattedDate() -> String {
@@ -165,17 +173,9 @@ struct CurrentAppointmentCard: View {
 }
 
 
-
-//
-//  ContentView.swift
-//  BannerDesign
-//
-//  Created by Akshat Gulati on 04/06/24.
-//
-
 import SwiftUI
 
-struct ContentView1: View {
+struct DoctorBanner: View {
     var body: some View {
         VStack{
                 ZStack {
@@ -195,9 +195,6 @@ struct ContentView1: View {
                                 
                             }
                             Spacer()
-                            Image(systemName: "arrow.up.right")
-                                .foregroundColor(.white)
-                                .font(.system(size: 30))
                             
                         }
                         
@@ -287,21 +284,9 @@ struct ContentView1: View {
                 //2nd Horizontal Cell ends here
             }
             //2nd row end
-            
-            //Current Appointment Starts Here
-            Spacer().frame(height: 16)
-                Text("Current Appointment")
-                .font(.title2)
-                .fontWeight(/*@START_MENU_TOKEN@*/.bold/*@END_MENU_TOKEN@*/)
-                .frame(maxWidth: .infinity, alignment: .leading)
+
             }
         
-        .padding()
+        .padding(.horizontal, 16)
         }
-}
-
-struct ContentView1_Previews: PreviewProvider {
-    static var previews: some View {
-        ContentView1()
-    }
 }
