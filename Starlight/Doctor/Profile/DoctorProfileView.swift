@@ -8,10 +8,12 @@
 import SwiftUI
 
 struct DoctorProfileView: View {
+    
+    private var doctor = Authentication().currentDoctor
+    
     var body: some View {
         NavigationStack{
             List {
-                
                 VStack(alignment: .leading) {
                     HStack {
                         Image(systemName: "person.circle.fill")
@@ -20,10 +22,10 @@ struct DoctorProfileView: View {
                             .clipShape(Circle())
                         Spacer().frame(width: 20)
                         VStack(alignment: .leading) {
-                            Text("Rajit chaudhary")
+                            Text("\(doctor?.userId.firstName ?? "") \(doctor?.userId.lastName ?? "")")
                                 .font(.title2)
                                 .fontWeight(.bold)
-                            Text("MBBS")
+                            Text(doctor?.qualification ?? "")
                                 .font(.subheadline)
                                 .foregroundColor(.primary)
                         }
@@ -32,11 +34,11 @@ struct DoctorProfileView: View {
                     Divider()
                     
                     HStack{
-                        Text("Date of Joining")
+                        Text("Doctor Id")
                             .font(.subheadline)
                             .foregroundColor(.primary)
                         Spacer()
-                        Text("January 1, 2020")
+                        Text(doctor?.id ?? "")
                             .font(.subheadline)
                             .foregroundColor(.primary)
                     }
@@ -50,7 +52,7 @@ struct DoctorProfileView: View {
                             .font(.subheadline)
                             .foregroundColor(.secondary)
                         Spacer()
-                        Text("Cardiologist")
+                        Text(doctor?.specialization ?? "")
                             .font(.subheadline)
                             .foregroundColor(.primary)
                     }
@@ -63,7 +65,7 @@ struct DoctorProfileView: View {
                             .font(.subheadline)
                             .foregroundColor(.secondary)
                         Spacer()
-                        Text("7567537654362")
+                        Text(doctor?.licenseNo ?? "")
                             .font(.subheadline)
                             .foregroundColor(.primary)
                     }
@@ -78,19 +80,19 @@ struct DoctorProfileView: View {
                             .font(.subheadline)
                             .foregroundColor(.secondary)
                         Spacer()
-                        Text("rajit1129.be21@chitkara.edu.in")
+                        Text(doctor?.userId.email ?? "")
                             .font(.subheadline)
                             .foregroundColor(.primary)
                     }
-                    HStack{
-                        Text("Mobile")
-                            .font(.subheadline)
-                            .foregroundColor(.secondary)
-                        Spacer()
-                        Text("7900073075")
-                            .font(.subheadline)
-                            .foregroundColor(.primary)
-                    }
+//                    HStack{
+//                        Text("Mobile")
+//                            .font(.subheadline)
+//                            .foregroundColor(.secondary)
+//                        Spacer()
+//                        Text("7900073075")
+//                            .font(.subheadline)
+//                            .foregroundColor(.primary)
+//                    }
                     
                 }
                 Button(action: {

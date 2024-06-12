@@ -6,8 +6,11 @@
 //
 
 import SwiftUI
+import Foundation
 
 struct PatientProfileView: View {
+    
+    private var patient = Authentication().currentPatient
     var body: some View {
         NavigationView {
             List {
@@ -21,10 +24,10 @@ struct PatientProfileView: View {
                                 .clipShape(Circle())
                             Spacer().frame(width: 20)
                             VStack(alignment: .leading) {
-                                Text("Rajit Chaudhary")
+                                Text("\(patient?.userId.firstName ?? "") \(patient?.userId.lastName ?? "")")
                                     .font(.title2)
                                     .fontWeight(.bold)
-                                Text("rajit1129.be21@chitkara.edu.in")
+                                Text(patient?.userId.email ?? "")
                                     .font(.subheadline)
                                     .foregroundColor(.primary)
                             }
@@ -36,7 +39,7 @@ struct PatientProfileView: View {
                                 .font(.subheadline)
                                 .foregroundColor(.primary)
                             Spacer()
-                            Text("45678")
+                            Text(patient?.patientID ?? "")
                                 .font(.subheadline)
                                 .foregroundColor(.primary)
                         }
@@ -52,7 +55,10 @@ struct PatientProfileView: View {
                             .font(.subheadline)
                             .foregroundColor(.gray)
                         Spacer()
-                        Text("01/01/2000")
+                        // Convert dob string to Date
+                      
+                        
+                        Text(formatdate(date: patient?.dob ?? "") ?? "")
                             .font(.subheadline)
                             .foregroundColor(.primary)
                     }
@@ -63,7 +69,7 @@ struct PatientProfileView: View {
                             .font(.subheadline)
                             .foregroundColor(.gray)
                         Spacer()
-                        Text("20")
+                        Text("\(Authentication().calculateAge(from: formatdate(date: patient?.dob ?? "") ?? "")!)")
                             .font(.subheadline)
                             .foregroundColor(.primary)
                     }
@@ -74,7 +80,7 @@ struct PatientProfileView: View {
                             .font(.subheadline)
                             .foregroundColor(.gray)
                         Spacer()
-                        Text("Male")
+                        Text(patient?.userId.gender.rawValue ?? "")
                             .font(.subheadline)
                             .foregroundColor(.primary)
                     }
@@ -88,28 +94,44 @@ struct PatientProfileView: View {
                             .font(.subheadline)
                             .foregroundColor(.gray)
                         Spacer()
-                        Text("rajit@gmail.com")
+                        Text(patient?.userId.email ?? "")
                             .font(.subheadline)
                             .foregroundColor(.primary)
                     }
                     .padding(.vertical, 2)
                     
-                    HStack {
-                        Text("Mobile no")
-                            .font(.subheadline)
-                            .foregroundColor(.gray)
-                        Spacer()
-                        Text("123456789")
-                            .font(.subheadline)
-                            .foregroundColor(.primary)
-                    }
-                    .padding(.vertical, 2)
+//                    HStack {
+//                        Text("Mobile no")
+//                            .font(.subheadline)
+//                            .foregroundColor(.gray)
+//                        Spacer()
+//                        Text(patient?.userId.c)
+//                            .font(.subheadline)
+//                            .foregroundColor(.primary)
+//                    }
+//                    .padding(.vertical, 2)
                 }
             }
             .scrollIndicators(.hidden)
             .navigationTitle("Profile")
         }
     }
+    func formatdate(date: String) -> String? {
+        let dateFormatter = DateFormatter()
+        dateFormatter.dateFormat = "yyyy-MM-dd'T'HH:mm:ss.SSSZ"
+        
+        guard let dateObj = dateFormatter.date(from: date) else {
+            print("Invalid date format")
+            return nil
+        }
+        
+        dateFormatter.dateFormat = "yyyy-MM-dd"
+        let formattedDate = dateFormatter.string(from: dateObj)
+        
+        return formattedDate
+    }
+
+    
 }
 
 #Preview {

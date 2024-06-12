@@ -17,7 +17,7 @@ struct DoctorsHomeView: View {
                     
                     //Current Appointment Starts Here
                     Spacer().frame(height: 16)
-                        Text("Current Appointment")
+                    Text("Current Appointment")
                         .font(.title2)
                         .fontWeight(/*@START_MENU_TOKEN@*/.bold/*@END_MENU_TOKEN@*/)
                         .frame(maxWidth: .infinity, alignment: .leading)
@@ -61,7 +61,7 @@ struct WorkingInfoCard: View {
                 Button(action: {
                     isPresentingEditingInfoCard.toggle()
                 }) {
-                   Text("Edit")
+                    Text("Edit")
                 }
                 
                 
@@ -161,7 +161,7 @@ struct CurrentAppointmentCard: View {
         .cornerRadius(10)
         .shadow(color: Color.black.opacity(0.2), radius: 5, x: 0, y: 2)
         .safeAreaPadding(.horizontal, 16)
-//        .safeAreaPadding()
+        //        .safeAreaPadding()
         
     }
     func formattedDate() -> String {
@@ -173,120 +173,100 @@ struct CurrentAppointmentCard: View {
 }
 
 
-import SwiftUI
 
 struct DoctorBanner: View {
     var body: some View {
-        VStack{
-                ZStack {
-                    LinearGradient(colors: [
-                        Color.green.opacity(0.7),
-                        Color.green.opacity(0.6),
-                        Color.green.opacity(0.65)
-                    ],
-                                   startPoint: .top, endPoint: .bottom)
+        VStack {
+            VStack(alignment: .leading) {
+                HStack {
                     VStack(alignment: .leading) {
-                        HStack {
-                            VStack(alignment: .leading) {
-                                Text("Total Patients Served")
-                                    .font(.title3)
-                                    .foregroundColor(.white)
-                                
-                                
-                            }
-                            Spacer()
-                            
-                        }
-                        
-                       Spacer()
-                        
-                        Text("100")
+                        Text("Total Patients Served")
+                            .font(.title3)
                             .foregroundColor(.white)
-                            .font(.title)
-                            .fontWeight(/*@START_MENU_TOKEN@*/.bold/*@END_MENU_TOKEN@*/)
-                        
-                            
-                        
                     }
-                    .padding()
+                    Spacer()
                 }
-                
-                .frame(width: .infinity, height: 150)
-                .clipShape(RoundedRectangle(cornerRadius: 12))
-
-            //2nd Row Code starts
-            HStack{
-                
-            //1st Horizontal Cell
-                ZStack {
-                    LinearGradient(colors: [
-                        Color.blue.opacity(0.7),
-                        Color.blue.opacity(0.6),
-                        Color.blue.opacity(0.65)
-                    ],
-                                   startPoint: .top, endPoint: .bottom)
-                    VStack(alignment: .leading) {
-                        HStack {
-                                Text("10")
-                                    .font(.title3)
-                                    .foregroundColor(.white)
-                            Spacer()
-
-                                Text("4 June")
-                                    .font(.subheadline)
-                                    .foregroundColor(.white)
-                        }
-                       Spacer()
+                Spacer()
+                Text("100")
+                    .foregroundColor(.white)
+                    .font(.largeTitle)
+                    .fontWeight(.bold)
+            }
+            .padding()
+            .frame(maxWidth: .infinity )
+            .background(
+                LinearGradient(colors: [
+                    Color.green.opacity(0.75),
+                    Color.green.opacity(0.6),
+                ], startPoint: .top, endPoint: .bottomTrailing)
+            )
+            .clipShape(RoundedRectangle(cornerRadius: 12))
+            .frame(height: 130)
+            
+            // 2nd Row
+            HStack {
+                // 1st Horizontal Cell
+                VStack(alignment: .leading) {
+                    HStack {
                         Text("Today")
                             .foregroundColor(.white)
                             .font(.title3)
-                            .fontWeight(/*@START_MENU_TOKEN@*/.bold/*@END_MENU_TOKEN@*/)
+//                            .fontWeight(.bold)
                         
+                        Spacer()
+                        Text("4 June")
+                            .font(.subheadline)
+                            .foregroundColor(.white)
                     }
-                    .padding()
+                    Spacer()
+                    Text("10")
+                        .font(.title)
+                        .foregroundColor(.white)
+                        .fontWeight(.bold)
                 }
-                
-                .frame(width: .infinity, height: 150)
-                .clipShape(RoundedRectangle(cornerRadius: 12))
-                //1st Horizontal Cell ends here
-                
-                //2nd Horizontal Cell
-                ZStack {
+                .padding()
+                .frame(maxWidth: .infinity)
+                .background(
                     LinearGradient(colors: [
-                        Color.orange.opacity(0.7),
-                        Color.orange.opacity(0.6),
-                        Color.orange.opacity(0.65)
-                    ],
-                                   startPoint: .top, endPoint: .bottom)
+                        Color.blue.opacity(0.75),
+                        Color.blue.opacity(0.6),
+                    ], startPoint: .top, endPoint: .bottomTrailing)
+                )
+                .clipShape(RoundedRectangle(cornerRadius: 12))
+                .frame(height: 120)
+                
+                
+                // 2nd Horizontal Cell
+                HStack{
                     VStack(alignment: .leading) {
-                        HStack {
-                            VStack(alignment: .leading) {
-                                Text("10")
-                                    .font(.title3)
-                                    .foregroundColor(.white)
-                                
-                            }
-                            Spacer()
-                            
-                        }
-                        
-                       Spacer()
-                        
                         Text("Pending")
                             .foregroundColor(.white)
                             .font(.title3)
-                            .fontWeight(/*@START_MENU_TOKEN@*/.bold/*@END_MENU_TOKEN@*/)
+                            
+                        Spacer()
+                        Text("10")
+                            .font(.title)
+                            .foregroundColor(.white)
+                            .fontWeight(.bold)
                     }
-                    .padding()
+                    Spacer()
                 }
-                .frame(width: .infinity, height: 150)
+                
+                .padding()
+                .frame(maxWidth: .infinity)
+               
+                .background(
+                    LinearGradient(colors: [
+                        Color.orange.opacity(0.75),
+                        Color.orange.opacity(0.6),
+                    ], startPoint: .top, endPoint: .bottomTrailing)
+                )
                 .clipShape(RoundedRectangle(cornerRadius: 12))
-                //2nd Horizontal Cell ends here
+                .frame(height: 120)
+                
+                
             }
-            //2nd row end
-
-            }
-        
-        .padding(.horizontal, 16)
         }
+        .padding(.horizontal, 16)
+    }
 }
