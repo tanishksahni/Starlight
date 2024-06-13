@@ -6,22 +6,21 @@
 //
 
 import SwiftUI
+import Foundation
 
 struct DoctorAppointmentCompleteView: View {
     @State private var diagnosis = ""
     @State private var prescription = ""
-    @State private var tests = [String]()
-    @State private var isTestSelectionPresented = false
-    @State var appointment: Appointment? = nil
-    @State private var patient: Patient? = nil
+    //    @State private var tests = [String]()
+    
+    var appointment: Appointment?
     
     var body: some View {
         ScrollView {
             VStack(alignment: .leading) {
                 Text("Patient Information")
                     .font(.title2)
-                    .fontWeight(/*@START_MENU_TOKEN@*/.bold/*@END_MENU_TOKEN@*/)
-                
+                    .fontWeight(.bold)
                 
                 HStack {
                     Image("image")
@@ -32,84 +31,36 @@ struct DoctorAppointmentCompleteView: View {
                     Spacer().frame(width: 20)
                     
                     VStack(alignment: .leading, spacing: 5) {
-                        Text(patient?.userId.firstName ?? "Naman Sharma")
+                        Text("\(appointment?.patientId?.userId.firstName ?? "") \(appointment?.patientId?.userId.lastName ?? "")")
                             .font(.title2)
                             .fontWeight(.medium)
-                        Text("#sbhb12hb31")
+                        Text("#\(appointment?.patientId?.patientID ?? "N/A")")
                             .font(.subheadline)
                     }
                 }
-                
-                
-                
                 
                 VStack(spacing: 10) {
-                    HStack {
-                        Text("Age")
-                            .font(.subheadline)
-                            .foregroundColor(.secondary)
-                        Spacer()
-                        Text("21 yrs")
-                            .font(.subheadline)
-                            .foregroundColor(.primary)
-                    }
-                    .padding(.vertical ,8)
-                    Divider()
-                    HStack {
-                        Text("Gender")
-                            .font(.subheadline)
-                            .foregroundColor(.secondary)
-                        Spacer()
-                        Text(patient?.userId.gender.rawValue ?? "Male")
-                            .font(.subheadline)
-                            .foregroundColor(.primary)
-                    }
-                    .padding(.vertical ,8)
-                    Divider()
-                    HStack {
-                        Text("Date of birth")
-                            .font(.subheadline)
-                            .foregroundColor(.secondary)
-                        Spacer()
-                        Text("27/10/2002")
-                            .font(.subheadline)
-                            .foregroundColor(.primary)
-                    }
-                    .padding(.vertical ,8)
-                    Divider()
-                    HStack {
-                        Text("Date of Appointment")
-                            .font(.subheadline)
-                            .foregroundColor(.secondary)
-                        Spacer()
-                        Text(dateFormatter.string(from:appointment!.dateAndTime) ?? "24 May 2024")
-                            .font(.subheadline)
-                            .foregroundColor(.primary)
-                    }
-                    .padding(.vertical ,8)
-                    Divider()
-                    HStack {
-                        Text("Time of Appointment")
-                            .font(.subheadline)
-                            .foregroundColor(.secondary)
-                        Spacer()
-                        Text("9:00 AM - 10:00 AM")
-                            .font(.subheadline)
-                            .foregroundColor(.primary)
-                    }
-                    .padding(.vertical ,8)
-                    Divider()
+                    PatientInfoRow(label: "Age", value: {
+                        if let dob = appointment?.patientId?.dob {
+                            let formattedDate = formatDOB(dobString: dob)
+                            return "\(Authentication().calculateAge(from: formattedDate ?? ""))"  ?? ""
+                        } else {
+                            return "N/A"
+                        }
+                    }())
+                    PatientInfoRow(label: "Gender", value: appointment?.patientId?.userId.gender.rawValue ?? "N/A")
+                    PatientInfoRow(label: "Date of birth", value: formatdate(date: appointment?.patientId?.dob ?? ""))
+                    PatientInfoRow(label: "Date of Appointment", value: dateFormatter.string(from: appointment?.dateAndTime ?? Date.now))
+                    PatientInfoRow(label: "Time of Appointment", value: timeFormatter.string(from: appointment?.dateAndTime ?? Date()))
                 }
                 
-                
-                
-                HStack{
+                HStack {
                     Text("View Previous Appointments")
                         .font(.headline)
                         .fontWeight(.semibold)
                     Spacer()
                     Image(systemName: "arrow.up.right.circle")
-                        .foregroundColor(/*@START_MENU_TOKEN@*/.blue/*@END_MENU_TOKEN@*/)
+                        .foregroundColor(.blue)
                 }
                 .padding()
                 .background(Color.secondary.opacity(0.1))
@@ -120,73 +71,42 @@ struct DoctorAppointmentCompleteView: View {
                     Text("Diagnosis")
                         .font(.headline)
                         .fontWeight(.semibold)
-                    TextEditor(text: $diagnosis)
-                        .padding()
-                        .frame(height: 150)
-                        .clipShape(RoundedRectangle(cornerRadius: 12))
-                        .overlay{
-                            RoundedRectangle(cornerRadius: 12).stroke(Color.black ,lineWidth: 0.5)
-                        }
-                        .padding(.bottom,16)
+                    if appointment?.status == "scheduled" {
+                        TextEditor(text: $diagnosis)
+                            .padding()
+                            .frame(height: 150)
+                            .clipShape(RoundedRectangle(cornerRadius: 12))
+                            .overlay(RoundedRectangle(cornerRadius: 12).stroke(Color.black, lineWidth: 0.5))
+                            .padding(.bottom, 16)
+                    } else {
+                        Text(appointment?.diagnosis ?? "No diagnosis available")
+                            .padding()
+                            .frame(height: 150)
+                            .clipShape(RoundedRectangle(cornerRadius: 12))
+                            .overlay(RoundedRectangle(cornerRadius: 12).stroke(Color.black, lineWidth: 0.5))
+                            .padding(.bottom, 16)
+                    }
+                    
                     Text("Prescription")
                         .font(.headline)
                         .fontWeight(.semibold)
-                    
-                    TextEditor(text: $prescription)
-                        .padding()
-                        .frame(height: 150)
-                        .clipShape(RoundedRectangle(cornerRadius: 12))
-                        .overlay{
-                            RoundedRectangle(cornerRadius: 12).stroke(Color.black ,lineWidth: 0.5)
-                        }
-                    
-                    
-                    
-                    VStack(alignment: .leading) {
-                        
-                        HStack{
-                            Text("Specified Test")
-                                .font(.headline)
-                                .fontWeight(.semibold)
-                            
-                            Spacer()
-                            Button(action: {
-                                isTestSelectionPresented.toggle()
-                            }) {
-                                Text("Add Tests")
-                                    .font(.headline)
-                                    .foregroundColor(.blue)
-                            }
-                        }
-                        .padding(.vertical)
-                        
-                        
-                        ForEach(tests.indices, id: \.self) { index in
-                            HStack {
-                                Text(tests[index])
-                                Spacer()
-                                Button(action: {
-                                    tests.remove(at: index)
-                                }) {
-                                    Image(systemName: "minus.circle")
-                                        .foregroundColor(.red)
-                                }
-                            }
+                    if appointment?.status == "scheduled" {
+                        TextEditor(text: $prescription)
                             .padding()
-                            .background(Color.gray.opacity(0.1))
-                            .cornerRadius(5)
-                        }
-                        HStack(alignment: .center) {
-                            Spacer(minLength: 20)
-                            Text("Please add if there are any additional test are to be conducted.")
-                                .font(.caption)
-                                .foregroundColor(.orange)
-                                .multilineTextAlignment(.center)
-                            
-                            Spacer(minLength: 20)
-                        }
+                            .frame(height: 150)
+                            .clipShape(RoundedRectangle(cornerRadius: 12))
+                            .overlay(RoundedRectangle(cornerRadius: 12).stroke(Color.black, lineWidth: 0.5))
+                    } else {
+                        Text(appointment?.prescription ?? "No prescription available")
+                            .padding()
+                            .frame(height: 150)
+                            .clipShape(RoundedRectangle(cornerRadius: 12))
+                            .overlay(RoundedRectangle(cornerRadius: 12).stroke(Color.black, lineWidth: 0.5))
+                    }
+                    
+                    if appointment?.status == "scheduled" {
                         Button(action: {
-                            
+                            // Submit action
                         }) {
                             Text("Submit")
                                 .padding()
@@ -197,24 +117,13 @@ struct DoctorAppointmentCompleteView: View {
                                 .cornerRadius(10)
                         }
                         .padding(.vertical)
-                        
-                        
                     }
-                    
                 }
             }
-            .navigationTitle("Appointment Information")
-            .navigationBarTitleDisplayMode(.inline)
-            .sheet(isPresented: $isTestSelectionPresented) {
-                TestSelectionView(selectedTests: $tests)
-            }
-            .onAppear{
-                self.patient = appointment?.patientId
-            }
+            .padding()
         }
-        .padding()
-        .scrollIndicators(.hidden)
-        
+        .navigationTitle("Appointment Information")
+        .navigationBarTitleDisplayMode(.inline)
     }
     
     let dateFormatter: DateFormatter = {
@@ -222,40 +131,97 @@ struct DoctorAppointmentCompleteView: View {
         formatter.dateFormat = "dd-MM-yyyy"
         return formatter
     }()
+    
+    let timeFormatter: DateFormatter = {
+        let formatter = DateFormatter()
+        formatter.dateFormat = "HH:mm"
+        return formatter
+    }()
+    
+    func formatdate(date: String) -> String {
+        let dateFormatter = DateFormatter()
+        dateFormatter.dateFormat = "yyyy-MM-dd'T'HH:mm:ss.SSSZ"
+        
+        guard let dateObj = dateFormatter.date(from: date) else {
+            print("Invalid date format")
+            return "Invalid date"
+        }
+        
+        dateFormatter.dateFormat = "dd-MM-yyyy"
+        let formattedDate = dateFormatter.string(from: dateObj)
+        
+        return formattedDate
+    }
+    
+    func formatDOB(dobString: String, fromFormat: String = "yyyy-MM-dd", toFormat: String = "MMMM dd, yyyy") -> String? {
+        let dateFormatter = DateFormatter()
+        dateFormatter.locale = Locale(identifier: "en_US_POSIX") // Ensure consistent date parsing
+        
+        // Set the original format of the DOB string
+        dateFormatter.dateFormat = fromFormat
+        guard let dateOfBirth = dateFormatter.date(from: dobString) else {
+            print("Invalid date format")
+            return nil
+        }
+        
+        // Set the desired output format
+        dateFormatter.dateFormat = toFormat
+        let formattedDOB = dateFormatter.string(from: dateOfBirth)
+        return formattedDOB
+    }
+    
 }
 
-struct TestSelectionView: View {
-    @Binding var selectedTests: [String]
-    @Environment(\.presentationMode) var presentationMode
-    
-    let allTests = ["Blood Test", "X-Ray", "MRI", "CT Scan", "Urine Test"]
+struct PatientInfoRow: View {
+    var label: String
+    var value: String
     
     var body: some View {
-        NavigationView {
-            List(allTests, id: \.self) { test in
-                Button(action: {
-                    if !selectedTests.contains(test) {
-                        selectedTests.append(test)
-                    }
-                }) {
-                    HStack {
-                        Text(test)
-                        Spacer()
-                        if selectedTests.contains(test) {
-                            Image(systemName: "checkmark")
-                                .foregroundColor(.blue)
-                        }
-                    }
-                }
-            }
-            .navigationBarTitle("Select Tests", displayMode: .inline)
-            .navigationBarItems(trailing: Button("Done") {
-                presentationMode.wrappedValue.dismiss()
-            })
+        HStack {
+            Text(label)
+                .font(.subheadline)
+                .foregroundColor(.secondary)
+            Spacer()
+            Text(value)
+                .font(.subheadline)
+                .foregroundColor(.primary)
         }
+        .padding(.vertical, 8)
+        Divider()
     }
 }
 
-#Preview {
-    DoctorAppointmentCompleteView()
-}
+
+
+//struct TestSelectionView: View {
+//    @Binding var selectedTests: [String]
+//    @Environment(\.presentationMode) var presentationMode
+//
+//    let allTests = ["Blood Test", "X-Ray", "MRI", "CT Scan", "Urine Test"]
+//
+//    var body: some View {
+//        NavigationView {
+//            List(allTests, id: \.self) { test in
+//                Button(action: {
+//                    if !selectedTests.contains(test) {
+//                        selectedTests.append(test)
+//                    }
+//                }) {
+//                    HStack {
+//                        Text(test)
+//                        Spacer()
+//                        if selectedTests.contains(test) {
+//                            Image(systemName: "checkmark")
+//                                .foregroundColor(.blue)
+//                        }
+//                    }
+//                }
+//            }
+//            .navigationBarTitle("Select Tests", displayMode: .inline)
+//            .navigationBarItems(trailing: Button("Done") {
+//                presentationMode.wrappedValue.dismiss()
+//            })
+//        }
+//    }
+//}
+

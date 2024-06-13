@@ -22,15 +22,15 @@ struct MainHospitalView: View {
                 .tabItem {
                     Label("Patients", systemImage: "person.2.fill")
                 }
-            TestsView(isAdmin: true)
-                .tabItem {
-                    Label("Tests", systemImage: "cross.case.fill")
-                }
-            HospitalPaymentsView()
-                .tabItem {
-                    Label("Payments", systemImage: "indianrupeesign.circle.fill")
-                }
-            
+//            TestsView(isAdmin: true)
+//                .tabItem {
+//                    Label("Tests", systemImage: "cross.case.fill")
+//                }
+//            HospitalPaymentsView()
+//                .tabItem {
+//                    Label("Payments", systemImage: "indianrupeesign.circle.fill")
+//                }
+//            
             
         }
     }
