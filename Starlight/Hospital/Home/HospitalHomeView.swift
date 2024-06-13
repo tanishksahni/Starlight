@@ -22,98 +22,82 @@ struct HospitalHomeView: View {
     var body: some View {
         NavigationStack {
             ScrollView {
-                VStack {
-                    if let standardAppointment = model.fees.first(where: { $0.type == "standard" }),
-                       let emergencyAppointment = model.fees.first(where: { $0.type == "emergency" }) {
-                        FeesStructure(
-                            standardAppointment: standardAppointment,
-                            emergencyAppointment: emergencyAppointment,
-                            onUpdate: { updatedFee, id in
-                                model.updateFees(newAmount: updatedFee.amount, id: id) { result in
-                                    switch result {
-                                    case .success:
-                                        print("Successfully updated fees")
-                                        // Refresh the model or handle UI updates here if needed
-                                    case .failure(let error):
-                                        print("Failed to update fees: \(error.localizedDescription)")
-                                    }
-                                }
-                            }
-                        )
-                        
-                    } else {
-                        Text("Loading fees...")
-                            .padding()
-                    }
-                }
                 VStack(alignment:.leading, spacing: 20) {
-                    // Total Revenue
                     HStack{
                         VStack(alignment: .leading,spacing:10) {
                             Text("Total Revenue")
                                 .font(.headline)
                                 .foregroundStyle(.secondary)
-                            
+                            Spacer()
                             Text("₹25000")
-                                .font(.largeTitle)
-                                .fontWeight(.heavy)
+                                .font(.title)
+                                .fontWeight(.bold)
                                 .foregroundStyle(.blue)
                         }
+                        Spacer()
                         
                         VStack(spacing:20) {
                             Chart{
                                 ForEach(viewMonths) { viewmonth in LineMark(x: .value("Month", viewmonth.date, unit: .month),y:.value("Amount", viewmonth.amount))
                                     
-                                    
                                 }
                             }
-                            .padding(.top,20)
-                            .frame(width: .infinity,height:120)
+                            .frame(width: 160)
                         }
-                        Spacer()
                         
                     }
                     .padding()
-                    .frame(width: 355,height:120)
+                    .frame(width:.infinity ,height:150)
                     .background(Color(UIColor.systemBackground))
-                    .clipShape(RoundedRectangle(cornerRadius: 12))
-                    .shadow(radius: 1)
+                    .clipShape(RoundedRectangle(cornerRadius: 10))
+                    .shadow(color: Color.black.opacity(0.2), radius: 5, x: 0, y: 2)
                     
                     HStack(spacing:10){
-                        VStack(alignment: .leading,spacing:15) {
-                            Text("Patients")
-                                .font(.headline)
-                                .foregroundStyle(.secondary)
+                        HStack{
+                            VStack(alignment: .leading,spacing:15) {
+                                Text("Patients")
+                                    .font(.headline)
+                                    .foregroundStyle(.secondary)
+                                Spacer()
+                                Text("500")
+                                    .font(.title)
+                                    .fontWeight(.bold)
+                                    .foregroundStyle(.blue)
+                            }
                             
-                            Text("500")
-                                .font(.largeTitle)
-                                .fontWeight(.heavy)
-                                .foregroundStyle(.blue)
-                        }
-                        
-                        .padding(.trailing,40)
-                        .frame(width: 175,height:110)
-                        .background(Color(UIColor.systemBackground))
-                        .clipShape(RoundedRectangle(cornerRadius: 12))
-                        .shadow(radius: 1)
-                        
-                        VStack(alignment: .leading,spacing:15) {
-                            Text("Doctors")
-                                .font(.headline)
-                                .foregroundStyle(.secondary)
                             
-                            Text("50")
-                                .font(.largeTitle)
-                                .fontWeight(.heavy)
-                                .foregroundStyle(.blue)
+                            Spacer()
                         }
-                        
-                        .padding(.trailing,40)
-                        .frame(width: 170,height:110)
+                        .padding()
+                        .frame(height:110)
+                        .frame(maxWidth: /*@START_MENU_TOKEN@*/.infinity/*@END_MENU_TOKEN@*/)
                         .background(Color(UIColor.systemBackground))
-                        .clipShape(RoundedRectangle(cornerRadius: 12))
-                        .shadow(radius: 1)
+                        .clipShape(RoundedRectangle(cornerRadius: 10))
+                        .shadow(color: Color.black.opacity(0.2), radius: 5, x: 0, y: 2)
+                        
+                        HStack {
+                            VStack(alignment: .leading,spacing:15) {
+                                Text("Doctors")
+                                    .font(.headline)
+                                    .foregroundStyle(.secondary)
+                                Spacer()
+                                Text("50")
+                                    .font(.title)
+                                    .fontWeight(.bold)
+                                    .foregroundStyle(.blue)
+                            }
+                            
+                            
+                            Spacer()
+                        }
+                        .padding()
+                        .frame(height:110)
+                        .frame(maxWidth: /*@START_MENU_TOKEN@*/.infinity/*@END_MENU_TOKEN@*/)
+                        .background(Color(UIColor.systemBackground))
+                        .clipShape(RoundedRectangle(cornerRadius: 10))
+                        .shadow(color: Color.black.opacity(0.2), radius: 5, x: 0, y: 2)
                     }
+                    .frame(maxWidth: /*@START_MENU_TOKEN@*/.infinity/*@END_MENU_TOKEN@*/)
                     HStack{
                         VStack(alignment:.leading){
                             HStack{
@@ -122,28 +106,37 @@ struct HospitalHomeView: View {
                                     .foregroundStyle(.secondary)
                                 
                                 Spacer()
-//                                Image(systemName: "chevron.right")
-//                                    .foregroundColor(.gray)
+                                //                                Image(systemName: "chevron.right")
+                                //                                    .foregroundColor(.gray)
                             }
-                            HStack(spacing:35){
+                            HStack(spacing:25){
                                 VStack(alignment:.center, spacing: 10){
-                                    Text("GENERAL")
-                                        .foregroundStyle(.secondary)
+                                    HStack {
+                                        Text("GENERAL")
+                                            .foregroundStyle(.secondary)
                                         .font(.headline)
+                                        Spacer()
+                                    }
+                                    Spacer()
                                     Text("305")
-                                        .font(.largeTitle)
+                                        .bold()
+                                        .font(.title)
                                         .foregroundStyle(.blue)
                                 }
                                 .frame(maxWidth: .infinity)
                                 Divider()
                                 VStack(alignment:.center, spacing: 10){
-                                    Text("EMERGENCY")
-                                        .font(.headline)
+                                    HStack {
+                                        Text("EMERGENCY")
+                                            .font(.headline)
                                         .foregroundStyle(.secondary)
-                                    
+                                        Spacer()
+                                    }
+                                    Spacer()
                                     Text("195")
+                                        .bold()
                                         .frame(maxWidth: .infinity)
-                                        .font(.largeTitle)
+                                        .font(.title)
                                         .foregroundStyle(.blue)
                                 }
                                 .frame(maxWidth: .infinity)
@@ -151,13 +144,37 @@ struct HospitalHomeView: View {
                         }
                         .padding()
                         .background(Color(UIColor.systemBackground))
-                        .clipShape(RoundedRectangle(cornerRadius: 12))
-                        .shadow(radius: 1)
+                        .clipShape(RoundedRectangle(cornerRadius: 10))
+                        .shadow(color: Color.black.opacity(0.2), radius: 5, x: 0, y: 2)
+                    }
+                    VStack {
+                        if let standardAppointment = model.fees.first(where: { $0.type == "standard" }),
+                           let emergencyAppointment = model.fees.first(where: { $0.type == "emergency" }) {
+                            FeesStructure(
+                                standardAppointment: standardAppointment,
+                                emergencyAppointment: emergencyAppointment,
+                                onUpdate: { updatedFee, id in
+                                    model.updateFees(newAmount: updatedFee.amount, id: id) { result in
+                                        switch result {
+                                        case .success:
+                                            print("Successfully updated fees")
+                                            // Refresh the model or handle UI updates here if needed
+                                        case .failure(let error):
+                                            print("Failed to update fees: \(error.localizedDescription)")
+                                        }
+                                    }
+                                }
+                            )
+                            
+                        } else {
+                            Text("Loading fees...")
+                                .padding()
+                        }
                     }
                     
                 }
-                .padding()
                 .navigationTitle("Home")
+                .safeAreaPadding(.all)
             }
             .onAppear {
                 model.getFees { result in
@@ -252,7 +269,6 @@ struct FeesStructure: View {
         .background(Color.white)
         .cornerRadius(10)
         .shadow(color: Color.black.opacity(0.2), radius: 5, x: 0, y: 2)
-        .padding()
     }
 }
 

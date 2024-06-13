@@ -24,6 +24,20 @@ struct AddDoctorView: View {
     @State private var isImagePickerPresented = false
     @Environment(\.presentationMode) var presentationMode
     
+    private let specialisations = [
+        "General Physicians",
+        "Paediatricians",
+        "Cardiologist",
+        "Orthopaedic",
+        "ENT Specialists",
+        "Pulmonologists",
+        "Neurologists",
+        "Dentist",
+        "Psychiatrists",
+        "Gynaecologist",
+    ]
+    
+    
     let genders = ["Male", "Female", "Other"]
     
     var body: some View {
@@ -82,8 +96,13 @@ struct AddDoctorView: View {
                 }
                 
                 Section {
-                    
-                    TextField("Specialisation", text: $specialisation)
+                    Picker("Specialisation", selection: $specialisation) {
+                        ForEach(specialisations, id: \.self) { field in
+                            Text(field)
+                        }
+                    }
+                    .pickerStyle(MenuPickerStyle())
+//                    TextField("Specialisation", text: $specialisation)
                     
                     TextField("Experience", text: $experience)
                 }
@@ -123,7 +142,7 @@ struct AddDoctorView: View {
             qualification: qualification
         )
         
-       
+        
         doctors.registerDoctor(user: user, doctor: doctor) { result in
             switch result {
             case .success:

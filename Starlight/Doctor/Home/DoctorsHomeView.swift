@@ -14,7 +14,7 @@ struct DoctorsHomeView: View {
             ScrollView{
                 VStack{
                     DoctorBanner()
-                    
+                    Spacer().frame(height: 16)
                     //Current Appointment Starts Here
                     Spacer().frame(height: 16)
                     Text("Current Appointment")
@@ -29,7 +29,7 @@ struct DoctorsHomeView: View {
                     
                 }
             }
-            .navigationTitle("Home")
+            .navigationTitle("Summary")
         }
         .onAppear{
             DoctorModel.shared.fetchAppointments(){appointments in
@@ -43,9 +43,6 @@ struct DoctorsHomeView: View {
     }
 }
 
-#Preview {
-    DoctorsHomeView()
-}
 
 struct WorkingInfoCard: View {
     @State var isPresentingEditingInfoCard = false
