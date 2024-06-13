@@ -5,34 +5,81 @@
 //  Created by Tanishk Sahni on 30/05/24.
 //
 
+
+
 import SwiftUI
 
 struct PatientDoctorProfileView: View {
-    
     @ObservedObject var authentication = Authentication.shared
-    
-    
-    
     @State private var isShowingBookAppointmentView = false
     @State var isShowingConfirmationForAppointment = false
-    let allDaySlots = [
-        "26 May", "26 May", "26 May" , "26 May"
-    ]
-    let allTimeSlots = [
-        "9:00AM", "10:00AM", "11:00AM", "12:00PM",  "13:00PM"
-    ]
+
+    @State private var fetchedTimeSlots: [Slot] = []
+    private var slotinfo: [String]  = []
     
     var data: Doctor
-    
-    var timeSlots: [[String]] {
-        stride(from: 0, to: allTimeSlots.count, by: 4).map {
-            Array(allTimeSlots[$0..<min($0 + 4, allTimeSlots.count)])
-        }
+    @State private var doctorDescription: String = ""
+
+    func getRandomDoctorDescription() -> String {
+        let descriptions = [
+            "Hey Patients The application should also cater to the needs of a hospital including but not limited to managing shifts, medical inventory, patient history.",
+            "I am your friend, specializing in cardiology with over 15 years of experience in treating heart diseases.",
+            "I am an expert in orthopedic surgery, dedicated to helping patients recover from injuries and improve their mobility.",
+            " A pediatrician committed to providing the best care for children's health and development.",
+            "I am Doctor with extensive experience in neurology, focusing on brain and nervous system disorders."
+        ]
+        return descriptions.randomElement() ?? "I am a doctor with a passion for providing excellent healthcare."
     }
+
+    init(data: Doctor) {
+        self.data = data
+        _doctorDescription = State(initialValue: getRandomDoctorDescription())
+//        fetchTimeSlots(for: Date()) // Call fetchTimeSlots initially
+    }
+
+//    private func fetchTimeSlots(for date: Date) {
+//        DoctorModel.shared.fetchSlots(doctorId: data.id, date: date) { slots in
+//            if let slots = slots {
+//                self.fetchedTimeSlots = slots
+//            } else {
+//                self.fetchedTimeSlots = []
+//            }
+//        }
+//    }
+
+//    private var slotInfo: [String] {
+//        fetchedTimeSlots.map { $0. }
+//       }
+    
+    func generateTimeSlots(duration: Int, timeInterval: String) -> [String] {
+           let dateFormatter = DateFormatter()
+           dateFormatter.dateFormat = "HH:mm"
+           
+           let components = timeInterval.split(separator: "-").map { String($0).trimmingCharacters(in: .whitespaces) }
+           
+           guard components.count == 2,
+                 let startTime = dateFormatter.date(from: components.first!),
+                 let endTime = dateFormatter.date(from: components.last!) else {
+               return []
+           }
+           
+           var timeSlots: [String] = []
+           var currentTime = startTime
+           
+           while currentTime.addingTimeInterval(TimeInterval(duration * 60)) <= endTime {
+               let nextTime = currentTime.addingTimeInterval(TimeInterval(duration * 60))
+               let timeSlot = "\(dateFormatter.string(from: currentTime)) - \(dateFormatter.string(from: nextTime))"
+               timeSlots.append(timeSlot)
+               currentTime = nextTime
+           }
+           
+           return timeSlots
+       }
+
+    
     var body: some View {
-        ScrollView{
+        ScrollView {
             VStack(alignment: .leading) {
-                // Profile Image
                 HStack {
                     Image("image")
                         .resizable()
@@ -52,63 +99,57 @@ struct PatientDoctorProfileView: View {
                     }
                     .padding(.leading, 10)
                 }
-                
+
                 Divider()
                     .padding(.vertical)
-                
-                VStack(alignment: .leading){
+
+                VStack(alignment: .leading) {
                     Text("About Doctor")
                         .font(.title3)
                         .fontWeight(.bold)
                         .padding(.bottom, 16)
-                    Text("I am Dr. Rajesh Tiwari. The application should also cater to the needs of a hospital including but not limited to managing shifts, medical inventory, patient history.")
+                    Text(doctorDescription)
                         .multilineTextAlignment(.leading)
                         .lineLimit(5)
-                    
-                    
                 }
+
                 Divider()
                     .padding(.vertical)
-                
-                //MARK:  Working days details
-                
+
                 VStack(alignment: .leading) {
                     Text("Working Days")
                         .font(.title3)
                         .fontWeight(.bold)
                         .padding(.bottom, 16)
-                    
                     HStack {
                         Text("Days")
                         Spacer()
-                        Text("Mon-Sat")
+                        Text("\(data.schedule?.rawValue ?? "")")
                     }
                     Divider()
                     HStack {
                         Text("Time")
                         Spacer()
-                        Text("9:00 AM - 5:00 PM")
+                        //                        Text("\(slotinfo.first)-\(slotinfo.last)")
+                        Text("\(data.workingHours?.first?.workingHours.from ?? "")- \(data.workingHours?.last?.workingHours.to ?? "")")
                     }
+                    
                 }
-                
-                
+
                 Divider()
                     .padding(.vertical, 12)
-                
-                //MARK:  AVAILABLE days details
+
                 Text("Time Slots")
                     .font(.title3)
                     .fontWeight(.bold)
                     .padding(.bottom)
-                
-                
+
                 HStack {
-                    TagCloudView(tags: allTimeSlots)
+                    TagCloudView(tags: generateTimeSlots(duration: Int(data.duration), timeInterval: "\(data.workingHours?.first?.workingHours.from ?? "")- \(data.workingHours?.last?.workingHours.to ?? "")"))
                 }
-                
                 .padding(.bottom)
-            
-                if authentication.userType == .patient{
+
+                if authentication.userType == .patient {
                     Button(action: {
                         isShowingBookAppointmentView.toggle()
                     }) {
@@ -124,17 +165,15 @@ struct PatientDoctorProfileView: View {
                         PatientBookAppointmentView(doctor: self.data, isShowingBookAppointmentView: $isShowingBookAppointmentView, isShowingConfirmationForAppointment: $isShowingConfirmationForAppointment)
                     }
                 }
-                
-                
             }
             .padding()
         }
-        .sheet(isPresented: $isShowingConfirmationForAppointment, content: {
+        .sheet(isPresented: $isShowingConfirmationForAppointment) {
             PatientAppointmentBookingConfirmationView(isShowingConfirmationForAppointment: $isShowingConfirmationForAppointment)
-        })
-
+        }
     }
 }
+
 
 
 
@@ -235,5 +274,3 @@ struct TagCloudView: View {
     }
 }
 
-
-    
