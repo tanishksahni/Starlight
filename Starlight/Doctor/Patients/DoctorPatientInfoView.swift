@@ -13,8 +13,7 @@ struct DoctorPatientInfoView: View {
     var body: some View {
         ScrollView {
             VStack(alignment: .leading) {
-            
-
+    
                 HStack {
                     Image("image")
                         .resizable()
