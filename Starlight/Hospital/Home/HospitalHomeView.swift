@@ -49,8 +49,8 @@ struct HospitalHomeView: View {
                     .padding()
                     .frame(width:.infinity ,height:150)
                     .background(Color(UIColor.systemBackground))
-                    .clipShape(RoundedRectangle(cornerRadius: 12))
-                    .shadow(radius: 1)
+                    .clipShape(RoundedRectangle(cornerRadius: 10))
+                    .shadow(color: Color.black.opacity(0.2), radius: 5, x: 0, y: 2)
                     
                     HStack(spacing:10){
                         HStack{
