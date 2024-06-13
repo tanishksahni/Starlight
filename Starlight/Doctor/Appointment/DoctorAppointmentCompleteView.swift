@@ -11,6 +11,9 @@ import Foundation
 struct DoctorAppointmentCompleteView: View {
     @State private var diagnosis = ""
     @State private var prescription = ""
+    @State private var alertMessage: String = ""
+    @State private var showAlert: Bool = false
+
     //    @State private var tests = [String]()
     
     var appointment: Appointment?
@@ -107,6 +110,19 @@ struct DoctorAppointmentCompleteView: View {
                     if appointment?.status == "scheduled" {
                         Button(action: {
                             // Submit action
+                            DoctorModel.shared.diagnosePatient(prescription: self.prescription, diagnose: self.diagnosis, appointmentId: self.appointment?.id ?? ""){result in
+                                switch(result){
+                                case .success(let response):
+                                    print("diagnosed")
+                                    self.alertMessage = "Prescription added"
+                                    self.showAlert = true
+                                
+                                case .failure(let error):
+                                    self.alertMessage = "Error: \(error.localizedDescription)"
+                                    self.showAlert = true
+                                    print("error in adding doctor's prescription and diagnosis.")
+                                }
+                            }
                         }) {
                             Text("Submit")
                                 .padding()
@@ -117,6 +133,9 @@ struct DoctorAppointmentCompleteView: View {
                                 .cornerRadius(10)
                         }
                         .padding(.vertical)
+                        .alert(isPresented: $showAlert) {
+                            Alert(title: Text("Alert"), message: Text(alertMessage), dismissButton: .default(Text("OK")))
+                        }
                     }
                 }
             }
