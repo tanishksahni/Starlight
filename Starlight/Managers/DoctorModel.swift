@@ -353,6 +353,51 @@ class DoctorModel: ObservableObject {
         }
         task.resume()
     }
+    
+    func diagnosePatient(prescription: String, diagnose: String, appointmentId: String, completion: @escaping (Result<Void, Error>) -> Void) {
+        guard let url = URL(string: "\(APICore().BASEURL)/appointment/diagnose/\(appointmentId)") else {
+            print("Invalid URL")
+            return
+        }
+        print(url)
+        var request = URLRequest(url: url)
+        request.httpMethod = "PUT"
+        request.setValue("application/json", forHTTPHeaderField: "Content-Type")
+        request.addValue("Bearer \(APICore.shared.accessToken ?? "")", forHTTPHeaderField: "Authorization")
+
+        let requestBody: [String: Any] = [
+            "prescription": prescription,
+            "diagnose": diagnose,
+           
+        ]
+        
+        do {
+            request.httpBody = try JSONSerialization.data(withJSONObject: requestBody, options: [])
+        } catch {
+            print("Failed to serialize request body: \(error.localizedDescription)")
+            completion(.failure(error))
+            return
+        }
+        
+        let task = URLSession.shared.dataTask(with: request) { data, response, error in
+            if let error = error {
+                print("Failed to register doctor: \(error.localizedDescription)")
+                completion(.failure(error))
+                return
+            }
+            
+            guard let data = data, let response = response as? HTTPURLResponse, response.statusCode == 200 else {
+                print("Invalid response")
+                completion(.failure(NSError(domain: "", code: -1, userInfo: nil)))
+                return
+            }
+            
+            completion(.success(()))
+        }
+        
+        task.resume()
+    }
+    
 }
 
 
