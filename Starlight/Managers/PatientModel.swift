@@ -283,8 +283,9 @@ class PatientModel: ObservableObject {
     
     
     //MARK: Get all appointments
-    func fetchAppointments( completion: @escaping (Result<[Appointment], Error>) -> Void) {
-        guard let url = URL(string: "\(APICore().BASEURL)/appointment/patient/\(authentication.currentPatient?.id ?? "")") else {
+    func fetchAppointments(patientId: String? = nil, completion: @escaping (Result<[Appointment], Error>) -> Void) {
+        let patientId = (patientId == nil) ? authentication.currentPatient?.id ?? "" : patientId
+        guard let url = URL(string: "\(APICore().BASEURL)/appointment/patient/\(patientId!)") else {
             print("Invalid URL")
             return
         }
