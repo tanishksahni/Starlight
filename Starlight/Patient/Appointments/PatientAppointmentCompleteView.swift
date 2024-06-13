@@ -16,11 +16,25 @@ struct PatientAppointmentCompleteView: View {
         ScrollView {
             VStack(alignment: .leading) {
                 HStack {
-                    Image("image")
-                        .resizable()
-                        .clipShape(Rectangle())
-                        .cornerRadius(8)
-                        .frame(width: 80, height: 80)
+                    AsyncImage(url: URL(string: "")){
+                        image in image
+                            .resizable()
+                            .scaledToFit()
+                            .clipShape(Rectangle())
+                            .cornerRadius(8)
+                            .frame(width: 80, height: 80)
+                    }placeholder: {
+                        Image(systemName: "person.circle.fill")
+                                .resizable()
+                                .clipShape(Circle())
+                                .scaledToFill()
+                                .frame(width: 80, height: 80)
+                    }
+//                    Image("image")
+//                        .resizable()
+//                        .clipShape(Rectangle())
+//                        .cornerRadius(8)
+//                        .frame(width: 80, height: 80)
                     Spacer().frame(width: 20)
                     
                     VStack(alignment: .leading, spacing: 5) {

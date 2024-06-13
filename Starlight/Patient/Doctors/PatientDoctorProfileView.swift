@@ -34,11 +34,27 @@ struct PatientDoctorProfileView: View {
             VStack(alignment: .leading) {
                 // Profile Image
                 HStack {
-                    Image("image")
-                        .resizable()
-                        .aspectRatio(contentMode: .fill)
-                        .frame(width: 100, height: 100)
-                        .clipShape(RoundedRectangle(cornerRadius: 12))
+                    AsyncImage(url: URL(string: "")){
+                        image in image
+                            .resizable()
+                            .scaledToFit()
+                            .clipShape(Rectangle())
+                            .cornerRadius(12)
+                            .frame(width: 100, height: 100)
+                    }placeholder: {
+                        Image(systemName: "person.circle.fill")
+                            .resizable()
+                            .clipShape(Circle())
+                            .scaledToFill()
+                            .frame(width: 100, height: 100)
+                        
+                        
+                        //                        Image("image")
+                        //                        .resizable()
+                        //                                      .aspectRatio(contentMode:.fill)
+                        //                                             .frame(width: 100, height: 100)
+                        //                                                .clipShape(RoundedRectangle(cornerRadius: 12))
+                    }
                     VStack(alignment: .leading) {
                         Text("\(data.userId.firstName) \(data.userId.lastName)")
                             .font(.title3)
@@ -107,7 +123,7 @@ struct PatientDoctorProfileView: View {
                 }
                 
                 .padding(.bottom)
-            
+                
                 if authentication.userType == .patient{
                     Button(action: {
                         isShowingBookAppointmentView.toggle()
@@ -132,108 +148,109 @@ struct PatientDoctorProfileView: View {
         .sheet(isPresented: $isShowingConfirmationForAppointment, content: {
             PatientAppointmentBookingConfirmationView(isShowingConfirmationForAppointment: $isShowingConfirmationForAppointment)
         })
-
-    }
-}
-
-
-
-import SwiftUI
-
-struct SkillBox: View {
-    var title: String
-    init(_ title: String) {
-        self.title = title
-    }
-    init() {
-        self.title = "Skill"
-    }
-    var body: some View {
-        VStack(alignment: .leading) {
-            Text(title).font(Font.system(size: 14))
-        }
-        .padding([.horizontal], 6)
-        .padding([.vertical], 8)
-        .background(Color(red: 214 / 255, green: 214 / 255, blue: 214 / 255, opacity: 0.39)).cornerRadius(5)
-    }
-}
-
-
-#Preview {
-    SkillBox()
-}
-
-
-struct TagCloudView: View {
-    var tags: [String]
-    
-    @State private var totalHeight
-    = CGFloat.zero       // << variant for ScrollView/List
-    //    = CGFloat.infinity   // << variant for VStack
-    
-    var body: some View {
-        VStack {
-            GeometryReader { geometry in
-                self.generateContent(in: geometry)
-            }
-        }
-        .frame(height: totalHeight)// << variant for ScrollView/List
-        //.frame(maxHeight: totalHeight) // << variant for VStack
-    }
-    
-    private func generateContent(in g: GeometryProxy) -> some View {
-        var width = CGFloat.zero
-        var height = CGFloat.zero
         
-        return ZStack(alignment: .topLeading) {
-            ForEach(self.tags, id: \.self) { tag in
-                self.item(for: tag)
-                    .padding([.horizontal, .vertical], 4)
-                    .alignmentGuide(.leading, computeValue: { d in
-                        if (abs(width - d.width) > g.size.width)
-                        {
-                            width = 0
-                            height -= d.height
-                        }
-                        let result = width
-                        if tag == self.tags.last! {
-                            width = 0 //last item
-                        } else {
-                            width -= d.width
-                        }
-                        return result
-                    })
-                    .alignmentGuide(.top, computeValue: {d in
-                        let result = height
-                        if tag == self.tags.last! {
-                            height = 0 // last item
-                        }
-                        return result
-                    })
-            }
-        }.background(viewHeightReader($totalHeight))
     }
     
-    private func item(for text: String) -> some View {
-        Text(text)
-            .font(.body)
+    
+    
+    
+//    import SwiftUI
+    
+    struct SkillBox: View {
+        var title: String
+        init(_ title: String) {
+            self.title = title
+        }
+        init() {
+            self.title = "Skill"
+        }
+        var body: some View {
+            VStack(alignment: .leading) {
+                Text(title).font(Font.system(size: 14))
+            }
             .padding([.horizontal], 6)
             .padding([.vertical], 8)
             .background(Color(red: 214 / 255, green: 214 / 255, blue: 214 / 255, opacity: 0.39)).cornerRadius(5)
-            .foregroundColor(Color.black)
-            .cornerRadius(5)
-    }
-    
-    private func viewHeightReader(_ binding: Binding<CGFloat>) -> some View {
-        return GeometryReader { geometry -> Color in
-            let rect = geometry.frame(in: .local)
-            DispatchQueue.main.async {
-                binding.wrappedValue = rect.size.height
-            }
-            return .clear
         }
     }
-}
-
-
     
+    
+    #Preview {
+        SkillBox()
+    }
+    
+    
+    struct TagCloudView: View {
+        var tags: [String]
+        
+        @State private var totalHeight
+        = CGFloat.zero       // << variant for ScrollView/List
+        //    = CGFloat.infinity   // << variant for VStack
+        
+        var body: some View {
+            VStack {
+                GeometryReader { geometry in
+                    self.generateContent(in: geometry)
+                }
+            }
+            .frame(height: totalHeight)// << variant for ScrollView/List
+            //.frame(maxHeight: totalHeight) // << variant for VStack
+        }
+        
+        private func generateContent(in g: GeometryProxy) -> some View {
+            var width = CGFloat.zero
+            var height = CGFloat.zero
+            
+            return ZStack(alignment: .topLeading) {
+                ForEach(self.tags, id: \.self) { tag in
+                    self.item(for: tag)
+                        .padding([.horizontal, .vertical], 4)
+                        .alignmentGuide(.leading, computeValue: { d in
+                            if (abs(width - d.width) > g.size.width)
+                            {
+                                width = 0
+                                height -= d.height
+                            }
+                            let result = width
+                            if tag == self.tags.last! {
+                                width = 0 //last item
+                            } else {
+                                width -= d.width
+                            }
+                            return result
+                        })
+                        .alignmentGuide(.top, computeValue: {d in
+                            let result = height
+                            if tag == self.tags.last! {
+                                height = 0 // last item
+                            }
+                            return result
+                        })
+                }
+            }.background(viewHeightReader($totalHeight))
+        }
+        
+        private func item(for text: String) -> some View {
+            Text(text)
+                .font(.body)
+                .padding([.horizontal], 6)
+                .padding([.vertical], 8)
+                .background(Color(red: 214 / 255, green: 214 / 255, blue: 214 / 255, opacity: 0.39)).cornerRadius(5)
+                .foregroundColor(Color.black)
+                .cornerRadius(5)
+        }
+        
+        private func viewHeightReader(_ binding: Binding<CGFloat>) -> some View {
+            return GeometryReader { geometry -> Color in
+                let rect = geometry.frame(in: .local)
+                DispatchQueue.main.async {
+                    binding.wrappedValue = rect.size.height
+                }
+                return .clear
+            }
+        }
+    }
+    
+    
+    
+}

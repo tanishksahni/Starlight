@@ -33,6 +33,7 @@ struct AddDoctorView: View {
                     HStack {
                         Spacer()
                         if let image = image {
+                            
                             Image(uiImage: image)
                                 .resizable()
                                 .aspectRatio(contentMode: .fill)
