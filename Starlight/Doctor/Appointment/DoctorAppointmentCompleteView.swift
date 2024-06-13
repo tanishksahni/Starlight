@@ -43,7 +43,7 @@ struct DoctorAppointmentCompleteView: View {
                     PatientInfoRow(label: "Age", value: {
                         if let dob = appointment?.patientId?.dob {
                             let formattedDate = formatDOB(dobString: dob)
-                            return "\(Authentication().calculateAge(from: formattedDate ?? "")!)"
+                            return "\(Authentication().calculateAge(from: formattedDate ?? ""))"  ?? ""
                         } else {
                             return "N/A"
                         }

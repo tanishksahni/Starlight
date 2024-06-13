@@ -13,11 +13,8 @@ struct DoctorPatientInfoView: View {
     var body: some View {
         ScrollView {
             VStack(alignment: .leading) {
-                Text("Patient Information")
-                    .font(.title2)
-                    .fontWeight(/*@START_MENU_TOKEN@*/.bold/*@END_MENU_TOKEN@*/)
-                
-                
+            
+
                 HStack {
                     Image("image")
                         .resizable()
@@ -100,8 +97,8 @@ struct DoctorPatientInfoView: View {
                 
                 
             }
-//            .navigationTitle("Patient Information")
-//            .navigationBarTitleDisplayMode(.inline)
+            .navigationTitle("Patient Information")
+            .navigationBarTitleDisplayMode(.inline)
             
         }
         .padding()
