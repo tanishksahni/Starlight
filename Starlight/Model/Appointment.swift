@@ -22,6 +22,8 @@ struct Appointment: Identifiable, Codable {
     let desc: String
     let dateAndTime: Date
     let status: String
+    let diagnosis: String?
+    let prescription: String?
     
     enum CodingKeys: String, CodingKey{
         case id = "_id"
@@ -31,9 +33,11 @@ struct Appointment: Identifiable, Codable {
         case desc
         case dateAndTime
         case status
+        case diagnosis
+        case prescription
     }
     
-    init(id: String? = nil, feesType: FeesType, doctorId: Doctor? = nil, patientId: Patient? = nil, desc: String, dateAndTime: Date, status: String) {
+    init(id: String? = nil, feesType: FeesType, doctorId: Doctor? = nil, patientId: Patient? = nil, desc: String, dateAndTime: Date, status: String, diagnosis: String? = nil, prescription: String? = nil) {
         self.id = id ?? UUID().uuidString
         self.feesType = feesType
         self.doctorId = doctorId
@@ -41,6 +45,8 @@ struct Appointment: Identifiable, Codable {
         self.desc = desc
         self.dateAndTime = dateAndTime
         self.status = status
+        self.diagnosis = diagnosis
+        self.prescription = prescription
     }
     
     init(from decoder: any Decoder) throws {
@@ -51,6 +57,8 @@ struct Appointment: Identifiable, Codable {
         self.patientId = try? container.decode(Patient.self, forKey: .patientId)
         self.desc = try container.decode(String.self, forKey: .desc)
         self.status = try container.decode(String.self, forKey: .status)
+        self.diagnosis = try? container.decode(String.self, forKey: .diagnosis)
+        self.prescription = try? container.decode(String.self, forKey: .prescription)
         
         let dateFormatter = ISO8601DateFormatter()
         dateFormatter.formatOptions = [.withInternetDateTime, .withFractionalSeconds]
@@ -63,6 +71,7 @@ struct Appointment: Identifiable, Codable {
         }
     }
 }
+
 struct TimeSlot: Codable, Identifiable {
     let id: String
     let from: Date
