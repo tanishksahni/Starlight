@@ -13,6 +13,7 @@ struct DoctorAppointmentCompleteView: View {
     @State private var prescription = ""
     @State private var alertMessage: String = ""
     @State private var showAlert: Bool = false
+    @State private var patientAppointments: [Appointment]? = nil
 
     //    @State private var tests = [String]()
     
@@ -62,8 +63,20 @@ struct DoctorAppointmentCompleteView: View {
                         .font(.headline)
                         .fontWeight(.semibold)
                     Spacer()
-                    Image(systemName: "arrow.up.right.circle")
-                        .foregroundColor(.blue)
+                    Button(action:{
+                        PatientModel.shared.fetchAppointments(patientId:self.appointment?.patientId?.id){result in
+                            switch(result){
+                            case .success(let appointments):
+                                self.patientAppointments = appointments
+                                print(self.patientAppointments)
+                            case .failure(let error):
+                                print(error)
+                            }
+                        }
+                    }){
+                        Image(systemName: "arrow.up.right.circle")
+                            .foregroundColor(.blue)
+                    }
                 }
                 .padding()
                 .background(Color.secondary.opacity(0.1))

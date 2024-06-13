@@ -8,6 +8,7 @@
 
 /* Begin PBXBuildFile section */
 		18BDB4812C16DF29003C702F /* HospitalModel.swift in Sources */ = {isa = PBXBuildFile; fileRef = 18BDB4802C16DF29003C702F /* HospitalModel.swift */; };
+		18F15C4C2C1B01460042CA93 /* PastAppointmentView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 18F15C4B2C1B01460042CA93 /* PastAppointmentView.swift */; };
 		CE026A112C0F815E0006C2D1 /* PatientModel.swift in Sources */ = {isa = PBXBuildFile; fileRef = CE026A102C0F815E0006C2D1 /* PatientModel.swift */; };
 		CE026A132C1161820006C2D1 /* KeychainHelper.swift in Sources */ = {isa = PBXBuildFile; fileRef = CE026A122C1161820006C2D1 /* KeychainHelper.swift */; };
 		CE026A172C12ACB70006C2D1 /* TimeSlotViewModel.swift in Sources */ = {isa = PBXBuildFile; fileRef = CE026A162C12ACB70006C2D1 /* TimeSlotViewModel.swift */; };
@@ -57,6 +58,7 @@
 
 /* Begin PBXFileReference section */
 		18BDB4802C16DF29003C702F /* HospitalModel.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = HospitalModel.swift; sourceTree = "<group>"; };
+		18F15C4B2C1B01460042CA93 /* PastAppointmentView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = PastAppointmentView.swift; sourceTree = "<group>"; };
 		CE026A102C0F815E0006C2D1 /* PatientModel.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = PatientModel.swift; sourceTree = "<group>"; };
 		CE026A122C1161820006C2D1 /* KeychainHelper.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = KeychainHelper.swift; sourceTree = "<group>"; };
 		CE026A162C12ACB70006C2D1 /* TimeSlotViewModel.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = TimeSlotViewModel.swift; sourceTree = "<group>"; };
@@ -122,6 +124,7 @@
 			children = (
 				CE1AA8BD2C089EF800E137F9 /* DoctorsAppointmentView.swift */,
 				CE630B9E2C09D49900B05403 /* DoctorAppointmentCompleteView.swift */,
+				18F15C4B2C1B01460042CA93 /* PastAppointmentView.swift */,
 			);
 			path = Appointment;
 			sourceTree = "<group>";
@@ -440,6 +443,7 @@
 				CE1AA8BE2C089EF800E137F9 /* DoctorsAppointmentView.swift in Sources */,
 				CE6435862BFF1B0D0014A536 /* MainPatientView.swift in Sources */,
 				CE630BB12C0C562B00B05403 /* PatientSetupView.swift in Sources */,
+				18F15C4C2C1B01460042CA93 /* PastAppointmentView.swift in Sources */,
 				CE1AA8B52C08391F00E137F9 /* AddDoctorView.swift in Sources */,
 				CE630BA72C0B5EBB00B05403 /* PatientAppointmentCompleteView.swift in Sources */,
 				CE6435B12BFF400E0014A536 /* HospitalPaymentsView.swift in Sources */,
