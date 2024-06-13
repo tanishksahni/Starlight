@@ -7,21 +7,13 @@
 
 import SwiftUI
 
-enum ActiveSheet: Identifiable {
-    case login
-    case signup
-    
-    var id: Int {
-        hashValue
-    }
-}
+
 
 struct ContentView: View {
-    @State private var activeSheet: ActiveSheet? = .login
     @ObservedObject var authentication = Authentication.shared
     var body: some View {
         Group{
-            if let token = APICore.shared.accessToken {
+            if APICore.shared.accessToken != nil {
                 if authentication.userType == .patient {
                     MainPatientView()
                 } else if authentication.userType == .doctor {
@@ -29,30 +21,13 @@ struct ContentView: View {
                 } else if authentication.userType == .user{
                     MainHospitalView()
                 } else {
-                    
+                    ProgressView()
+                        .progressViewStyle(CircularProgressViewStyle())
                 }
             }
-            else {
-                ProgressView()
-                    .progressViewStyle(CircularProgressViewStyle())
-            }
-        }
-        .onAppear {
-            if APICore.shared.accessToken == nil {
-                activeSheet = .login
-                print("is it me")
-            }
-            else {
-                activeSheet = .none
-            }
-        }
-        .sheet(item: $activeSheet) { sheet in
-                switch sheet {
-                case .login:
-                    LoginView(showingView: $activeSheet)
-                case .signup:
-                    SignUpView(showingView: $activeSheet)
-                }
+//            else {
+//                
+//            }
         }
     }
     

@@ -433,9 +433,9 @@ class SpecializationModel: ObservableObject {
         case "ent specialists": return "ear"
         case "pulmonologists": return "lungs.fill"
         case "neurologists": return "brain.head.profile"
-        case "dentist": return "tooth"
+        case "dentist": return "mouth.fill"
         case "psychiatrists": return "brain"
-        case "gynaecologist": return "female"
+        case "gynaecologist": return "person.crop.circle.fill.badge.plus"
         default: return "star"
         }
     }
@@ -447,11 +447,11 @@ class SpecializationModel: ObservableObject {
         case "cardiologist": return .red
         case "orthopaedic": return .blue
         case "ent specialists": return .orange
-        case "pulmonologists": return .teal
+        case "pulmonologists": return .brown
         case "neurologists": return .indigo
         case "dentist": return .purple
-        case "psychiatrists": return .pink
-        case "gynaecologist": return .brown
+        case "psychiatrists": return .teal
+        case "gynaecologist": return .pink
         default: return .gray
         }
     }
