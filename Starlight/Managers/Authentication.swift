@@ -27,36 +27,45 @@ class APICore: ObservableObject {
     private let accessTokenKey = "accessToken"
     private let userTypeKey = "userType"
     
-    var accessToken: String? {
-        get {
-            //              if let data = KeychainHelper.shared.read(forKey: accessTokenKey) {
-            //                  let token = String(data: data, encoding: .utf8)
-            //                  print("Read token from keychain: \(token ?? "nil")")
-            //                  return token
-            //              }
-            //              print("No token found in keychain")
-            //              return nil
-            // Using UserDefaults instead
-            return UserDefaults.standard.string(forKey: accessTokenKey)
-        }
-        set {
-            //              if let token = newValue {
-            //                  let data = Data(token.utf8)
-            //                  KeychainHelper.shared.save(data, forKey: accessTokenKey)
-            //                  print("Saved token to keychain: \(token)")
-            //              } else {
-            //                  KeychainHelper.shared.delete(forKey: accessTokenKey)
-            //                  print("Deleted token from keychain")
-            //              }
-            // Using UserDefaults instead
-            if let token = newValue {
-                UserDefaults.standard.set(token, forKey: accessTokenKey)
-                print("Saved token to UserDefaults: \(token)")
-            } else {
-                UserDefaults.standard.removeObject(forKey: accessTokenKey)
-                print("Deleted token from UserDefaults")
-            }
-        }
+    @Published var accessToken: String? 
+//    {
+//        get {
+//            //              if let data = KeychainHelper.shared.read(forKey: accessTokenKey) {
+//            //                  let token = String(data: data, encoding: .utf8)
+//            //                  print("Read token from keychain: \(token ?? "nil")")
+//            //                  return token
+//            //              }
+//            //              print("No token found in keychain")
+//            //              return nil
+//            // Using UserDefaults instead
+//            return UserDefaults.standard.string(forKey: accessTokenKey)
+//        }
+//        set {
+//            //              if let token = newValue {
+//            //                  let data = Data(token.utf8)
+//            //                  KeychainHelper.shared.save(data, forKey: accessTokenKey)
+//            //                  print("Saved token to keychain: \(token)")
+//            //              } else {
+//            //                  KeychainHelper.shared.delete(forKey: accessTokenKey)
+//            //                  print("Deleted token from keychain")
+//            //              }
+//            // Using UserDefaults instead
+//            if let token = newValue {
+//                UserDefaults.standard.set(token, forKey: accessTokenKey)
+//                print("Saved token to UserDefaults: \(token)")
+//            } else {
+//                UserDefaults.standard.removeObject(forKey: accessTokenKey)
+//                print("Deleted token from UserDefaults")
+//            }
+//        }
+//    }
+    
+    init(){
+        self.accessToken = UserDefaults.standard.string(forKey: accessTokenKey)
+    }
+    
+    func saveToken(token: String){
+        UserDefaults.standard.set(token, forKey: accessTokenKey)
     }
     
 }
@@ -81,6 +90,7 @@ class Authentication: ObservableObject {
         didSet {
             print("Setting accessToken in APICore: \(accessToken ?? "nil")")
             APICore.shared.accessToken = accessToken
+            APICore.shared.saveToken(token: accessToken ?? "")
         }
     }
     

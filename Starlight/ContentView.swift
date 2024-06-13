@@ -6,31 +6,28 @@
 //
 
 import SwiftUI
-
-
+import Combine
 
 struct ContentView: View {
     @ObservedObject var authentication = Authentication.shared
+    @ObservedObject var apiCore = APICore.shared
+    
     var body: some View {
-        Group{
-            if APICore.shared.accessToken != nil {
+        Group {
+            if apiCore.accessToken != nil {
                 if authentication.userType == .patient {
                     MainPatientView()
                 } else if authentication.userType == .doctor {
                     MainDoctorView()
-                } else if authentication.userType == .user{
+                } else if authentication.userType == .user {
                     MainHospitalView()
-                } else {
-                    ProgressView()
-                        .progressViewStyle(CircularProgressViewStyle())
                 }
+            } else {
+                ProgressView()
+                    .progressViewStyle(CircularProgressViewStyle())
             }
-//            else {
-//                
-//            }
         }
     }
-    
 }
 
 struct ContentView_Previews: PreviewProvider {
@@ -38,5 +35,3 @@ struct ContentView_Previews: PreviewProvider {
         ContentView()
     }
 }
-
-

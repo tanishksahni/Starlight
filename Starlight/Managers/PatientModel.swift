@@ -48,6 +48,7 @@ class PatientModel: ObservableObject {
     @Published private(set) var accessToken: String? {
         didSet {
             APICore.shared.accessToken = accessToken
+            APICore.shared.saveToken(token: accessToken ?? "")
         }
     }
     

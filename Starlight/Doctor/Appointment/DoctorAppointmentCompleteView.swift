@@ -83,11 +83,11 @@ struct DoctorAppointmentCompleteView: View {
                             .padding(.bottom, 16)
                     } else {
                         Text(appointment?.diagnosis ?? "No diagnosis available")
-                            .padding()
-                            .frame(height: 150)
-                            .clipShape(RoundedRectangle(cornerRadius: 12))
-                            .overlay(RoundedRectangle(cornerRadius: 12).stroke(Color.black, lineWidth: 0.5))
-                            .padding(.bottom, 16)
+                            .multilineTextAlignment(/*@START_MENU_TOKEN@*/.leading/*@END_MENU_TOKEN@*/)
+                            .padding(.vertical, 10)
+                        
+                        Divider()
+                            .padding(.bottom,16)
                     }
                     
                     Text("Prescription")
@@ -101,10 +101,8 @@ struct DoctorAppointmentCompleteView: View {
                             .overlay(RoundedRectangle(cornerRadius: 12).stroke(Color.black, lineWidth: 0.5))
                     } else {
                         Text(appointment?.prescription ?? "No prescription available")
-                            .padding()
-                            .frame(height: 150)
-                            .clipShape(RoundedRectangle(cornerRadius: 12))
-                            .overlay(RoundedRectangle(cornerRadius: 12).stroke(Color.black, lineWidth: 0.5))
+                            .multilineTextAlignment(/*@START_MENU_TOKEN@*/.leading/*@END_MENU_TOKEN@*/)
+                            .padding(.vertical, 16)
                     }
                     
                     if appointment?.status == "scheduled" {
