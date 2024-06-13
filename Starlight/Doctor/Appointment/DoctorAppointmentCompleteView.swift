@@ -63,19 +63,21 @@ struct DoctorAppointmentCompleteView: View {
                         .font(.headline)
                         .fontWeight(.semibold)
                     Spacer()
-                    Button(action:{
-                        PatientModel.shared.fetchAppointments(patientId:self.appointment?.patientId?.id){result in
-                            switch(result){
-                            case .success(let appointments):
-                                self.patientAppointments = appointments
-                                print(self.patientAppointments)
-                            case .failure(let error):
-                                print(error)
+                    NavigationLink(destination: PastAppointmentView()){
+                        Button(action:{
+                            PatientModel.shared.fetchAppointments(patientId:self.appointment?.patientId?.id){result in
+                                switch(result){
+                                case .success(let appointments):
+                                    self.patientAppointments = appointments
+                                    print(self.patientAppointments)
+                                case .failure(let error):
+                                    print(error)
+                                }
                             }
+                        }){
+                            Image(systemName: "arrow.up.right.circle")
+                                .foregroundColor(.blue)
                         }
-                    }){
-                        Image(systemName: "arrow.up.right.circle")
-                            .foregroundColor(.blue)
                     }
                 }
                 .padding()
