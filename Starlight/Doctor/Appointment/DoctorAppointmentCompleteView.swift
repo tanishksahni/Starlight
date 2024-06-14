@@ -27,7 +27,7 @@ struct DoctorAppointmentCompleteView: View {
                     .fontWeight(.bold)
                 
                 HStack {
-                    AsyncImage(url: URL(string: "")){
+                    AsyncImage(url: URL(string: appointment?.patientId?.userId.image ?? "")){
                         image in image
                             .resizable()
                             .scaledToFit()
@@ -36,10 +36,11 @@ struct DoctorAppointmentCompleteView: View {
                             .frame(width: 80, height: 80)
                     }placeholder: {
                         Image(systemName: "person.circle.fill")
-                                .resizable()
-                                .clipShape(Circle())
-                                .scaledToFill()
-                                .frame(width: 80, height: 80)
+                            .resizable()
+                            .foregroundColor(.black)
+                            .clipShape(Circle())
+                            .scaledToFill()
+                            .frame(width: 65, height: 65)
                     }
 //                    Image("image")
 //                        .resizable()
