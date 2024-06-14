@@ -63,13 +63,13 @@ struct DoctorAppointmentCompleteView: View {
                         .font(.headline)
                         .fontWeight(.semibold)
                     Spacer()
-                    NavigationLink(destination: PastAppointmentView()){
+                    NavigationLink(destination: PastAppointmentView(appointmentData: patientAppointments)){
                         Button(action:{
                             PatientModel.shared.fetchAppointments(patientId:self.appointment?.patientId?.id){result in
                                 switch(result){
                                 case .success(let appointments):
                                     self.patientAppointments = appointments
-                                    print(self.patientAppointments)
+                                    print(self.patientAppointments ?? [])
                                 case .failure(let error):
                                     print(error)
                                 }

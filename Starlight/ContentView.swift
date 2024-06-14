@@ -14,18 +14,24 @@ struct ContentView: View {
     
     var body: some View {
         Group {
-            if apiCore.accessToken != nil {
-                if authentication.userType == .patient {
-                    MainPatientView()
-                } else if authentication.userType == .doctor {
-                    MainDoctorView()
-                } else if authentication.userType == .user {
-                    MainHospitalView()
-                }
-            } else {
+            if authentication.isLoading {
                 ProgressView()
                     .progressViewStyle(CircularProgressViewStyle())
+            } else {
+                if let accessToken = apiCore.accessToken, let userType = authentication.userType {
+                    switch userType {
+                    case .patient:
+                        MainPatientView()
+                    case .doctor:
+                        MainDoctorView()
+                    case .user:
+                        MainHospitalView()
+                    }
+                }
             }
+        }
+        .onAppear {
+            print("User Type: \(authentication.userType?.rawValue ?? "No user type")")
         }
     }
 }

@@ -17,7 +17,7 @@ class APICore: ObservableObject {
     
     
     @Published var BASEURL = "https://starlight-server-8nit.onrender.com"
-//    @Published var BASEURL = "https://vena-server.onrender.com"
+    //    @Published var BASEURL = "https://vena-server.onrender.com"
     
     //    @Published var BASEURL = "http://localhost:8000"
     //    @AppStorage("accessToken") var accessToken: String?
@@ -27,38 +27,38 @@ class APICore: ObservableObject {
     private let accessTokenKey = "accessToken"
     private let userTypeKey = "userType"
     
-    @Published var accessToken: String? 
-//    {
-//        get {
-//            //              if let data = KeychainHelper.shared.read(forKey: accessTokenKey) {
-//            //                  let token = String(data: data, encoding: .utf8)
-//            //                  print("Read token from keychain: \(token ?? "nil")")
-//            //                  return token
-//            //              }
-//            //              print("No token found in keychain")
-//            //              return nil
-//            // Using UserDefaults instead
-//            return UserDefaults.standard.string(forKey: accessTokenKey)
-//        }
-//        set {
-//            //              if let token = newValue {
-//            //                  let data = Data(token.utf8)
-//            //                  KeychainHelper.shared.save(data, forKey: accessTokenKey)
-//            //                  print("Saved token to keychain: \(token)")
-//            //              } else {
-//            //                  KeychainHelper.shared.delete(forKey: accessTokenKey)
-//            //                  print("Deleted token from keychain")
-//            //              }
-//            // Using UserDefaults instead
-//            if let token = newValue {
-//                UserDefaults.standard.set(token, forKey: accessTokenKey)
-//                print("Saved token to UserDefaults: \(token)")
-//            } else {
-//                UserDefaults.standard.removeObject(forKey: accessTokenKey)
-//                print("Deleted token from UserDefaults")
-//            }
-//        }
-//    }
+    @Published var accessToken: String?
+    //    {
+    //        get {
+    //            //              if let data = KeychainHelper.shared.read(forKey: accessTokenKey) {
+    //            //                  let token = String(data: data, encoding: .utf8)
+    //            //                  print("Read token from keychain: \(token ?? "nil")")
+    //            //                  return token
+    //            //              }
+    //            //              print("No token found in keychain")
+    //            //              return nil
+    //            // Using UserDefaults instead
+    //            return UserDefaults.standard.string(forKey: accessTokenKey)
+    //        }
+    //        set {
+    //            //              if let token = newValue {
+    //            //                  let data = Data(token.utf8)
+    //            //                  KeychainHelper.shared.save(data, forKey: accessTokenKey)
+    //            //                  print("Saved token to keychain: \(token)")
+    //            //              } else {
+    //            //                  KeychainHelper.shared.delete(forKey: accessTokenKey)
+    //            //                  print("Deleted token from keychain")
+    //            //              }
+    //            // Using UserDefaults instead
+    //            if let token = newValue {
+    //                UserDefaults.standard.set(token, forKey: accessTokenKey)
+    //                print("Saved token to UserDefaults: \(token)")
+    //            } else {
+    //                UserDefaults.standard.removeObject(forKey: accessTokenKey)
+    //                print("Deleted token from UserDefaults")
+    //            }
+    //        }
+    //    }
     
     init(){
         self.accessToken = UserDefaults.standard.string(forKey: accessTokenKey)
@@ -84,30 +84,51 @@ class Authentication: ObservableObject {
     @Published var currentDoctor: Doctor? = nil
     @Published var currentPatient: Patient? = nil
     static let shared = Authentication()
+    @Published var isLoading: Bool = true
     
     //@Published private(set) var accessToken: String?
     @Published private(set) var accessToken: String? {
         didSet {
-            print("Setting accessToken in APICore: \(accessToken ?? "nil")")
-            APICore.shared.accessToken = accessToken
-            APICore.shared.saveToken(token: accessToken ?? "")
+            DispatchQueue.main.async {
+                print("Setting accessToken in APICore: \(self.accessToken ?? "nil")")
+                APICore.shared.accessToken = self.accessToken
+                APICore.shared.saveToken(token: self.accessToken ?? "")
+            }
         }
     }
     
     private let userTypeKey = "userType"
     
-    @Published private(set) var userType: UserType {
+    //    @Published private(set) var userType: UserType {
+    //        didSet {
+    //            DispatchQueue.main.async {
+    //                UserDefaults.standard.set(self.userType.rawValue, forKey: self.userTypeKey)
+    //                print("UserType set to: \(self.userType.rawValue)")
+    //            }
+    //        }
+    //    }
+    //
+    //    init() {
+    //        self.userType = UserType(rawValue: UserDefaults.standard.string(forKey: userTypeKey) ?? "") ?? .user
+    //        loadUserData()
+    //    }
+    @Published private(set) var userType: UserType? {
         didSet {
-            UserDefaults.standard.set(userType.rawValue, forKey: userTypeKey)
-            print("UserType set to: \(userType.rawValue)")
+            DispatchQueue.main.async {
+                if let userType = self.userType {
+                    UserDefaults.standard.set(userType.rawValue, forKey: self.userTypeKey)
+                    print("UserType set to: \(userType.rawValue)")
+                }
+                self.isLoading = false
+            }
         }
     }
     
     init() {
-        self.userType = UserType(rawValue: UserDefaults.standard.string(forKey: userTypeKey) ?? "") ?? .user
-        loadUserData()
-    }
-    
+           self.userType = UserType(rawValue: UserDefaults.standard.string(forKey: userTypeKey) ?? "")
+           loadUserData()
+       }
+       
     enum UserType: String {
         case patient
         case doctor
@@ -160,6 +181,7 @@ class Authentication: ObservableObject {
                         self.saveUserInformation(user: patient, userType: .patient)
                     } else if let doctor = loginResponse.doctor {
                         self.userType = .doctor
+                        print("doctor logged in")
                         self.currentDoctor = doctor
                         self.saveUserInformation(user: doctor, userType: .doctor)
                     } else if let user = loginResponse.user {
@@ -167,7 +189,8 @@ class Authentication: ObservableObject {
                         self.primaryAdmin = user
                         self.saveUserInformation(user: user, userType: .user)
                     }
-                    
+                    print("dfsfsdf\n\n")
+                    print(self.userType?.rawValue)
                     self.setAccessToken(loginResponse.accessToken)
                     completion(.success(loginResponse))
                 }

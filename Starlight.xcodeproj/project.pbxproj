@@ -8,7 +8,6 @@
 
 /* Begin PBXBuildFile section */
 		18BDB4812C16DF29003C702F /* HospitalModel.swift in Sources */ = {isa = PBXBuildFile; fileRef = 18BDB4802C16DF29003C702F /* HospitalModel.swift */; };
-		18F15C4C2C1B01460042CA93 /* PastAppointmentView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 18F15C4B2C1B01460042CA93 /* PastAppointmentView.swift */; };
 		CE026A112C0F815E0006C2D1 /* PatientModel.swift in Sources */ = {isa = PBXBuildFile; fileRef = CE026A102C0F815E0006C2D1 /* PatientModel.swift */; };
 		CE026A132C1161820006C2D1 /* KeychainHelper.swift in Sources */ = {isa = PBXBuildFile; fileRef = CE026A122C1161820006C2D1 /* KeychainHelper.swift */; };
 		CE026A172C12ACB70006C2D1 /* TimeSlotViewModel.swift in Sources */ = {isa = PBXBuildFile; fileRef = CE026A162C12ACB70006C2D1 /* TimeSlotViewModel.swift */; };
@@ -54,11 +53,12 @@
 		CE6435AB2BFF3ED70014A536 /* HospitalHomeView.swift in Sources */ = {isa = PBXBuildFile; fileRef = CE6435AA2BFF3ED70014A536 /* HospitalHomeView.swift */; };
 		CE6435B12BFF400E0014A536 /* HospitalPaymentsView.swift in Sources */ = {isa = PBXBuildFile; fileRef = CE6435B02BFF400E0014A536 /* HospitalPaymentsView.swift */; };
 		CE6435B32BFF402D0014A536 /* HospitalPatientsView.swift in Sources */ = {isa = PBXBuildFile; fileRef = CE6435B22BFF402D0014A536 /* HospitalPatientsView.swift */; };
+		CE930ECE2C1B0DA2003C1DC7 /* PastAppointmentView.swift in Sources */ = {isa = PBXBuildFile; fileRef = CE930ECD2C1B0DA2003C1DC7 /* PastAppointmentView.swift */; };
+		CE930ED02C1B2784003C1DC7 /* WelcomeView.swift in Sources */ = {isa = PBXBuildFile; fileRef = CE930ECF2C1B2784003C1DC7 /* WelcomeView.swift */; };
 /* End PBXBuildFile section */
 
 /* Begin PBXFileReference section */
 		18BDB4802C16DF29003C702F /* HospitalModel.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = HospitalModel.swift; sourceTree = "<group>"; };
-		18F15C4B2C1B01460042CA93 /* PastAppointmentView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = PastAppointmentView.swift; sourceTree = "<group>"; };
 		CE026A102C0F815E0006C2D1 /* PatientModel.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = PatientModel.swift; sourceTree = "<group>"; };
 		CE026A122C1161820006C2D1 /* KeychainHelper.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = KeychainHelper.swift; sourceTree = "<group>"; };
 		CE026A162C12ACB70006C2D1 /* TimeSlotViewModel.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = TimeSlotViewModel.swift; sourceTree = "<group>"; };
@@ -106,6 +106,8 @@
 		CE6435AA2BFF3ED70014A536 /* HospitalHomeView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = HospitalHomeView.swift; sourceTree = "<group>"; };
 		CE6435B02BFF400E0014A536 /* HospitalPaymentsView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = HospitalPaymentsView.swift; sourceTree = "<group>"; };
 		CE6435B22BFF402D0014A536 /* HospitalPatientsView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = HospitalPatientsView.swift; sourceTree = "<group>"; };
+		CE930ECD2C1B0DA2003C1DC7 /* PastAppointmentView.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = PastAppointmentView.swift; sourceTree = "<group>"; };
+		CE930ECF2C1B2784003C1DC7 /* WelcomeView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = WelcomeView.swift; sourceTree = "<group>"; };
 /* End PBXFileReference section */
 
 /* Begin PBXFrameworksBuildPhase section */
@@ -122,9 +124,9 @@
 		CE1AA8BC2C089EB700E137F9 /* Appointment */ = {
 			isa = PBXGroup;
 			children = (
+				CE930ECD2C1B0DA2003C1DC7 /* PastAppointmentView.swift */,
 				CE1AA8BD2C089EF800E137F9 /* DoctorsAppointmentView.swift */,
 				CE630B9E2C09D49900B05403 /* DoctorAppointmentCompleteView.swift */,
-				18F15C4B2C1B01460042CA93 /* PastAppointmentView.swift */,
 			);
 			path = Appointment;
 			sourceTree = "<group>";
@@ -213,6 +215,7 @@
 				CE6435762BFF18980014A536 /* ContentView.swift */,
 				CE6435782BFF189A0014A536 /* Assets.xcassets */,
 				CE64357A2BFF189A0014A536 /* Preview Content */,
+				CE930ECF2C1B2784003C1DC7 /* WelcomeView.swift */,
 			);
 			path = Starlight;
 			sourceTree = "<group>";
@@ -443,7 +446,7 @@
 				CE1AA8BE2C089EF800E137F9 /* DoctorsAppointmentView.swift in Sources */,
 				CE6435862BFF1B0D0014A536 /* MainPatientView.swift in Sources */,
 				CE630BB12C0C562B00B05403 /* PatientSetupView.swift in Sources */,
-				18F15C4C2C1B01460042CA93 /* PastAppointmentView.swift in Sources */,
+				CE930ECE2C1B0DA2003C1DC7 /* PastAppointmentView.swift in Sources */,
 				CE1AA8B52C08391F00E137F9 /* AddDoctorView.swift in Sources */,
 				CE630BA72C0B5EBB00B05403 /* PatientAppointmentCompleteView.swift in Sources */,
 				CE6435B12BFF400E0014A536 /* HospitalPaymentsView.swift in Sources */,
@@ -462,6 +465,7 @@
 				CE6435942BFF390C0014A536 /* PatientProfileView.swift in Sources */,
 				CE1AA8BB2C0897DD00E137F9 /* PatientBookAppointmentView.swift in Sources */,
 				CE6435AB2BFF3ED70014A536 /* HospitalHomeView.swift in Sources */,
+				CE930ED02C1B2784003C1DC7 /* WelcomeView.swift in Sources */,
 				CE026A132C1161820006C2D1 /* KeychainHelper.swift in Sources */,
 				CE026A172C12ACB70006C2D1 /* TimeSlotViewModel.swift in Sources */,
 				CE6435902BFF38E40014A536 /* TestsView.swift in Sources */,
@@ -631,7 +635,7 @@
 					"@executable_path/Frameworks",
 				);
 				MARKETING_VERSION = 1.0;
-				PRODUCT_BUNDLE_IDENTIFIER = com.tanishk.Starlight;
+				PRODUCT_BUNDLE_IDENTIFIER = com.tanishksahni.Starlight;
 				PRODUCT_NAME = "$(TARGET_NAME)";
 				SWIFT_EMIT_LOC_STRINGS = YES;
 				SWIFT_VERSION = 5.0;
@@ -664,7 +668,7 @@
 					"@executable_path/Frameworks",
 				);
 				MARKETING_VERSION = 1.0;
-				PRODUCT_BUNDLE_IDENTIFIER = com.tanishk.Starlight;
+				PRODUCT_BUNDLE_IDENTIFIER = com.tanishksahni.Starlight;
 				PRODUCT_NAME = "$(TARGET_NAME)";
 				SWIFT_EMIT_LOC_STRINGS = YES;
 				SWIFT_VERSION = 5.0;
