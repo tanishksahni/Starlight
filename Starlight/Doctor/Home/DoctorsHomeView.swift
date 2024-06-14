@@ -117,7 +117,7 @@ struct CurrentAppointmentCard: View {
                     .foregroundColor(.primary)
             }
             HStack(spacing: 16) {
-                AsyncImage(url: URL(string: "")){
+                AsyncImage(url: URL(string: appointment?.patientId?.userId.image ?? "")){
                     image in image
                         .resizable()
                         .scaledToFit()
@@ -126,10 +126,11 @@ struct CurrentAppointmentCard: View {
                         .frame(width: 65, height: 65)
                 }placeholder: {
                     Image(systemName: "person.circle.fill")
-                            .resizable()
-                            .clipShape(Circle())
-                            .scaledToFill()
-                            .frame(width: 65, height: 65)
+                        .resizable()
+                        .foregroundColor(.black)
+                        .clipShape(Circle())
+                        .scaledToFill()
+                        .frame(width: 65, height: 65)
                 }
 //                Image("Image")
 //                    .resizable()

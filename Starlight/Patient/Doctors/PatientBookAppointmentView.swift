@@ -79,7 +79,7 @@ struct PatientBookAppointmentView: View {
                 Section {
                     Picker("Appointment Type", selection: $appointmentType) {
                         ForEach(fees) { data in
-                            Text(data.name).tag(data as FeesType?)
+                            Text(data.type).tag(data as FeesType?)
                         }
                     }
                     .pickerStyle(MenuPickerStyle())

@@ -27,7 +27,7 @@ struct DoctorAppointmentCompleteView: View {
                     .fontWeight(.bold)
                 
                 HStack {
-                    AsyncImage(url: URL(string: "")){
+                    AsyncImage(url: URL(string: appointment?.patientId?.userId.image ?? "")){
                         image in image
                             .resizable()
                             .scaledToFit()
@@ -36,10 +36,11 @@ struct DoctorAppointmentCompleteView: View {
                             .frame(width: 80, height: 80)
                     }placeholder: {
                         Image(systemName: "person.circle.fill")
-                                .resizable()
-                                .clipShape(Circle())
-                                .scaledToFill()
-                                .frame(width: 80, height: 80)
+                            .resizable()
+                            .foregroundColor(.black)
+                            .clipShape(Circle())
+                            .scaledToFill()
+                            .frame(width: 65, height: 65)
                     }
 //                    Image("image")
 //                        .resizable()
@@ -77,13 +78,13 @@ struct DoctorAppointmentCompleteView: View {
                         .font(.headline)
                         .fontWeight(.semibold)
                     Spacer()
-                    NavigationLink(destination: PastAppointmentView()){
+                    NavigationLink(destination: PastAppointmentView(appointmentData: patientAppointments)){
                         Button(action:{
                             PatientModel.shared.fetchAppointments(patientId:self.appointment?.patientId?.id){result in
                                 switch(result){
                                 case .success(let appointments):
                                     self.patientAppointments = appointments
-                                    print(self.patientAppointments)
+                                    print(self.patientAppointments ?? [])
                                 case .failure(let error):
                                     print(error)
                                 }
@@ -112,11 +113,11 @@ struct DoctorAppointmentCompleteView: View {
                             .padding(.bottom, 16)
                     } else {
                         Text(appointment?.diagnosis ?? "No diagnosis available")
-                            .padding()
-                            .frame(height: 150)
-                            .clipShape(RoundedRectangle(cornerRadius: 12))
-                            .overlay(RoundedRectangle(cornerRadius: 12).stroke(Color.black, lineWidth: 0.5))
-                            .padding(.bottom, 16)
+                            .multilineTextAlignment(/*@START_MENU_TOKEN@*/.leading/*@END_MENU_TOKEN@*/)
+                            .padding(.vertical, 10)
+                        
+                        Divider()
+                            .padding(.bottom,16)
                     }
                     
                     Text("Prescription")
@@ -130,10 +131,8 @@ struct DoctorAppointmentCompleteView: View {
                             .overlay(RoundedRectangle(cornerRadius: 12).stroke(Color.black, lineWidth: 0.5))
                     } else {
                         Text(appointment?.prescription ?? "No prescription available")
-                            .padding()
-                            .frame(height: 150)
-                            .clipShape(RoundedRectangle(cornerRadius: 12))
-                            .overlay(RoundedRectangle(cornerRadius: 12).stroke(Color.black, lineWidth: 0.5))
+                            .multilineTextAlignment(/*@START_MENU_TOKEN@*/.leading/*@END_MENU_TOKEN@*/)
+                            .padding(.vertical, 16)
                     }
                     
                     if appointment?.status == "scheduled" {

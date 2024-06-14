@@ -49,7 +49,7 @@ struct AppointmentCardView: View {
     var body: some View {
         VStack(alignment: .leading, spacing: 10) {
             HStack {
-                AsyncImage(url: URL(string: "")){
+                AsyncImage(url: URL(string: appointment.doctorId?.userId.image ?? "")){
                     image in image
                         .resizable()
                         .scaledToFit()
@@ -58,10 +58,11 @@ struct AppointmentCardView: View {
                         .frame(width: 65, height: 65)
                 }placeholder: {
                     Image(systemName: "person.circle.fill")
-                            .resizable()
-                            .clipShape(Circle())
-                            .scaledToFill()
-                            .frame(width: 65, height: 65)
+                        .resizable()
+                        .foregroundColor(.black)
+                        .clipShape(Circle())
+                        .scaledToFill()
+                        .frame(width: 65, height: 65)
                 }
                 Spacer().frame(width: 20)
                 VStack(alignment: .leading) {

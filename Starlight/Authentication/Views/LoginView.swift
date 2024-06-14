@@ -68,21 +68,38 @@ struct LoginView: View {
                     .listRowBackground(Color.clear)
                     .frame(maxWidth: .infinity)
                     .listSectionSpacing(0)
+                    
+                    Button(
+                        action: performLogin
+                    ){
+                        HStack {
+                            Spacer()
+                            Text("Continue")
+                                .font(.subheadline)
+                                .foregroundColor(.white)
+                            Spacer()
+                        }
+                       
+                    }
+                    .listRowBackground(Color.blue)
+                  
+                    
                 }
-                .listRowBackground(Color.clear)
                 
-                Button(action: {
-                    performLogin()
-                }) {
-                    Text("Continue")
-                        .foregroundColor(.white)
-                        .padding()
-                        .frame(maxWidth: .infinity)
-                        .background(Color.blue)
-                        .cornerRadius(10)
-                }
-                .padding(.bottom, 20)
-                .padding(.horizontal)
+                
+                
+//                Button(action: {
+//                    performLogin()
+//                }) {
+//                    Text("Continue")
+//                        .foregroundColor(.white)
+//                        .padding()
+//                        .frame(maxWidth: .infinity)
+//                        .background(Color.blue)
+//                        .cornerRadius(10)
+//                }
+//                .padding(.bottom, 20)
+//                .padding(.horizontal)
             }
         }
         .interactiveDismissDisabled()

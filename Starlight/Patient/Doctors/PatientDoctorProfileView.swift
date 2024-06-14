@@ -15,7 +15,7 @@ struct PatientDoctorProfileView: View {
     @State var isShowingConfirmationForAppointment = false
 
     @State private var fetchedTimeSlots: [Slot] = []
-    private var slotinfo: [String]  = []
+    private var slotinfo: [String] = []
     
     var data: Doctor
     @State private var doctorDescription: String = ""
@@ -36,56 +36,54 @@ struct PatientDoctorProfileView: View {
         _doctorDescription = State(initialValue: getRandomDoctorDescription())
 //        fetchTimeSlots(for: Date()) // Call fetchTimeSlots initially
     }
-
-//    private func fetchTimeSlots(for date: Date) {
-//        DoctorModel.shared.fetchSlots(doctorId: data.id, date: date) { slots in
-//            if let slots = slots {
-//                self.fetchedTimeSlots = slots
-//            } else {
-//                self.fetchedTimeSlots = []
-//            }
-//        }
-//    }
-
-//    private var slotInfo: [String] {
-//        fetchedTimeSlots.map { $0. }
-//       }
     
     func generateTimeSlots(duration: Int, timeInterval: String) -> [String] {
-           let dateFormatter = DateFormatter()
-           dateFormatter.dateFormat = "HH:mm"
-           
-           let components = timeInterval.split(separator: "-").map { String($0).trimmingCharacters(in: .whitespaces) }
-           
-           guard components.count == 2,
-                 let startTime = dateFormatter.date(from: components.first!),
-                 let endTime = dateFormatter.date(from: components.last!) else {
-               return []
-           }
-           
-           var timeSlots: [String] = []
-           var currentTime = startTime
-           
-           while currentTime.addingTimeInterval(TimeInterval(duration * 60)) <= endTime {
-               let nextTime = currentTime.addingTimeInterval(TimeInterval(duration * 60))
-               let timeSlot = "\(dateFormatter.string(from: currentTime)) - \(dateFormatter.string(from: nextTime))"
-               timeSlots.append(timeSlot)
-               currentTime = nextTime
-           }
-           
-           return timeSlots
-       }
+        let dateFormatter = DateFormatter()
+        dateFormatter.dateFormat = "hh:mm a"
+        
+        let components = timeInterval.split(separator: "-").map { String($0).trimmingCharacters(in: .whitespaces) }
+        
+        guard components.count == 2,
+              let startTime = dateFormatter.date(from: components.first!),
+              let endTime = dateFormatter.date(from: components.last!) else {
+            print("Invalid time interval: \(timeInterval)")
+            return []
+        }
+        
+        var timeSlots: [String] = []
+        var currentTime = startTime
+        
+        while currentTime.addingTimeInterval(TimeInterval(duration * 60)) <= endTime {
+            let nextTime = currentTime.addingTimeInterval(TimeInterval(duration * 60))
+            let timeSlot = "\(dateFormatter.string(from: currentTime)) - \(dateFormatter.string(from: nextTime))"
+            timeSlots.append(timeSlot)
+            currentTime = nextTime
+        }
+        
+        print("Generated time slots: \(timeSlots)") // Debug print
+        return timeSlots
+    }
 
-    
+
     var body: some View {
         ScrollView {
             VStack(alignment: .leading) {
                 HStack {
-                    Image("image")
-                        .resizable()
-                        .aspectRatio(contentMode: .fill)
-                        .frame(width: 100, height: 100)
-                        .clipShape(RoundedRectangle(cornerRadius: 12))
+                    AsyncImage(url: URL(string: data.userId.image ?? "")) {
+                        image in image
+                            .resizable()
+                            .scaledToFit()
+                            .clipShape(Rectangle())
+                            .cornerRadius(12)
+                            .frame(width: 100, height: 100)
+                    } placeholder: {
+                        Image(systemName: "person.circle.fill")
+                            .resizable()
+                            .foregroundColor(.black)
+                            .clipShape(Circle())
+                            .scaledToFill()
+                            .frame(width: 65, height: 65)
+                    }
                     VStack(alignment: .leading) {
                         Text("\(data.userId.firstName) \(data.userId.lastName)")
                             .font(.title3)
@@ -130,10 +128,8 @@ struct PatientDoctorProfileView: View {
                     HStack {
                         Text("Time")
                         Spacer()
-                        //                        Text("\(slotinfo.first)-\(slotinfo.last)")
-                        Text("\(data.workingHours?.first?.workingHours.from ?? "")- \(data.workingHours?.last?.workingHours.to ?? "")")
+                        Text("\(data.workingHours?.first?.workingHours.from ?? "") - \(data.workingHours?.last?.workingHours.to ?? "")")
                     }
-                    
                 }
 
                 Divider()
@@ -145,7 +141,7 @@ struct PatientDoctorProfileView: View {
                     .padding(.bottom)
 
                 HStack {
-                    TagCloudView(tags: generateTimeSlots(duration: Int(data.duration), timeInterval: "\(data.workingHours?.first?.workingHours.from ?? "")- \(data.workingHours?.last?.workingHours.to ?? "")"))
+                    TagCloudView(tags: generateTimeSlots(duration: Int(data.duration), timeInterval: "\(data.workingHours?.first?.workingHours.from ?? "") - \(data.workingHours?.last?.workingHours.to ?? "")"))
                 }
                 .padding(.bottom)
 
@@ -175,10 +171,6 @@ struct PatientDoctorProfileView: View {
 }
 
 
-
-
-import SwiftUI
-
 struct SkillBox: View {
     var title: String
     init(_ title: String) {
@@ -196,12 +188,6 @@ struct SkillBox: View {
         .background(Color(red: 214 / 255, green: 214 / 255, blue: 214 / 255, opacity: 0.39)).cornerRadius(5)
     }
 }
-
-
-#Preview {
-    SkillBox()
-}
-
 
 struct TagCloudView: View {
     var tags: [String]
@@ -255,8 +241,8 @@ struct TagCloudView: View {
     
     private func item(for text: String) -> some View {
         Text(text)
-            .font(.body)
-            .padding([.horizontal], 6)
+            .font(.callout)
+            .padding([.horizontal], 4)
             .padding([.vertical], 8)
             .background(Color(red: 214 / 255, green: 214 / 255, blue: 214 / 255, opacity: 0.39)).cornerRadius(5)
             .foregroundColor(Color.black)
