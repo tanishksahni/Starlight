@@ -64,17 +64,30 @@ struct SignUpView: View {
                     .listRowBackground(Color.clear)
                     .listSectionSpacing(0)
                     .frame(maxWidth: .infinity)
+                    
+                    
+                    NavigationLink(destination: PatientSetupView(isSignup: $showingView, firstName: firstName, lastName: lastName, email: email, password: password)) {
+                        HStack {
+                            Spacer()
+                            Text("Continue")
+                                .font(.subheadline)
+                                .foregroundColor(.white)
+                            Spacer()
+                        }
+                    }
+                    .listRowBackground(Color.blue)
+                    .listSectionSpacing(20)
                 }
-                NavigationLink(destination: PatientSetupView(isSignup: $showingView, firstName: firstName, lastName: lastName, email: email, password: password)) {
-                    Text("Continue")
-                        .foregroundColor(.white)
-                        .padding()
-                        .frame(maxWidth: .infinity)
-                        .background(Color.blue)
-                        .cornerRadius(10)
-                }
-                .padding(.horizontal)
-                .padding(.bottom, 16)
+//                NavigationLink(destination: PatientSetupView(isSignup: $showingView, firstName: firstName, lastName: lastName, email: email, password: password)) {
+//                    Text("Continue")
+//                        .foregroundColor(.white)
+//                        .padding()
+//                        .frame(maxWidth: .infinity)
+//                        .background(Color.blue)
+//                        .cornerRadius(10)
+//                }
+//                .padding(.horizontal)
+//                .padding(.bottom, 16)
                 
             }
         }

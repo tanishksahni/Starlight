@@ -10,6 +10,7 @@ import Foundation
 
 struct PatientProfileView: View {
     
+    @State private var showingLogoutAlert = false
     private var patient = Authentication().currentPatient
     var body: some View {
         NavigationView {
@@ -32,7 +33,7 @@ struct PatientProfileView: View {
                                     .foregroundColor(.primary)
                             }
                         }
-                       
+                        
                         Divider()
                         HStack {
                             Text("Patient id")
@@ -56,7 +57,7 @@ struct PatientProfileView: View {
                             .foregroundColor(.gray)
                         Spacer()
                         // Convert dob string to Date
-                      
+                        
                         
                         Text(formatdate(date: patient?.dob ?? "") ?? "")
                             .font(.subheadline)
@@ -69,7 +70,7 @@ struct PatientProfileView: View {
                             .font(.subheadline)
                             .foregroundColor(.gray)
                         Spacer()
-                        Text("\(Authentication().calculateAge(from: formatdate(date: patient?.dob ?? "") ?? "")!)")
+                        Text("\(Authentication().calculateAge(from: formatdate(date: patient?.dob ?? "") ?? "") ?? 21)")
                             .font(.subheadline)
                             .foregroundColor(.primary)
                     }
@@ -100,16 +101,46 @@ struct PatientProfileView: View {
                     }
                     .padding(.vertical, 2)
                     
-//                    HStack {
-//                        Text("Mobile no")
-//                            .font(.subheadline)
-//                            .foregroundColor(.gray)
-//                        Spacer()
-//                        Text(patient?.userId.c)
-//                            .font(.subheadline)
-//                            .foregroundColor(.primary)
-//                    }
-//                    .padding(.vertical, 2)
+                    //                    HStack {
+                    //                        Text("Mobile no")
+                    //                            .font(.subheadline)
+                    //                            .foregroundColor(.gray)
+                    //                        Spacer()
+                    //                        Text(patient?.userId.c)
+                    //                            .font(.subheadline)
+                    //                            .foregroundColor(.primary)
+                    //                    }
+                    //                    .padding(.vertical, 2)
+                }
+                
+                
+                Button(action: {
+                    showingLogoutAlert = true
+                    // Restart the app by setting the root view controller
+                    
+                    
+                }) {
+                    HStack {
+                        Spacer()
+                        Text("Logout")
+                            .font(.subheadline)
+                            .foregroundColor(.red)
+                        Spacer()
+                    }
+                }
+                .alert(isPresented: $showingLogoutAlert) {
+                    Alert(
+                        title: Text("Confirm Logout"),
+                        message: Text("Are you sure you want to logout?"),
+                        primaryButton: .destructive(Text("Logout")) {
+////                            Authentication.shared.logout()
+//                            if let window = UIApplication.shared.windows.first {
+//                                window.rootViewController = UIHostingController(rootView: ContentView())
+//                                window.makeKeyAndVisible()
+//                            }
+                        },
+                        secondaryButton: .cancel()
+                    )
                 }
             }
             .scrollIndicators(.hidden)
@@ -130,7 +161,7 @@ struct PatientProfileView: View {
         
         return formattedDate
     }
-
+    
     
 }
 

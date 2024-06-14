@@ -1,9 +1,9 @@
-////
-////  PatientAppointmentCompleteView.swift
-////  Starlight
-////
-////  Created by Tanishk Sahni on 01/06/24.
-////
+//
+//  PatientAppointmentCompleteView.swift
+//  Starlight
+//
+//  Created by Tanishk Sahni on 01/06/24.
+//
 //
 
 import SwiftUI
@@ -16,11 +16,26 @@ struct PatientAppointmentCompleteView: View {
         ScrollView {
             VStack(alignment: .leading) {
                 HStack {
-                    Image("image")
-                        .resizable()
-                        .clipShape(Rectangle())
-                        .cornerRadius(8)
-                        .frame(width: 80, height: 80)
+                    AsyncImage(url: URL(string: appointment.doctorId?.userId.image ?? "")){
+                        image in image
+                            .resizable()
+                            .scaledToFit()
+                            .clipShape(Rectangle())
+                            .cornerRadius(8)
+                            .frame(width: 80, height: 80)
+                    }placeholder: {
+                        Image(systemName: "person.circle.fill")
+                            .resizable()
+                            .foregroundColor(.black)
+                            .clipShape(Circle())
+                            .scaledToFill()
+                            .frame(width: 65, height: 65)
+                    }
+//                    Image("image")
+//                        .resizable()
+//                        .clipShape(Rectangle())
+//                        .cornerRadius(8)
+//                        .frame(width: 80, height: 80)
                     Spacer().frame(width: 20)
                     
                     VStack(alignment: .leading, spacing: 5) {
@@ -96,21 +111,24 @@ struct PatientAppointmentCompleteView: View {
                     Text("Diagnosis")
                         .font(.headline)
                         .fontWeight(.semibold)
-                    Text("Alzheimer disease is the most common form of dementia that can severely impair day-to-day function. Symptoms of Alzheimer include")
-                        .multilineTextAlignment(.leading)
-                        .padding(.vertical, 8)
+
+                        Text(appointment.diagnosis ?? "No diagnosis available")
+                            .multilineTextAlignment(/*@START_MENU_TOKEN@*/.leading/*@END_MENU_TOKEN@*/)
+                            .padding(.vertical, 10)
+                        
+                        Divider()
+                            .padding(.bottom,16)
                     
-                    Divider()
-                        .padding(.vertical, 8)
                     
                     Text("Prescription")
                         .font(.headline)
                         .fontWeight(.semibold)
                     
-                    Text("Alzheimer’s disease is the most common form of dementia that can severely impair day-to-day function. Symptoms of Alzheimer’s include:")
-                        .multilineTextAlignment(.leading)
-                        .padding(.vertical, 12)
+                        Text(appointment.prescription ?? "No prescription available")
+                            .multilineTextAlignment(/*@START_MENU_TOKEN@*/.leading/*@END_MENU_TOKEN@*/)
+                            .padding(.vertical, 16)
                     
+                
                 }
             }
             .navigationTitle("Appointment Information")

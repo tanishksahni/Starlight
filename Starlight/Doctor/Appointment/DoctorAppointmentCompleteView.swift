@@ -13,6 +13,7 @@ struct DoctorAppointmentCompleteView: View {
     @State private var prescription = ""
     @State private var alertMessage: String = ""
     @State private var showAlert: Bool = false
+    @State private var patientAppointments: [Appointment]? = nil
 
     //    @State private var tests = [String]()
     
@@ -26,11 +27,26 @@ struct DoctorAppointmentCompleteView: View {
                     .fontWeight(.bold)
                 
                 HStack {
-                    Image("image")
-                        .resizable()
-                        .clipShape(Rectangle())
-                        .cornerRadius(8)
-                        .frame(width: 80, height: 80)
+                    AsyncImage(url: URL(string: appointment?.patientId?.userId.image ?? "")){
+                        image in image
+                            .resizable()
+                            .scaledToFit()
+                            .clipShape(Rectangle())
+                            .cornerRadius(8)
+                            .frame(width: 80, height: 80)
+                    }placeholder: {
+                        Image(systemName: "person.circle.fill")
+                            .resizable()
+                            .foregroundColor(.black)
+                            .clipShape(Circle())
+                            .scaledToFill()
+                            .frame(width: 65, height: 65)
+                    }
+//                    Image("image")
+//                        .resizable()
+//                        .clipShape(Rectangle())
+//                        .cornerRadius(8)
+//                        .frame(width: 80, height: 80)
                     Spacer().frame(width: 20)
                     
                     VStack(alignment: .leading, spacing: 5) {
@@ -62,8 +78,22 @@ struct DoctorAppointmentCompleteView: View {
                         .font(.headline)
                         .fontWeight(.semibold)
                     Spacer()
-                    Image(systemName: "arrow.up.right.circle")
-                        .foregroundColor(.blue)
+                    NavigationLink(destination: PastAppointmentView(appointmentData: patientAppointments)){
+                        Button(action:{
+                            PatientModel.shared.fetchAppointments(patientId:self.appointment?.patientId?.id){result in
+                                switch(result){
+                                case .success(let appointments):
+                                    self.patientAppointments = appointments
+                                    print(self.patientAppointments ?? [])
+                                case .failure(let error):
+                                    print(error)
+                                }
+                            }
+                        }){
+                            Image(systemName: "arrow.up.right.circle")
+                                .foregroundColor(.blue)
+                        }
+                    }
                 }
                 .padding()
                 .background(Color.secondary.opacity(0.1))
@@ -83,11 +113,11 @@ struct DoctorAppointmentCompleteView: View {
                             .padding(.bottom, 16)
                     } else {
                         Text(appointment?.diagnosis ?? "No diagnosis available")
-                            .padding()
-                            .frame(height: 150)
-                            .clipShape(RoundedRectangle(cornerRadius: 12))
-                            .overlay(RoundedRectangle(cornerRadius: 12).stroke(Color.black, lineWidth: 0.5))
-                            .padding(.bottom, 16)
+                            .multilineTextAlignment(/*@START_MENU_TOKEN@*/.leading/*@END_MENU_TOKEN@*/)
+                            .padding(.vertical, 10)
+                        
+                        Divider()
+                            .padding(.bottom,16)
                     }
                     
                     Text("Prescription")
@@ -101,10 +131,8 @@ struct DoctorAppointmentCompleteView: View {
                             .overlay(RoundedRectangle(cornerRadius: 12).stroke(Color.black, lineWidth: 0.5))
                     } else {
                         Text(appointment?.prescription ?? "No prescription available")
-                            .padding()
-                            .frame(height: 150)
-                            .clipShape(RoundedRectangle(cornerRadius: 12))
-                            .overlay(RoundedRectangle(cornerRadius: 12).stroke(Color.black, lineWidth: 0.5))
+                            .multilineTextAlignment(/*@START_MENU_TOKEN@*/.leading/*@END_MENU_TOKEN@*/)
+                            .padding(.vertical, 16)
                     }
                     
                     if appointment?.status == "scheduled" {

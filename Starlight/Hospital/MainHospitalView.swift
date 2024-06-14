@@ -30,8 +30,6 @@ struct MainHospitalView: View {
 //                .tabItem {
 //                    Label("Payments", systemImage: "indianrupeesign.circle.fill")
 //                }
-//            
-            
         }
     }
 }

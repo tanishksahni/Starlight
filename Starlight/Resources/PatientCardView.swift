@@ -12,11 +12,21 @@ struct PatientCardView: View {
     var body: some View {
         VStack {
             HStack(spacing: 16) {
-                Image("image")
-                    .resizable()
-                    .clipShape(Rectangle())
-                    .cornerRadius(10)
-                    .frame(width: 65, height: 65)
+                AsyncImage(url: URL(string: data.userId.image ?? "")){
+                    image in image
+                        .resizable()
+                        .scaledToFit()
+                        .clipShape(Rectangle())
+                        .cornerRadius(10)
+                        .frame(width: 65, height: 65)
+                }placeholder: {
+                    Image(systemName: "person.circle.fill")
+                        .resizable()
+                        .foregroundColor(.black)
+                        .clipShape(Circle())
+                        .scaledToFill()
+                        .frame(width: 65, height: 65)
+                }
                 
                 VStack(alignment: .leading) {
                     HStack(alignment: .lastTextBaseline) {
@@ -39,7 +49,7 @@ struct PatientCardView: View {
         .padding(12)
         .background(Color(UIColor.systemBackground))
         .clipShape(RoundedRectangle(cornerRadius: 12))
-//        .shadow(radius: 2)
+        //        .shadow(radius: 2)
         .overlay(
             RoundedRectangle(cornerRadius: 12)
                 .stroke(Color.gray, lineWidth: 0.25)

@@ -9,17 +9,33 @@ import SwiftUI
 
 struct DoctorPatientInfoView: View {
     var data: Patient
+    @State private var patientAppointments: [Appointment]? = nil
     
     var body: some View {
         ScrollView {
             VStack(alignment: .leading) {
     
                 HStack {
-                    Image("image")
-                        .resizable()
-                        .clipShape(Rectangle())
-                        .cornerRadius(8)
-                        .frame(width: 80, height: 80)
+                    AsyncImage(url: URL(string: data.userId.image ?? "")){
+                        image in image
+                            .resizable()
+                            .scaledToFit()
+                            .clipShape(Rectangle())
+                            .cornerRadius(8)
+                            .frame(width: 80, height: 80)
+                    }placeholder: {
+                        Image(systemName: "person.circle.fill")
+                            .resizable()
+                            .foregroundColor(.black)
+                            .clipShape(Circle())
+                            .scaledToFill()
+                            .frame(width: 65, height: 65)
+                    }
+//                    Image("image")
+//                        .resizable()
+//                        .clipShape(Rectangle())
+//                        .cornerRadius(8)
+//                        .frame(width: 80, height: 80)
                     Spacer().frame(width: 20)
                     
                     VStack(alignment: .leading, spacing: 5) {
@@ -85,15 +101,13 @@ struct DoctorPatientInfoView: View {
                     .fontWeight(/*@START_MENU_TOKEN@*/.bold/*@END_MENU_TOKEN@*/)
                     .padding(.vertical, 12)
                 VStack(spacing: 12) {
-                    ForEach(0..<4) { index in
-                        NavigationLink(destination: AppointmentInfo()) {
-                            AppointmentForPatientCard()
+                    ForEach(patientAppointments ?? []) { data in
+                        NavigationLink(destination: AppointmentInfo(data: data)) {
+                            AppointmentForPatientCard(data: data)
                         }
                         
                     }
                 }
-                
-                
                 
             }
             .navigationTitle("Patient Information")
@@ -102,6 +116,17 @@ struct DoctorPatientInfoView: View {
         }
         .padding()
         .scrollIndicators(.hidden)
+        .onAppear{
+            PatientModel.shared.fetchAppointments(patientId:self.data.id){result in
+                switch(result){
+                case .success(let appointments):
+                    self.patientAppointments = appointments
+                    print(self.patientAppointments ?? [])
+                case .failure(let error):
+                    print(error)
+                }
+            }
+        }
         
     }
     
@@ -109,6 +134,7 @@ struct DoctorPatientInfoView: View {
 
 
 struct AppointmentInfo: View {
+    var data: Appointment?
     var body: some View {
         ScrollView {
             VStack(alignment: .leading) {
@@ -122,7 +148,7 @@ struct AppointmentInfo: View {
                         .font(.subheadline)
                         .foregroundColor(.secondary)
                     Spacer()
-                    Text("24 May 2024")
+                    Text(dateFormatter.string(from: data?.dateAndTime ?? Date()))
                         .font(.subheadline)
                         .foregroundColor(.primary)
                 }
@@ -133,7 +159,7 @@ struct AppointmentInfo: View {
                         .font(.subheadline)
                         .foregroundColor(.secondary)
                     Spacer()
-                    Text("9:00 AM - 10:00 AM")
+                    Text(timeFormatter.string(from: data?.dateAndTime ?? Date()))
                         .font(.subheadline)
                         .foregroundColor(.primary)
                 }
@@ -147,7 +173,7 @@ struct AppointmentInfo: View {
                     .padding(.bottom, 8)
                     .foregroundColor(.primary)
                 
-                Text("Lorem Ipsum is simply dummy text of the printing and typesetting industry. Lorem Ipsum has been the industry's standard dummy text ever since the 1500s, when an unknown printer took a galley of type and scrambled it to make ")
+                Text(data?.diagnosis ?? "")
                     .font(.callout)
                     .foregroundColor(.primary)
                     .padding(.bottom,16)
@@ -158,7 +184,7 @@ struct AppointmentInfo: View {
                     .padding(.bottom, 8)
                     .foregroundColor(.primary)
                 
-                Text("Lorem Ipsum is simply dummy text of the printing and typesetting industry. Lorem Ipsum has been the industry's standard dummy text ever since the 1500s, when an unknown printer took a galley of type and scrambled it to make")
+                Text(data?.prescription ?? "")
                     .font(.callout)
                     .foregroundColor(.primary)
                     .padding(.bottom, 8)
@@ -166,23 +192,50 @@ struct AppointmentInfo: View {
             .padding()
         }
     }
+    let dateFormatter: DateFormatter = {
+        let formatter = DateFormatter()
+        formatter.dateFormat = "dd-MM-yyyy"
+        return formatter
+    }()
+    
+    let timeFormatter: DateFormatter = {
+        let formatter = DateFormatter()
+        formatter.dateFormat = "HH:mm"
+        return formatter
+    }()
+    
+    func formatdate(date: String) -> String {
+        let dateFormatter = DateFormatter()
+        dateFormatter.dateFormat = "yyyy-MM-dd'T'HH:mm:ss.SSSZ"
+        
+        guard let dateObj = dateFormatter.date(from: date) else {
+            print("Invalid date format")
+            return "Invalid date"
+        }
+        
+        dateFormatter.dateFormat = "dd-MM-yyyy"
+        let formattedDate = dateFormatter.string(from: dateObj)
+        
+        return formattedDate
+    }
 }
 
 struct AppointmentForPatientCard: View {
+    var data: Appointment?
     var body: some View {
         HStack{
             VStack(alignment: .leading) {
-                Text("GENERAL")
+                Text(data?.feesType?.type ?? "")
                     .fontWeight(.heavy)
                     .font(.subheadline)
                     .foregroundColor(.primary)
-                Text(formattedDate())
+                Text(formattedDate(date: data?.dateAndTime ?? Date()))
                     .font(.headline)
                     .fontWeight(.regular)
                     .foregroundColor(.primary)
             }
             Spacer()
-            Text("Completed")
+            Text(data?.status ?? "")
                 .foregroundColor(.green)
         }
         .padding()
@@ -191,8 +244,7 @@ struct AppointmentForPatientCard: View {
             RoundedRectangle(cornerRadius: 12).stroke(Color.primary, lineWidth: 0.25)
         }
     }
-    func formattedDate() -> String {
-        let date = Date()
+    func formattedDate(date: Date) -> String {
         let formatter = DateFormatter()
         formatter.dateFormat = "MMM d, h:mm a"
         return formatter.string(from: date)
