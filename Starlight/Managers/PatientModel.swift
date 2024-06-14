@@ -54,7 +54,10 @@ class PatientModel: ObservableObject {
     
     // Function to register a patient
     func registerPatient(patient: Patient, completion: @escaping (Result<Void, Error>) -> Void) {
-        guard let url = URL(string: "\(APICore().BASEURL)/patient/auth/register") else { return }
+        guard let url = URL(string: "\(APICore().BASEURL)/patient/auth/register") else {
+            completion(.failure(NSError(domain: "Invalid URL", code: 0, userInfo: nil)))
+            return
+        }
         
         // Create the patient information dictionary
         let patientInfo: [String: Any] = [
@@ -78,6 +81,7 @@ class PatientModel: ObservableObject {
             request.httpBody = jsonData
         } catch {
             print("Error serializing JSON: \(error)")
+            completion(.failure(error))
             return
         }
         
@@ -85,27 +89,33 @@ class PatientModel: ObservableObject {
         let task = URLSession.shared.dataTask(with: request) { data, response, error in
             if let error = error {
                 print("Error making API request: \(error)")
+                completion(.failure(error))
                 return
             }
             
             guard let data = data else {
                 print("No data in response")
+                completion(.failure(NSError(domain: "No data in response", code: 0, userInfo: nil)))
                 return
             }
-            
-            //print("Raw response: \(String(data: data, encoding: .utf8) ?? "No response data")")
             
             do {
                 let decoder = JSONDecoder()
                 decoder.dateDecodingStrategy = .iso8601
                 let registerResponse = try decoder.decode(RegisterPatientResponse.self, from: data)
+                
+                // Example handling of response
                 DispatchQueue.main.async {
                     if let token = registerResponse.accessToken {
                         self.accessToken = token
+                        Authentication.shared.setUserType(.patient)
+                        Authentication.shared.currentPatient = registerResponse.patient
+                        Authentication.shared.saveUserInformation(user: registerResponse.patient, userType: .patient)
                     } else {
                         print("No access token in response")
                     }
                 }
+                
                 print("User created successfully: \(registerResponse.message)")
                 print("User created successfully: \(registerResponse.patient)")
                 completion(.success(()))
@@ -118,6 +128,7 @@ class PatientModel: ObservableObject {
         // Start the data task
         task.resume()
     }
+
     
     
     //MARK: Get all patient

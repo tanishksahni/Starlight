@@ -52,7 +52,7 @@ struct DoctorPatientInfoView: View {
                             .font(.subheadline)
                             .foregroundColor(.secondary)
                         Spacer()
-                        Text("\(Authentication().calculateAge(from: data.dob))")
+                        Text("\(calculateAge(from: data.dob) ?? 0)")
                             .font(.subheadline)
                             .foregroundColor(.primary)
                     }
@@ -75,7 +75,7 @@ struct DoctorPatientInfoView: View {
                             .font(.subheadline)
                             .foregroundColor(.secondary)
                         Spacer()
-                        Text("\(Authentication().formatDOB(dobString: data.dob))")
+                        Text("\(Authentication().formatDOB(dobString: data.dob) ?? "")")
                             .font(.subheadline)
                             .foregroundColor(.primary)
                     }
@@ -86,7 +86,7 @@ struct DoctorPatientInfoView: View {
                             .font(.subheadline)
                             .foregroundColor(.secondary)
                         Spacer()
-                        Text("4")
+                        Text("\(patientAppointments?.count ?? 0)")
                             .font(.subheadline)
                             .foregroundColor(.primary)
                     }
@@ -96,16 +96,18 @@ struct DoctorPatientInfoView: View {
                 }
                 
                 
-                Text("Appointments")
-                    .font(.title2)
-                    .fontWeight(/*@START_MENU_TOKEN@*/.bold/*@END_MENU_TOKEN@*/)
-                    .padding(.vertical, 12)
-                VStack(spacing: 12) {
-                    ForEach(patientAppointments ?? []) { data in
-                        NavigationLink(destination: AppointmentInfo(data: data)) {
-                            AppointmentForPatientCard(data: data)
+                if !(patientAppointments?.isEmpty ?? true) {
+                    Text("Appointments")
+                        .font(.title2)
+                        .fontWeight(/*@START_MENU_TOKEN@*/.bold/*@END_MENU_TOKEN@*/)
+                        .padding(.vertical, 12)
+                    VStack(spacing: 12) {
+                        ForEach(patientAppointments ?? []) { data in
+                            NavigationLink(destination: AppointmentInfo(data: data)) {
+                                AppointmentForPatientCard(data: data)
+                            }
+                            
                         }
-                        
                     }
                 }
                 
@@ -128,6 +130,22 @@ struct DoctorPatientInfoView: View {
             }
         }
         
+    }
+    func calculateAge(from dobString: String) -> Int? {
+        let dateFormatter = ISO8601DateFormatter()
+        dateFormatter.formatOptions = [.withInternetDateTime, .withFractionalSeconds]
+
+        guard let dateOfBirth = dateFormatter.date(from: dobString) else {
+            print("Invalid date format")
+            return nil
+        }
+
+        let calendar = Calendar.current
+        let currentDate = Date()
+
+        let ageComponents = calendar.dateComponents([.year], from: dateOfBirth, to: currentDate)
+
+        return ageComponents.year
     }
     
 }
