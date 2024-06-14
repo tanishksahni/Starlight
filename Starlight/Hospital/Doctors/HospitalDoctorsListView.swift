@@ -55,10 +55,24 @@ struct DoctorCard: View {
     var body: some View {
         VStack(alignment: .leading) {
             HStack(alignment: .center) {
-                Image("image")
-                    .resizable()
-                    .frame(width: 65, height: 65)
-                    .clipShape(RoundedRectangle(cornerRadius: 12 ))
+                AsyncImage(url: URL(string: "")){
+                    image in image
+                        .resizable()
+                        .scaledToFit()
+                        .clipShape(Rectangle())
+                        .cornerRadius(12)
+                        .frame(width: 65, height: 65)
+                }placeholder: {
+                    Image(systemName: "person.circle.fill")
+                            .resizable()
+                            .clipShape(Circle())
+                            .scaledToFill()
+                            .frame(width: 65, height: 65)
+                }
+//                Image("image")
+//                    .resizable()
+//                    .frame(width: 65, height: 65)
+//                    .clipShape(RoundedRectangle(cornerRadius: 12 ))
                 
                 Spacer().frame(width: 20)
                 VStack(alignment: .leading) {

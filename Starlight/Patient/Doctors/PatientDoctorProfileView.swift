@@ -273,4 +273,3 @@ struct TagCloudView: View {
         }
     }
 }
-
