@@ -40,7 +40,7 @@ struct PatientCardView: View {
                             .foregroundColor(.primary)
                     }
                     
-                    Text("\(Authentication().calculateAge(from: data.dob))  \(data.userId.gender)")
+                    Text("\(calculateAge(from: data.dob) ?? 0)  \(data.userId.gender)")
                         .font(.subheadline)
                         .foregroundColor(.secondary)
                 }
@@ -54,6 +54,25 @@ struct PatientCardView: View {
             RoundedRectangle(cornerRadius: 12)
                 .stroke(Color.gray, lineWidth: 0.25)
         )
+        .onAppear{
+            print(data.dob)
+        }
+    }
+    func calculateAge(from dobString: String) -> Int? {
+        let dateFormatter = ISO8601DateFormatter()
+        dateFormatter.formatOptions = [.withInternetDateTime, .withFractionalSeconds]
+
+        guard let dateOfBirth = dateFormatter.date(from: dobString) else {
+            print("Invalid date format")
+            return nil
+        }
+
+        let calendar = Calendar.current
+        let currentDate = Date()
+
+        let ageComponents = calendar.dateComponents([.year], from: dateOfBirth, to: currentDate)
+
+        return ageComponents.year
     }
 }
 
