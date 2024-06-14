@@ -117,11 +117,25 @@ struct CurrentAppointmentCard: View {
                     .foregroundColor(.primary)
             }
             HStack(spacing: 16) {
-                Image("Image")
-                    .resizable()
-                    .clipShape(Rectangle())
-                    .cornerRadius(10)
-                    .frame(width: 65, height: 65)
+                AsyncImage(url: URL(string: "")){
+                    image in image
+                        .resizable()
+                        .scaledToFit()
+                        .clipShape(Rectangle())
+                        .cornerRadius(10)
+                        .frame(width: 65, height: 65)
+                }placeholder: {
+                    Image(systemName: "person.circle.fill")
+                            .resizable()
+                            .clipShape(Circle())
+                            .scaledToFill()
+                            .frame(width: 65, height: 65)
+                }
+//                Image("Image")
+//                    .resizable()
+//                    .clipShape(Rectangle())
+//                    .cornerRadius(10)
+//                    .frame(width: 65, height: 65)
                 
                 VStack(alignment: .leading) {
                     HStack(alignment: .lastTextBaseline) {
