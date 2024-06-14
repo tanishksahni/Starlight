@@ -257,7 +257,7 @@ class Authentication: ObservableObject {
     
     
     
-    func formatDOB(dobString: String, fromFormat: String = "yyyy-MM-dd", toFormat: String = "MMMM dd, yyyy") -> String? {
+    func formatDOB(dobString: String, fromFormat: String = "yyyy-MM-dd'T'HH:mm:ss.SSSZ", toFormat: String = "MMMM dd, yyyy") -> String? {
         let dateFormatter = DateFormatter()
         dateFormatter.locale = Locale(identifier: "en_US_POSIX") // Ensure consistent date parsing
         
