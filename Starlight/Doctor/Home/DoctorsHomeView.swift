@@ -17,19 +17,22 @@ struct DoctorsHomeView: View {
                     Spacer().frame(height: 16)
                     //Current Appointment Starts Here
                     Spacer().frame(height: 16)
-                    Text("Current Appointment")
-                        .font(.title2)
-                        .fontWeight(/*@START_MENU_TOKEN@*/.bold/*@END_MENU_TOKEN@*/)
-                        .frame(maxWidth: .infinity, alignment: .leading)
-                        .padding(.horizontal, 16)
-                    NavigationLink(destination: DoctorAppointmentCompleteView(appointment: currentAppointment)) {
-                        CurrentAppointmentCard(appointment: currentAppointment)
+                    
+                    if let currentAppointment {
+                        Text("Current Appointment")
+                            .font(.title2)
+                            .fontWeight(/*@START_MENU_TOKEN@*/.bold/*@END_MENU_TOKEN@*/)
+                            .frame(maxWidth: .infinity, alignment: .leading)
+                            .padding(.horizontal, 16)
+                        NavigationLink(destination: DoctorAppointmentCompleteView(appointment: currentAppointment)) {
+                            CurrentAppointmentCard(appointment: currentAppointment)
+                        }
                     }
                     WorkingInfoCard()
                     
                 }
             }
-            .navigationTitle("Summary")
+            .navigationTitle("Home")
         }
         .onAppear{
             DoctorModel.shared.fetchAppointments(){appointments in
@@ -45,6 +48,7 @@ struct DoctorsHomeView: View {
 
 
 struct WorkingInfoCard: View {
+
     @State var isPresentingEditingInfoCard = false
     var body: some View {
         
@@ -60,8 +64,6 @@ struct WorkingInfoCard: View {
                 }) {
                     Text("Edit")
                 }
-                
-                
                 .sheet(isPresented: $isPresentingEditingInfoCard) {
                     DoctorEditWorkingInfoView(isPresentingEditingInfoCard: $isPresentingEditingInfoCard)
                 }
@@ -73,20 +75,20 @@ struct WorkingInfoCard: View {
                 Text("Days")
                     .foregroundColor(.gray)
                 Spacer()
-                Text("Mon - Fri")
+                Text(Authentication().currentDoctor?.schedule?.rawValue ?? "")
             }
             HStack {
                 Text("Time")
                     .foregroundColor(.gray)
                 Spacer()
-                Text("9:00AM - 2:00PM")
+                Text("\(Authentication().currentDoctor?.workingHours?.first?.workingHours.from ?? "")-\(Authentication().currentDoctor?.workingHours?.last?.workingHours.to ?? "")")
                 
             }
             HStack {
                 Text("Slot Duration")
                     .foregroundColor(.gray)
                 Spacer()
-                Text("30 min")
+                Text("\(Int(Authentication().currentDoctor!.duration) ?? 0)")
                 
             }
             
@@ -145,7 +147,7 @@ struct CurrentAppointmentCard: View {
                             .bold()
                             .foregroundColor(.primary)
                         Spacer()
-                        Text("\(appointment?.patientId?.patientID ?? "")")
+                        Text("\(appointment?.patientId?.patientID.dropFirst(6) ?? "")")
                             .font(.subheadline)
                             .foregroundColor(.primary)
                     }
